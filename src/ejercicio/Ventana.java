@@ -3,6 +3,7 @@ package ejercicio;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
+import views.LoginView;
 
 public class Ventana extends JFrame {
 	public Ventana() {
@@ -20,7 +21,7 @@ public class Ventana extends JFrame {
 		Image icono = tk.getImage("C:\\Users\\lalac\\Documents\\Universidad\\4to semestre\\Programación 3\\Prog Unidad 1\\ejercicioDeEjemplo\\src\\images\\image.jpg");
 		setIconImage(icono);
 		
-		Panel panelito = new Panel();
+		LoginView panelito = new LoginView();
 		add(panelito);
 		
 		setVisible(true);
