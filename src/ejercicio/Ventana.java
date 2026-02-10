@@ -14,11 +14,11 @@ public class Ventana extends JFrame {
 		//setBounds(getBounds());
 		
 		setResizable(false);
-		setTitle("Silencio Gil");
+		setTitle("NuestraBCS");
 		setLocationRelativeTo(null);
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image icono = tk.getImage("C:\\Users\\lalac\\Documents\\Universidad\\4to semestre\\Programación 3\\Prog Unidad 1\\ejercicioDeEjemplo\\src\\images\\image.jpg");
+		Image icono = tk.getImage("src/images/image.jpg");
 		setIconImage(icono);
 		
 		LoginView panelito = new LoginView();

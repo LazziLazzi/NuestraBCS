@@ -13,16 +13,17 @@ public class LoginView extends JPanel {
 	public LoginView() {
 		
 		Font fuente = new Font("Arial", Font.ITALIC, 20);
+		Color verde = new Color(56, 142, 60);
 		
 		setLayout(null);
 		
-		setBackground(new Color(0, 0, 0));
+		setBackground(Color.WHITE);
 		
-		JButton boton = new JButton("Botoncito", new ImageIcon("src/images/image.jpg")); //creacion del boton
+		JButton boton = new JButton("Botoncito"); //creacion del boton
 		
 		boton.setBounds(200,200,100,30); //coordenadas del boton
 		
-		boton.setBackground(Color.RED); //color de fondo del boton
+		boton.setBackground(verde); //color de fondo del boton
 		
 		boton.setForeground(Color.WHITE); //color de la fuente de texto del boton
 		
