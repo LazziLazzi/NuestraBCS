@@ -17,15 +17,15 @@ import javax.swing.border.BevelBorder;
 public class LoginView extends JPanel {
 	
 	//Atributos
-	private JTextField Correo;
-	private JPasswordField Contrasenia;
-	private JButton Acceder;
+	private JTextField correo;
+	private JPasswordField contrasenia;
+	private JButton acceder;
 	
 	//Colores
-	private Color Verde = new Color(56,142,60);
-	private Color Amarillito = new Color(255, 255, 204);
-	private Font Titulo = new Font("Arial", Font.BOLD, 30);
-	private Font General = new Font("Arial", Font.BOLD, 16);
+	private Color verde = new Color(56,142,60);
+	private Color amarillito = new Color(255, 255, 204);
+	private Font fuenteTitulo = new Font("Arial", Font.BOLD, 30);
+	private Font general = new Font("Arial", Font.BOLD, 16);
 	
 	//Contructor
 	public LoginView() {
@@ -43,7 +43,7 @@ public class LoginView extends JPanel {
 	 */
 	private void panel() {
 		setLayout(null);
-		setBackground(Amarillito);
+		setBackground(amarillito);
 	}
 	
 	/**
@@ -53,20 +53,20 @@ public class LoginView extends JPanel {
 	private void etiquetas() {
 		//Texto del título
 		JLabel titulo = new JLabel("NuestraBCS");
-		titulo.setFont(Titulo);
+		titulo.setFont(fuenteTitulo);
 		titulo.setBounds(160,20,300,100);
-		titulo.setForeground(Verde);
+		titulo.setForeground(verde);
 		add(titulo);
 		//Instrucción de ingresar correo electrónico
 		JLabel ingreseCorreo = new JLabel("Ingrese su correo electrónico:"); 
-		ingreseCorreo.setFont(General);
+		ingreseCorreo.setFont(general);
 		ingreseCorreo.setBounds(115,60,300,100);
 		ingreseCorreo.setForeground(Color.BLACK);
 		add(ingreseCorreo);
 		//Intrucción de ingresar contraseña
 		JLabel ingreseContrasenia = new JLabel("Ingrese su contraseña:"); 
-		ingreseContrasenia.setFont(General);
-		ingreseContrasenia.setBounds(115,140,300,100);
+		ingreseContrasenia.setFont(general);
+		ingreseContrasenia.setBounds(115,155,300,100);
 		ingreseContrasenia.setForeground(Color.BLACK);
 		add(ingreseContrasenia);
 	}
@@ -85,7 +85,7 @@ public class LoginView extends JPanel {
 		//Contraseña
 		JPasswordField contrasenia = new JPasswordField();
 		contrasenia.setFont(new Font("Arial", Font.PLAIN, 25));
-		contrasenia.setBounds(110,210,280,40);
+		contrasenia.setBounds(110,225,280,40);
 		add(contrasenia);
 	}
 	
@@ -96,10 +96,10 @@ public class LoginView extends JPanel {
 	private void boton() {
 		JButton boton = new JButton("Acceder"); //creación del botón
 		boton.setBounds(150,300,200,40); //coordenadas del botón
-		boton.setBackground(Verde); //color de fondo del botón
+		boton.setBackground(verde); //color de fondo del botón
 		boton.setForeground(Color.WHITE); //color de la fuente de texto del botón
 		boton.setToolTipText("Da click para iniciar sesión");
-		boton.setFont(General); //ajuste de la fuente del boton
+		boton.setFont(general); //ajuste de la fuente del boton
 		cargarIcono(boton);
 		add(boton);
 	}
