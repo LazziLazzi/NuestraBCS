@@ -31,31 +31,39 @@ public class LoginView extends JPanel {
 	public LoginView() {
 		panel();
 		etiquetas();
-		campo();
+		camposTexto();
 		boton();
 	}
 	
 	//Metodos
 	
+	/**
+	 * Agrega el fondo de color al panel
+	 * @Override
+	 */
 	private void panel() {
 		setLayout(null);
 		setBackground(Amarillito);
 	}
 	
+	/**
+	 * Labels donde se agregan el títilo y las instrucciones para el usuario
+	 * @Override
+	 */
 	private void etiquetas() {
-		//Titulo
+		//Texto del título
 		JLabel titulo = new JLabel("NuestraBCS");
 		titulo.setFont(Titulo);
 		titulo.setBounds(160,20,300,100);
 		titulo.setForeground(Verde);
 		add(titulo);
-		//Correo
+		//Instrucción de ingresar correo electrónico
 		JLabel ingreseCorreo = new JLabel("Ingrese su correo electrónico:"); 
 		ingreseCorreo.setFont(General);
 		ingreseCorreo.setBounds(115,60,300,100);
 		ingreseCorreo.setForeground(Color.BLACK);
 		add(ingreseCorreo);
-		//Contrasenia
+		//Intrucción de ingresar contraseña
 		JLabel ingreseContrasenia = new JLabel("Ingrese su contraseña:"); 
 		ingreseContrasenia.setFont(General);
 		ingreseContrasenia.setBounds(115,140,300,100);
@@ -63,37 +71,50 @@ public class LoginView extends JPanel {
 		add(ingreseContrasenia);
 	}
 	
-	private void campo() {
-		//Cmpo de correo
+	/**
+	 * Agrega los cuadros de texto para agregar correo y agregar contraseña
+	 * @Override
+	 */
+	private void camposTexto() {
+		//Cooreo electrónico
 		JTextField correo = new JTextField();
 		correo.setFont(new Font("Arial", Font.PLAIN, 18));
 		correo.setBounds(110,130,280,40);
 		add(correo);
-		//Campo de contrasenia
+		
+		//Contraseña
 		JPasswordField contrasenia = new JPasswordField();
 		contrasenia.setFont(new Font("Arial", Font.PLAIN, 25));
 		contrasenia.setBounds(110,210,280,40);
 		add(contrasenia);
 	}
 	
+	/**
+	 * Es el boton para acceder, o sea, iniciar sesión
+	 * @override
+	 */
 	private void boton() {
-		//Botón de acceso y sus componentes
 		JButton boton = new JButton("Acceder"); //creación del botón
 		boton.setBounds(150,300,200,40); //coordenadas del botón
 		boton.setBackground(Verde); //color de fondo del botón
 		boton.setForeground(Color.WHITE); //color de la fuente de texto del botón
 		boton.setToolTipText("Da click para iniciar sesión");
 		boton.setFont(General); //ajuste de la fuente del boton
-		
+		cargarIcono(boton);
 		add(boton);
 	}
 	
-	private void cargarIcono() {
+	/**
+	 * Carga el ícono de flecha que esta en el botón acceder
+	 * @Override
+	 * @param boton pasa el boton al que se le agregara el ícono
+	 */
+	private void cargarIcono(JButton boton) {
 		try {
 			Image icono = ImageIO.read(getClass().getResource("../images/flecha.png")); //lee la imagen
 			if(icono != null) {
 				icono = icono.getScaledInstance(20, 25, Image.SCALE_SMOOTH); //escala la imagen/cambia el tamaño
-				Acceder.setIcon(new ImageIcon(icono));
+				boton.setIcon(new ImageIcon(icono));
 			}
 		}catch(Exception ex) {
 			System.out.println("No está la imagen del icono.");
