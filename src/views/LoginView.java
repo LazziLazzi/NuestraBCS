@@ -29,10 +29,12 @@ public class LoginView extends JPanel {
 	
 	//Contructor
 	public LoginView() {
+		
 		panel();
 		etiquetas();
 		camposTexto();
 		boton();
+		cargarImagen();
 	}
 	
 	//Metodos
@@ -43,7 +45,7 @@ public class LoginView extends JPanel {
 	 */
 	private void panel() {
 		setLayout(null);
-		setBackground(amarillito);
+		//setBackground(amarillito);
 	}
 	
 	/**
@@ -69,6 +71,18 @@ public class LoginView extends JPanel {
 		ingreseContrasenia.setBounds(115,155,300,100);
 		ingreseContrasenia.setForeground(Color.BLACK);
 		add(ingreseContrasenia);
+		//Instrucción de error corre electrónico
+		JLabel errorCorreo = new JLabel("Coloque el arroba:"); 
+		errorCorreo.setFont(new Font("Arial", Font.BOLD, 10));
+		errorCorreo.setBounds(115,130,300,100);
+		errorCorreo.setForeground(Color.RED);
+		add(errorCorreo);
+	    //Intrucción de error contraseña
+		JLabel errorContrasenia = new JLabel("No caracteres especiales:"); 
+		errorContrasenia.setFont(new Font("Arial", Font.BOLD, 10));
+		errorContrasenia.setBounds(115,225,300,100);
+		errorContrasenia.setForeground(Color.RED);
+		add(errorContrasenia);
 	}
 	
 	/**
@@ -120,4 +134,20 @@ public class LoginView extends JPanel {
 			System.out.println("No está la imagen del icono.");
 		}
 	}
+	
+	private void cargarImagen() {
+		try {
+			Image fondoOriginal = ImageIO.read(getClass().getResource("../images/BCS.png")); //lee la imagen
+			if(fondoOriginal != null) {
+				Image fondoEscalado = fondoOriginal.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
+	            JLabel fondo = new JLabel(new ImageIcon(fondoEscalado));//Se le asigna a un label la imagen ya rescalada para poder abarcar toda la pantalla
+	            fondo.setBounds(0, 0, 500, 500);
+	            add(fondo);
+			}
+		} catch(Exception ex) {
+			
+		}
+		
+	}
+	
 }
