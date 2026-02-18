@@ -30,7 +30,6 @@ public class LoginView extends JPanel {
 	
 	//Contructor
 	public LoginView() {
-		
 		panel();
 		errores();
 		etiquetas();
@@ -149,9 +148,10 @@ public class LoginView extends JPanel {
 	 */
 	private void cargarImagenBCS() {
 		try {
+			
 			Image fondoOriginal = ImageIO.read(getClass().getResource("../images/BCS.png")); //lee la imagen
 			if(fondoOriginal != null) {
-				fondoEscalado = fondoOriginal.getScaledInstance(500, 400, Image.SCALE_SMOOTH);
+				fondoEscalado = fondoOriginal.getScaledInstance(140, 100, Image.SCALE_SMOOTH);
 				repaint();
 			}
 		} catch(Exception ex) {
@@ -168,7 +168,7 @@ public class LoginView extends JPanel {
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
 	    if (fondoEscalado != null) {
-	        g.drawImage(fondoEscalado, 0, 30, this); 
+	        g.drawImage(fondoEscalado, 250, 35, this); 
 	    }
 	}
 	
