@@ -1,11 +1,13 @@
 package views;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -31,11 +33,11 @@ public class LoginView extends JPanel {
 	//Contructor
 	public LoginView() {
 		panel();
-		errores();
+		/*errores();
 		etiquetas();
 		camposTexto();
 		boton();
-		cargarImagenBCS();
+		cargarImagenBCS();*/
 	}
 	
 	//Metodos
@@ -45,8 +47,18 @@ public class LoginView extends JPanel {
 	 * @Override
 	 */
 	private void panel() {
-		setLayout(null);
+		setLayout(new BorderLayout());
 		setBackground(amarillito);
+		JPanel panel = new JPanel();
+		
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		add(panel,BorderLayout.NORTH);
+		errores();
+		camposTexto();
+		boton();
+		etiquetas();
+		etiquetaContrasenia();
+		//cargarImagenBCS();
 	}
 	
 	/**
@@ -67,14 +79,20 @@ public class LoginView extends JPanel {
 		ingreseCorreo.setBounds(115,80,300,100);
 		ingreseCorreo.setForeground(Color.BLACK);
 		add(ingreseCorreo);
+	}
+	
+	private void etiquetaContrasenia() {
+	
 		
 		//Intrucción de ingresar contraseña
 		JLabel ingreseContrasenia = new JLabel("Ingrese su contraseña:"); 
 		ingreseContrasenia.setFont(general);
-		ingreseContrasenia.setBounds(115,195,300,100);
+		ingreseContrasenia.setBounds(115,80,700,500);
 		ingreseContrasenia.setForeground(Color.BLACK);
 		add(ingreseContrasenia);
 	}
+	
+	
 	
 	private void errores() {
 		//Instrucción de error para el correo electrónico
