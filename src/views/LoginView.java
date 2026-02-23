@@ -1,12 +1,14 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,130 +31,109 @@ public class LoginView extends JPanel {
 	private Color amarillito = new Color(255, 255, 204);
 	private Font fuenteTitulo = new Font("Arial Rounded MT Bold", Font.BOLD, 40);
 	private Font general = new Font("Arial", Font.BOLD, 16);
+	private Font fuenteError = new Font("Arial", Font.BOLD, 10);
 	
-	//Contructor
+	
+	// Constructor
 	public LoginView() {
 		panel();
-		/*errores();
-		etiquetas();
-		camposTexto();
-		boton();
-		cargarImagenBCS();*/
 	}
 	
-	//Metodos
+	// Métodos
 	
-	/**
-	 * Agrega el fondo de color al panel
-	 * @Override
-	 */
 	private void panel() {
-		setLayout(new BorderLayout());
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(amarillito);
-		JPanel panel = new JPanel();
 		
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		add(panel,BorderLayout.NORTH);
-		errores();
-		camposTexto();
-		boton();
+		add(Box.createVerticalGlue()); 
+		
 		etiquetas();
-		etiquetaContrasenia();
-		//cargarImagenBCS();
+		camposTexto();
+		
+		add(Box.createVerticalStrut(5)); 
+		boton();
+		
+		add(Box.createVerticalGlue()); 
+		
+		cargarImagenBCS();
 	}
 	
-	/**
-	 * Labels donde se agregan el títilo y las instrucciones para el usuario
-	 * @Override
-	 */
 	private void etiquetas() {
-		//Texto del título
+		// Texto del título
 		JLabel titulo = new JLabel("NuestraBCS");
 		titulo.setFont(fuenteTitulo);
-		titulo.setBounds(120,30,260,100);
 		titulo.setForeground(verde);
+		titulo.setAlignmentX(0.5f); 
 		add(titulo);
 		
-		//Instrucción de ingresar correo electrónico
+		add(Box.createVerticalStrut(10));
+		
 		JLabel ingreseCorreo = new JLabel("Ingrese su correo electrónico:"); 
 		ingreseCorreo.setFont(general);
-		ingreseCorreo.setBounds(115,80,300,100);
 		ingreseCorreo.setForeground(Color.BLACK);
+		ingreseCorreo.setAlignmentX(0.5f);
 		add(ingreseCorreo);
 	}
 	
-	private void etiquetaContrasenia() {
-	
+	private void camposTexto() {
+		JPanel panelCorreo = new JPanel();
+		panelCorreo.setBackground(amarillito);
 		
-		//Intrucción de ingresar contraseña
-		JLabel ingreseContrasenia = new JLabel("Ingrese su contraseña:"); 
-		ingreseContrasenia.setFont(general);
-		ingreseContrasenia.setBounds(115,80,700,500);
-		ingreseContrasenia.setForeground(Color.BLACK);
-		add(ingreseContrasenia);
-	}
-	
-	
-	
-	private void errores() {
-		//Instrucción de error para el correo electrónico
+		correo = new JTextField(25); 
+		correo.setFont(new Font("Arial", Font.PLAIN, 18));
+		panelCorreo.add(correo);
+		add(panelCorreo);
+		
 		JLabel errorCorreo = new JLabel("Correo inválido."); 
-		errorCorreo.setFont(new Font("Arial", Font.BOLD, 10));
-		errorCorreo.setBounds(115,150,300,100);
+		errorCorreo.setFont(fuenteError);
 		errorCorreo.setForeground(Color.RED);
+		errorCorreo.setAlignmentX(0.5f);
 		add(errorCorreo);
 		
-	    //Instrucción de error para la contraseña
+		add(Box.createVerticalStrut(5));
+		
+		JLabel ingreseContrasenia = new JLabel("Ingrese su contraseña:"); 
+		ingreseContrasenia.setFont(general);
+		ingreseContrasenia.setForeground(Color.BLACK);
+		ingreseContrasenia.setAlignmentX(0.5f);
+		add(ingreseContrasenia);
+		
+		JPanel panelPass = new JPanel();
+		panelPass.setBackground(amarillito);
+		
+		contrasenia = new JPasswordField(25);
+		contrasenia.setFont(new Font("Arial", Font.PLAIN, 18));
+		panelPass.add(contrasenia);
+		add(panelPass);
+		
 		JLabel errorContrasenia = new JLabel("Mínimo 8 digitos."); 
-		errorContrasenia.setFont(new Font("Arial", Font.BOLD, 10));
-		errorContrasenia.setBounds(115,265,300,100);
+		errorContrasenia.setFont(fuenteError);
 		errorContrasenia.setForeground(Color.RED);
+		errorContrasenia.setAlignmentX(0.5f);
 		add(errorContrasenia);
 	}
 	
-	/**
-	 * Agrega los cuadros de texto para agregar correo y agregar contraseña
-	 * @Override
-	 */
-	private void camposTexto() {
-		//Cooreo electrónico
-		JTextField correo = new JTextField();
-		correo.setFont(new Font("Arial", Font.PLAIN, 18));
-		correo.setBounds(110,150,280,40);
-		add(correo);
-		
-		//Contraseña
-		JPasswordField contrasenia = new JPasswordField();
-		contrasenia.setFont(new Font("Arial", Font.PLAIN, 25));
-		contrasenia.setBounds(110,265,280,40);
-		add(contrasenia);
-	}
-	
-	/**
-	 * Es el boton para acceder, o sea, iniciar sesión
-	 * @override
-	 */
 	private void boton() {
-		JButton boton = new JButton("Acceder"); //creación del botón
-		boton.setBounds(150,350,200,40); //coordenadas del botón
-		boton.setBackground(verde); //color de fondo del botón
-		boton.setForeground(Color.WHITE); //color de la fuente de texto del botón
-		boton.setToolTipText("Da click para iniciar sesión");
-		boton.setFont(general); //ajuste de la fuente del boton
-		cargarIcono(boton);
-		add(boton);
+		// Encerramos el boton en un panel para que no se estire
+		JPanel panelBoton = new JPanel();
+		panelBoton.setBackground(amarillito);
+		
+		acceder = new JButton("Acceder"); 
+		acceder.setBackground(verde); 
+		acceder.setForeground(Color.WHITE); 
+		acceder.setToolTipText("Da click para iniciar sesión");
+		acceder.setFont(general); 
+		cargarIcono(acceder);
+		
+		panelBoton.add(acceder);
+		add(panelBoton);
 	}
 	
-	/**
-	 * Carga el ícono de flecha que esta en el botón acceder
-	 * @Override
-	 * @param boton pasa el boton al que se le agregara el ícono
-	 */
 	private void cargarIcono(JButton boton) {
 		try {
-			Image icono = ImageIO.read(getClass().getResource("../images/flecha.png")); //lee la imagen
+			Image icono = ImageIO.read(getClass().getResource("../images/flecha.png")); 
 			if(icono != null) {
-				icono = icono.getScaledInstance(20, 25, Image.SCALE_SMOOTH); //escala la imagen/cambia el tamaño
+				icono = icono.getScaledInstance(20, 25, Image.SCALE_SMOOTH); 
 				boton.setIcon(new ImageIcon(icono));
 			}
 		}catch(Exception ex) {
@@ -160,14 +141,9 @@ public class LoginView extends JPanel {
 		}
 	}
 	
-	/**
-	 * Carga la imagen que está de fondo y la escala
-	 * @Override
-	 */
 	private void cargarImagenBCS() {
 		try {
-			
-			Image fondoOriginal = ImageIO.read(getClass().getResource("../images/BCS.png")); //lee la imagen
+			Image fondoOriginal = ImageIO.read(getClass().getResource("../images/BCS.png")); 
 			if(fondoOriginal != null) {
 				fondoEscalado = fondoOriginal.getScaledInstance(140, 100, Image.SCALE_SMOOTH);
 				repaint();
@@ -177,17 +153,13 @@ public class LoginView extends JPanel {
 		}
 	}
 	
-	/**
-	 * Borra el fondo blanco que sale cuando la imagen BCS.png es en realidad
-	 * de fondo transparente
-	 * @Override
-	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
 	    if (fondoEscalado != null) {
-	        g.drawImage(fondoEscalado, 250, 35, this); 
+	        // Se muevo un poco a la esquina
+	        g.drawImage(fondoEscalado,250, 15, this); 
 	    }
 	}
-	
+
 }
