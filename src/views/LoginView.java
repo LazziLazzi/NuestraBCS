@@ -18,6 +18,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
+import utils.AppFont;
+
 public class LoginView extends JPanel {
 	
 	//Atributos
@@ -61,7 +63,7 @@ public class LoginView extends JPanel {
 	private void etiquetas() {
 		// Texto del título
 		JLabel titulo = new JLabel("NuestraBCS");
-		titulo.setFont(fuenteTitulo);
+		titulo.setFont(AppFont.title());
 		titulo.setForeground(verde);
 		titulo.setAlignmentX(0.5f); 
 		add(titulo);
