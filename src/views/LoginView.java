@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionListener;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -124,6 +126,10 @@ public class LoginView extends JPanel {
 		acceder.setToolTipText("Da click para iniciar sesión");
 		acceder.setFont(general); 
 		cargarIcono(acceder);
+		
+		/*acceder.addActionListener(e ->{
+			
+		}*/
 		
 		panelBoton.add(acceder);
 		add(panelBoton);
