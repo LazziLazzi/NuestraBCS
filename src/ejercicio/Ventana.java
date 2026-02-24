@@ -23,10 +23,8 @@ public class Ventana extends JFrame {
 		Image icono = tk.getImage("src/images/image.jpg");
 		setIconImage(icono);
 		
-		FormularioRegistro formulario = new FormularioRegistro();
-		add(formulario);
 		LoginView panelito = new LoginView();
-		//add(panelito);
+		add(panelito);
 		
 		setVisible(true);
 		validate();

@@ -39,12 +39,13 @@ public class FormularioRegistro extends JFrame{
 		
 		JLabel lblTitulo = new JLabel("Registro");
 		lblTitulo.setFont(new Font("Arial", Font.PLAIN, 18));
-		add(lblTitulo, BorderLayout.NORTH);
+		lblTitulo.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		add(lblTitulo, BorderLayout.NORTH);
 		
-		JPanel panelComponentes = new JPanel();
-		panelComponentes.setLayout(new BoxLayout(panelComponentes, BoxLayout.Y_AXIS));
-		panelComponentes.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+		JPanel panelContenedor = new JPanel();
+		panelContenedor.setLayout(new BoxLayout(panelContenedor, BoxLayout.Y_AXIS));
+		panelContenedor.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 		
 		int cantidad = 9;
 		JLabel[] listaLabels = new JLabel[cantidad];
@@ -72,21 +73,37 @@ public class FormularioRegistro extends JFrame{
 		panelComponentes.add(txt);*/
 
 		
-		for(int i = 0; i < 20; i++) {
+		/*for(int i = 0; i < 20; i++) {
 			JLabel lbl = new JLabel("Campo " + i);
-			panelComponentes.add(lbl);
+			panelContenedor.add(lbl);
 			JTextField txt = new JTextField(20);
-			panelComponentes.add(txt);
-		}
-		JScrollPane scroll = new JScrollPane(panelComponentes);
-		scroll.setHorizontalScrollBar(null);
+			panelContenedor.add(txt);
+		}*/
 		
-		add(scroll);
-	}
-	
-	public static void main(String[] args) {
-		FormularioRegistro formulario = new FormularioRegistro();
-
+		String[] etiquetas = {
+	            "Nombre:", "Apellido Paterno:", "Apellido Materno:", 
+	            "Nombre de Usuario:", "Fecha de Nacimiento:", "Genero:", 
+	            "Correo electronico:", "Contraseña:", "Confirmar Contraseña:"
+	        };
+		
+		for(int i=0; i<etiquetas.length; i++) {
+		    JLabel lbl = new JLabel(etiquetas[i]);
+		    lbl.setAlignmentX(LEFT_ALIGNMENT);
+		    lbl.setFont(new Font("Arial", Font.BOLD, 13));
+		    
+		    JTextField txt = new JTextField(20);
+		    txt.setAlignmentX(LEFT_ALIGNMENT);
+		    
+		    panelContenedor.add(lbl);
+		    panelContenedor.add(javax.swing.Box.createVerticalStrut(5)); 
+		    panelContenedor.add(txt);
+		    panelContenedor.add(javax.swing.Box.createVerticalStrut(10));
+		}
+		
+		JScrollPane scroll = new JScrollPane(panelContenedor);
+        scroll.setBorder(null);
+        
+        add(scroll, BorderLayout.CENTER);
 	}
 	
 	/*public void cargarFuente() {

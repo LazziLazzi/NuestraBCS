@@ -132,6 +132,9 @@ public class LoginView extends JPanel {
 		/*acceder.addActionListener(e ->{
 			
 		}*/
+		acceder.addActionListener(e -> {
+	        new FormularioRegistro(); 
+	    });
 		
 		panelBoton.add(acceder);
 		add(panelBoton);
