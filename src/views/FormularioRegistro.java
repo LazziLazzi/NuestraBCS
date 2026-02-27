@@ -64,18 +64,24 @@ public class FormularioRegistro extends JFrame{
 	            "Correo electronico:", "Contraseña:", "Confirmar Contraseña:"
 	        };
 		
+		
 		JLabel lblTitulo = new JLabel("Registro");
 		lblTitulo.setFont(general);
 		lblTitulo.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setOpaque(true); 
+		lblTitulo.setBackground(amarillito); 
+		lblTitulo.setForeground(Color.BLACK);
 		add(lblTitulo, BorderLayout.NORTH);
 		
 		
+		//Panel que contiene todo
 		JPanel panelContenedor = new JPanel();
 		panelContenedor.setLayout(new BoxLayout(panelContenedor, BoxLayout.Y_AXIS));
 		panelContenedor.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 		panelContenedor.setBackground(amarillito);
 		
+		//Declara los labels y los textbox en un for para que no sea uno por uno
 		for(int i=0; i<etiquetas.length; i++) {
 		    JLabel lbl = new JLabel(etiquetas[i]);
 		    lbl.setAlignmentX(LEFT_ALIGNMENT);
@@ -91,21 +97,25 @@ public class FormularioRegistro extends JFrame{
 		}
 		
 		JLabel lblGenero = new JLabel("Seleccione su genero");
-	    lblGenero.setAlignmentX(LEFT_ALIGNMENT);
 	    lblGenero.setFont(new Font("Arial", Font.BOLD, 13));
+	    lblGenero.setAlignmentX(LEFT_ALIGNMENT);
 	    panelContenedor.add(lblGenero);
 	    
 	   
-	    
+	    //Chech box
 		JCheckBox cbMasculino = new JCheckBox("Masculino", true);
 		cbMasculino.setOpaque(false);
+		//cbMasculino.setAlignmentX(CENTER_ALIGNMENT);
 
-		JCheckBox cbFemenino = new JCheckBox("Femenino", true);
+		JCheckBox cbFemenino = new JCheckBox("Femenino", false);
 		cbFemenino.setOpaque(false);
+		//cbFemenino.setAlignmentX(CENTER_ALIGNMENT);
 		
-		JCheckBox cbOtro = new JCheckBox("Otro", true);
+		JCheckBox cbOtro = new JCheckBox("Otro", false);
 		cbOtro.setOpaque(false);
+		//cbOtro.setAlignmentX(CENTER_ALIGNMENT);
 		
+		//Esto es para que no deje seleccionar masd de un checbox ala ves
 		ButtonGroup grupoBotones = new ButtonGroup();
 		
 		grupoBotones.add(cbMasculino);
@@ -127,21 +137,21 @@ public class FormularioRegistro extends JFrame{
 		//confirmar.setAlignmentX(CENTER_ALIGNMENT);
 		panelContenedor.add(confirmar);
 		
-		
+		//Agrega el scroll
 		JScrollPane scroll = new JScrollPane(panelContenedor);
         scroll.setBorder(null);
         
         add(scroll, BorderLayout.CENTER);
 	}
 	
-	public void checkGenero() {
+	/*public void checkGenero() {
 		JCheckBox cbMasculino = new JCheckBox("Masculino", true);
 		add(cbMasculino);
 		JCheckBox cbFemenino = new JCheckBox("Femenino", true);
 		add(cbFemenino);
 		JCheckBox cbOtro = new JCheckBox("Otro", true);
 		add(cbOtro);
-	}
+	}*/
 	
 	/*public void cargarFuente() {
 		
