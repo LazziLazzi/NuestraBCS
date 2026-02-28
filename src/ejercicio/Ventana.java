@@ -3,7 +3,6 @@ package ejercicio;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
-
 import views.FormularioRegistro;
 import views.LoginView;
 
@@ -12,8 +11,6 @@ public class Ventana extends JFrame {
 		setSize(500, 500);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setLocation(500, 200);
-		//setBounds(getBounds());
 		
 		setResizable(false);
 		setTitle("NuestraBCS");

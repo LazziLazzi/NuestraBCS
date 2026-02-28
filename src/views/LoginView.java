@@ -3,11 +3,11 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionListener;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
-
 import utils.AppFont;
 
 public class LoginView extends JPanel {
@@ -28,14 +27,19 @@ public class LoginView extends JPanel {
 	private JTextField correo;
 	private JPasswordField contrasenia;
 	private JButton acceder;
+	private JButton registro;
 	private Image fondoEscalado;
 	
 	//Colores
 	private Color verde = new Color(56,142,60);
 	private Color amarillito = new Color(255, 255, 204);
+	private Color verdeOscuro = new Color(0, 102, 0);
+	
+	//Fuentes
 	private Font fuenteTitulo = new Font("Arial Rounded MT Bold", Font.BOLD, 40);
 	private Font general = new Font("Arial", Font.BOLD, 16);
 	private Font fuenteError = new Font("Arial", Font.BOLD, 10);
+	
 	
 	
 	// Constructor
@@ -44,25 +48,26 @@ public class LoginView extends JPanel {
 	}
 	
 	// Métodos
-	
 	private void panel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(amarillito);
 		
 		add(Box.createVerticalGlue()); 
 		
-		etiquetas();
+		titleLabel();
+		add(Box.createRigidArea(new Dimension(50, 20)));
 		camposTexto();
+		botonAcceder();
 		
 		add(Box.createVerticalStrut(5)); 
-		boton();
+		botonRegistro();
 		
 		add(Box.createVerticalGlue()); 
 		
 		cargarImagenBCS();
 	}
 	
-	private void etiquetas() {
+	private void titleLabel() {
 		// Texto del título
 		JLabel titulo = new JLabel("NuestraBCS");
 		titulo.setFont(AppFont.title());
@@ -71,15 +76,15 @@ public class LoginView extends JPanel {
 		add(titulo);
 		
 		add(Box.createVerticalStrut(10));
-		
+	}
+	
+	private void camposTexto() {
 		JLabel ingreseCorreo = new JLabel("Ingrese su correo electrónico:"); 
 		ingreseCorreo.setFont(general);
 		ingreseCorreo.setForeground(Color.BLACK);
 		ingreseCorreo.setAlignmentX(0.5f);
 		add(ingreseCorreo);
-	}
-	
-	private void camposTexto() {
+		
 		JPanel panelCorreo = new JPanel();
 		panelCorreo.setBackground(amarillito);
 		
@@ -88,11 +93,16 @@ public class LoginView extends JPanel {
 		panelCorreo.add(correo);
 		add(panelCorreo);
 		
+		JPanel panelErrorCorreo = new JPanel();
+		panelErrorCorreo.setBackground(amarillito);
 		JLabel errorCorreo = new JLabel("Correo inválido."); 
 		errorCorreo.setFont(fuenteError);
 		errorCorreo.setForeground(Color.RED);
 		errorCorreo.setAlignmentX(0.5f);
+		panelErrorCorreo.add(errorCorreo);
 		add(errorCorreo);
+		
+		add(Box.createRigidArea(new Dimension(50, 30)));
 		
 		add(Box.createVerticalStrut(5));
 		
@@ -115,10 +125,12 @@ public class LoginView extends JPanel {
 		errorContrasenia.setForeground(Color.RED);
 		errorContrasenia.setAlignmentX(0.5f);
 		add(errorContrasenia);
+		
+		add(Box.createRigidArea(new Dimension(50, 20)));
 	}
 	
-	private void boton() {
-		// Encerramos el boton en un panel para que no se estire
+	private void botonAcceder() {
+		//Encerramos el boton en un panel para que no se estire
 		JPanel panelBoton = new JPanel();
 		panelBoton.setBackground(amarillito);
 		
@@ -127,17 +139,40 @@ public class LoginView extends JPanel {
 		acceder.setForeground(Color.WHITE); 
 		acceder.setToolTipText("Da click para iniciar sesión");
 		acceder.setFont(general); 
-		cargarIcono(acceder);
 		
-		/*acceder.addActionListener(e ->{
-			
-		}*/
-		acceder.addActionListener(e -> {
-	        new FormularioRegistro(); 
-	    });
+		cargarIcono(acceder);
 		
 		panelBoton.add(acceder);
 		add(panelBoton);
+	}
+	
+	/**
+	 * Botón que manda hacia el panel de registro. El método también tiene
+	 * el JLabel que indica para que sirve el botón.
+	 */
+	private void botonRegistro() {
+		JLabel registrarse = new JLabel("¿Aún no tienes una cuenta?"); 
+		registrarse.setFont(new Font("Arial", Font.PLAIN, 15));
+		registrarse.setForeground(verdeOscuro);
+		registrarse.setAlignmentX(0.5f);
+		add(registrarse);
+		
+		JPanel panelBotonRegistro = new JPanel();
+		panelBotonRegistro.setBackground(amarillito);
+		
+		registro = new JButton("Registrate aquí");
+		registro.setBackground(verde); 
+		registro.setForeground(Color.WHITE); 
+		registro.setToolTipText("De click para registrarse");
+		registro.setFont(new Font("Arial", Font.BOLD, 13));
+		
+		
+		registro.addActionListener(e -> {
+	        new FormularioRegistro(); 
+	    });
+		
+		panelBotonRegistro.add(registro);
+		add(panelBotonRegistro);
 	}
 	
 	private void cargarIcono(JButton boton) {
@@ -156,7 +191,7 @@ public class LoginView extends JPanel {
 		try {
 			Image fondoOriginal = ImageIO.read(getClass().getResource("../images/BCS.png")); 
 			if(fondoOriginal != null) {
-				fondoEscalado = fondoOriginal.getScaledInstance(140, 100, Image.SCALE_SMOOTH);
+				fondoEscalado = fondoOriginal.getScaledInstance(140, 90, Image.SCALE_SMOOTH);
 				repaint();
 			}
 		} catch(Exception ex) {

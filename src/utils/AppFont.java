@@ -9,7 +9,7 @@ public class AppFont {
 		try {
 			base = Font.createFont(Font.TRUETYPE_FONT, AppFont.class.getResourceAsStream("/fuentes/DancingScript.ttf"));
 		} catch(Exception e) {
-			base = new Font("Arial", Font.PLAIN, 18);
+			base = new Font("Arial", Font.BOLD, 18);
 		}
 	}
 	
