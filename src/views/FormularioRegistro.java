@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -16,6 +19,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -141,6 +145,21 @@ public class FormularioRegistro extends JFrame{
 		confirmar.setToolTipText("De click para finalizar su registro");
 		confirmar.setFont(general); 
 		panelContenedor.add(confirmar);
+		
+
+		//ActionListener para dar mensaje cuando se presiona el botón de registro
+		confirmar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Se hizo click en el botón confirmar");
+				JOptionPane.showMessageDialog(null,
+						"Si desea continuar, ingrese sus datos para crear una cuenta nueva",
+						"Atención",
+						JOptionPane.INFORMATION_MESSAGE
+				);
+			}
+		});
 		
 		//Agrega el scroll
 		JScrollPane scroll = new JScrollPane(panelContenedor);

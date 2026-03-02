@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -15,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -144,6 +146,29 @@ public class LoginView extends JPanel {
 		
 		panelBoton.add(acceder);
 		add(panelBoton);
+		
+//		acceder.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				System.out.println("Se hizo click en el botón acceder");
+//				//se pone null si el panel en el que se esta escribiendo
+//				JOptionPane.showMessageDialog(null, 
+//						"Si desea continuar, ingrese sus datos para acceder a su cuenta",
+//						"Atención",
+//						JOptionPane.INFORMATION_MESSAGE
+//				);
+//			}
+//		});
+		
+		acceder.addActionListener(e -> {
+			JOptionPane.showMessageDialog(
+					null,
+					"Si desea continuar, ingrese sus datos para acceder a su cuenta.",
+					"ATENCIÓN",
+					JOptionPane.INFORMATION_MESSAGE
+			);
+		});
 	}
 	
 	/**
@@ -206,6 +231,25 @@ public class LoginView extends JPanel {
 	        // Se muevo un poco a la esquina
 	        g.drawImage(fondoEscalado,250, 15, this); 
 	    }
+	}
+	
+//	private void login() {
+//		if(correo.getText().trim().isEmpty()) {
+//			mostrarErrorCorreo("El correo es obligatorio");
+//		}
+//	}
+	
+	private String validateLogin() {
+		
+		if(correo.getText().trim().isEmpty()) {
+			return "El correo es obligatorio";
+		}
+		
+		if(contrasenia.getPassword().toString().trim().isEmpty()) {
+			return "La contraseña es obligatoria";
+		}
+		
+		return "Correctos";
 	}
 
 }
