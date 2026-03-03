@@ -30,6 +30,8 @@ public class LoginView extends JPanel {
 	private JPasswordField contrasenia;
 	private JButton acceder;
 	private JButton registro;
+	private JLabel errorCorreo;
+	private JLabel errorContrasenia;
 	private Image fondoEscalado;
 	
 	//Colores
@@ -97,7 +99,8 @@ public class LoginView extends JPanel {
 		
 		JPanel panelErrorCorreo = new JPanel();
 		panelErrorCorreo.setBackground(amarillito);
-		JLabel errorCorreo = new JLabel("Correo inválido."); 
+		errorCorreo = new JLabel("Correo inválido."); 
+		errorCorreo.setVisible(false);
 		errorCorreo.setFont(fuenteError);
 		errorCorreo.setForeground(Color.RED);
 		errorCorreo.setAlignmentX(0.5f);
@@ -122,7 +125,8 @@ public class LoginView extends JPanel {
 		panelPass.add(contrasenia);
 		add(panelPass);
 		
-		JLabel errorContrasenia = new JLabel("Mínimo 8 digitos."); 
+		errorContrasenia = new JLabel("Mínimo 8 digitos."); 
+		errorContrasenia.setVisible(false);
 		errorContrasenia.setFont(fuenteError);
 		errorContrasenia.setForeground(Color.RED);
 		errorContrasenia.setAlignmentX(0.5f);
@@ -162,13 +166,36 @@ public class LoginView extends JPanel {
 //		});
 		
 		acceder.addActionListener(e -> {
-			JOptionPane.showMessageDialog(
-					null,
-					"Si desea continuar, ingrese sus datos para acceder a su cuenta.",
-					"ATENCIÓN",
-					JOptionPane.INFORMATION_MESSAGE
-			);
+			boolean error = false;
+			
+			if(correo.getText().isEmpty()) {
+				errorCorreo.setVisible(true);
+				error = true;
+			} else {
+				errorCorreo.setVisible(false);
+			}
+			
+			if (contrasenia.getPassword().length == 0) {
+				errorContrasenia.setVisible(true);
+				error = true;
+			} else {
+				errorContrasenia.setVisible(false);
+			}
+			
+			if(error) {
+				ventanaEmergente();
+			}
+			
 		});
+	}
+	
+	private void ventanaEmergente() {
+		JOptionPane.showMessageDialog(
+				null,
+				"Si desea continuar, ingrese sus datos para acceder a su cuenta.",
+				"ATENCIÓN",
+				JOptionPane.INFORMATION_MESSAGE
+		);
 	}
 	
 	/**
