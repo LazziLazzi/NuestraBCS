@@ -3,6 +3,6 @@ package ejercicio;
 public class Main {
 
 	public static void main(String[] args) {
-		Ventana ventanita = new Ventana();
+		Window window = new Window();
 	}
 }

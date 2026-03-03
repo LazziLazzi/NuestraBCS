@@ -3,11 +3,11 @@ package ejercicio;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
-import views.FormularioRegistro;
+import views.RegistrationForm;
 import views.LoginView;
 
-public class Ventana extends JFrame {
-	public Ventana() {
+public class Window extends JFrame {
+	public Window() {
 		setSize(500, 500);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -17,11 +17,11 @@ public class Ventana extends JFrame {
 		setLocationRelativeTo(null);
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image icono = tk.getImage("src/images/image.jpg");
-		setIconImage(icono);
+		Image icon = tk.getImage("src/images/image.jpg");
+		setIconImage(icon);
 		
-		LoginView panelito = new LoginView();
-		add(panelito);
+		LoginView panel = new LoginView();
+		add(panel);
 		
 		setVisible(true);
 		validate();

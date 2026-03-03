@@ -26,17 +26,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 
-public class FormularioRegistro extends JFrame{
+public class RegistrationForm extends JFrame{
 	
 	//atributos
-	private Image fondoEscalado;
+	private Image scaledBackground;
 	
-	private Color amarillito = new Color(255, 255, 204);
-	private Color verde = new Color(56,142,60);
-	private Color verdeOscuro = new Color(0, 102, 0);
-	private Font general = new Font("Arial", Font.BOLD, 18);
+	private Color yellow = new Color(255, 255, 204);
+	private Color green = new Color(56,142,60);
+	private Color darkGreen = new Color(0, 102, 0);
+	private Font generalFont = new Font("Arial", Font.BOLD, 18);
 	
-	public FormularioRegistro() {
+	public RegistrationForm() {
 		panel();
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
@@ -50,105 +50,105 @@ public class FormularioRegistro extends JFrame{
 		setResizable(true);
 		setTitle("Registro");
 		setLocationRelativeTo(null);
-		inicializarComponentes();
+		startComponents();
 		setVisible(true);		
 	}
 	
-	public void inicializarComponentes() {
-		componentes();
+	public void startComponents() {
+		components();
 	}
 	
-	public void componentes() {
-		int cantidad = 8;
-		JLabel[] listaLabels = new JLabel[cantidad];
-		JTextField[] listatxt = new JTextField[cantidad];
-		String[] etiquetas = {
+	public void components() {
+		int amount = 8;
+		JLabel[] listaLabels = new JLabel[amount];
+		JTextField[] listatxt = new JTextField[amount];
+		String[] labels = {
 	            "Nombre:", "Apellido Paterno:", "Apellido Materno:", 
 	            "Nombre de Usuario:", "Fecha de Nacimiento:", 
 	            "Correo electronico:", "Contraseña:", "Confirmar Contraseña:"
 	        };
 		
 		
-		JLabel lblTitulo = new JLabel("Ingrese sus datos para crear su cuenta:");
-		lblTitulo.setFont(general);
-		lblTitulo.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
-		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitulo.setOpaque(true); 
-		lblTitulo.setBackground(amarillito); 
-		lblTitulo.setForeground(verdeOscuro);
-		add(lblTitulo, BorderLayout.NORTH);
+		JLabel titleLabel = new JLabel("Ingrese sus datos para crear su cuenta:");
+		titleLabel.setFont(generalFont);
+		titleLabel.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setOpaque(true); 
+		titleLabel.setBackground(yellow); 
+		titleLabel.setForeground(darkGreen);
+		add(titleLabel, BorderLayout.NORTH);
 		
 		
 		//Panel que contiene todo
-		JPanel panelContenedor = new JPanel();
-		panelContenedor.setLayout(new BoxLayout(panelContenedor, BoxLayout.Y_AXIS));
-		panelContenedor.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-		panelContenedor.setBackground(amarillito);
+		JPanel containerPanel = new JPanel();
+		containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
+		containerPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+		containerPanel.setBackground(yellow);
 		
 		//Declara los labels y los textbox en un for para que no sea uno por uno
-		for(int i = 0; i < etiquetas.length; i++) {
-		    JLabel lbl = new JLabel(etiquetas[i]);
+		for(int i = 0; i < labels.length; i++) {
+		    JLabel lbl = new JLabel(labels[i]);
 		    lbl.setAlignmentX(LEFT_ALIGNMENT);
 		    lbl.setFont(new Font("Arial", Font.BOLD, 13));
-		    lbl.setForeground(verdeOscuro);
+		    lbl.setForeground(darkGreen);
 		    
 		    JTextField txt = new JTextField(20);
 		    txt.setAlignmentX(LEFT_ALIGNMENT);
 		    
-		    panelContenedor.add(lbl);
-		    panelContenedor.add(javax.swing.Box.createVerticalStrut(5)); 
-		    panelContenedor.add(txt);
-		    panelContenedor.add(javax.swing.Box.createVerticalStrut(20));
+		    containerPanel.add(lbl);
+		    containerPanel.add(javax.swing.Box.createVerticalStrut(5)); 
+		    containerPanel.add(txt);
+		    containerPanel.add(javax.swing.Box.createVerticalStrut(20));
 		}
 		
-		JLabel lblGenero = new JLabel("Seleccione su genero");
-	    lblGenero.setFont(new Font("Arial", Font.BOLD, 13));
-	    lblGenero.setAlignmentX(LEFT_ALIGNMENT);
-	    lblGenero.setForeground(verdeOscuro);
-	    panelContenedor.add(lblGenero);
+		JLabel genderLabel = new JLabel("Seleccione su genero");
+	    genderLabel.setFont(new Font("Arial", Font.BOLD, 13));
+	    genderLabel.setAlignmentX(LEFT_ALIGNMENT);
+	    genderLabel.setForeground(darkGreen);
+	    containerPanel.add(genderLabel);
 	    
 	   
 	    //Chech box
 		JCheckBox cbMasculino = new JCheckBox("Masculino", true);
 		cbMasculino.setOpaque(false);
-		cbMasculino.setForeground(verdeOscuro);
+		cbMasculino.setForeground(darkGreen);
 		//cbMasculino.setAlignmentX(CENTER_ALIGNMENT);
 
 		JCheckBox cbFemenino = new JCheckBox("Femenino", false);
 		cbFemenino.setOpaque(false);
-		cbFemenino.setForeground(verdeOscuro);
+		cbFemenino.setForeground(darkGreen);
 		//cbFemenino.setAlignmentX(CENTER_ALIGNMENT);
 		
 		JCheckBox cbOtro = new JCheckBox("Otro", false);
 		cbOtro.setOpaque(false);
-		cbOtro.setForeground(verdeOscuro);
+		cbOtro.setForeground(darkGreen);
 		//cbOtro.setAlignmentX(CENTER_ALIGNMENT);
 		
 		//Esto es para que no deje seleccionar mas de un checbox a la vez
-		ButtonGroup grupoBotones = new ButtonGroup();
+		ButtonGroup buttonsGroup = new ButtonGroup();
 		
-		grupoBotones.add(cbMasculino);
-		panelContenedor.add(cbMasculino);
+		buttonsGroup.add(cbMasculino);
+		containerPanel.add(cbMasculino);
 		
-		grupoBotones.add(cbFemenino);
-		panelContenedor.add(cbFemenino);
+		buttonsGroup.add(cbFemenino);
+		containerPanel.add(cbFemenino);
 		
-		grupoBotones.add(cbOtro);
-		panelContenedor.add(cbOtro);
-		panelContenedor.add(javax.swing.Box.createVerticalStrut(15));
+		buttonsGroup.add(cbOtro);
+		containerPanel.add(cbOtro);
+		containerPanel.add(javax.swing.Box.createVerticalStrut(15));
 		
 		
-		JButton confirmar = new JButton();
-		confirmar = new JButton("Crear cuenta"); 
-		confirmar.setBackground(verde); 
-		confirmar.setForeground(Color.WHITE); 
-		confirmar.setToolTipText("De click para finalizar su registro");
-		confirmar.setFont(general); 
-		panelContenedor.add(confirmar);
+		JButton confirmButton = new JButton();
+		confirmButton = new JButton("Crear cuenta"); 
+		confirmButton.setBackground(green); 
+		confirmButton.setForeground(Color.WHITE); 
+		confirmButton.setToolTipText("De click para finalizar su registro");
+		confirmButton.setFont(generalFont); 
+		containerPanel.add(confirmButton);
 		
 
 		//ActionListener para dar mensaje cuando se presiona el botón de registro
-		confirmar.addActionListener(new ActionListener() {
+		confirmButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -162,7 +162,7 @@ public class FormularioRegistro extends JFrame{
 		});
 		
 		//Agrega el scroll
-		JScrollPane scroll = new JScrollPane(panelContenedor);
+		JScrollPane scroll = new JScrollPane(containerPanel);
         scroll.setBorder(null);
         
         add(scroll, BorderLayout.CENTER);
