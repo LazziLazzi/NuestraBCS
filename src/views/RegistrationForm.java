@@ -2,6 +2,8 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -33,6 +35,7 @@ public class RegistrationForm extends JFrame{
 	
 	private Color yellow = new Color(255, 255, 204);
 	private Color green = new Color(56,142,60);
+	private Color opaqueGreen = new Color(133,184,95);
 	private Color darkGreen = new Color(0, 102, 0);
 	private Font generalFont = new Font("Arial", Font.BOLD, 18);
 	
@@ -159,6 +162,28 @@ public class RegistrationForm extends JFrame{
 						JOptionPane.INFORMATION_MESSAGE
 				);
 			}
+		});
+		
+		containerPanel.add(Box.createVerticalStrut(5)); 
+				
+		JButton backButton = new JButton();
+		backButton = new JButton("Regresar"); 
+		backButton.setBackground(opaqueGreen); 
+		backButton.setForeground(Color.WHITE); 
+		backButton.setToolTipText("De click para regresar");
+		backButton.setFont(new Font("Arial", Font.BOLD, 12)); 
+		//backButton.setBounds(100, 50, 20, 30);
+		backButton.setPreferredSize(new Dimension(20, 30));
+		//backButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		containerPanel.add(backButton);
+		
+		backButton.addActionListener(e -> {
+			int option = JOptionPane.showConfirmDialog(this,"Seguro que deseas regresar? Se perderan los datos");
+			if(option == JOptionPane.YES_OPTION) {
+				new LoginView();
+				dispose();
+			}
+		
 		});
 		
 		//Agrega el scroll

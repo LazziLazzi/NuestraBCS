@@ -222,6 +222,7 @@ public class LoginView extends JPanel {
 		
 		registerButton.addActionListener(e -> {
 	        new RegistrationForm(); 
+	        //new LoginView().setVisible(false);
 	    });
 		
 		panelRegisterButton.add(registerButton);
