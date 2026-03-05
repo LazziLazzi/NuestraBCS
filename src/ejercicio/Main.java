@@ -1,8 +1,10 @@
 package ejercicio;
+import views.LoginWindow;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Window window = new Window();
+		LoginWindow window = new LoginWindow();
+		window.setVisible(true);
 	}
 }

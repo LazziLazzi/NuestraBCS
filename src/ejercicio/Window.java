@@ -8,7 +8,7 @@ import views.LoginView;
 
 public class Window extends JFrame {
 	public Window() {
-		setSize(500, 500);
+		setSize(400, 500);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

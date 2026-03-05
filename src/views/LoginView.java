@@ -222,7 +222,7 @@ public class LoginView extends JPanel {
 		
 		registerButton.addActionListener(e -> {
 	        new RegistrationForm(); 
-	        //new LoginView().setVisible(false);
+	        javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
 	    });
 		
 		panelRegisterButton.add(registerButton);
@@ -245,7 +245,7 @@ public class LoginView extends JPanel {
 		try {
 			Image fondoOriginal = ImageIO.read(getClass().getResource("../images/BCS.png")); 
 			if(fondoOriginal != null) {
-				stretchedBackground = fondoOriginal.getScaledInstance(140, 90, Image.SCALE_SMOOTH);
+				stretchedBackground = fondoOriginal.getScaledInstance(120, 90, Image.SCALE_SMOOTH);
 				repaint();
 			}
 		} catch(Exception ex) {
@@ -258,7 +258,7 @@ public class LoginView extends JPanel {
 	    super.paintComponent(g);
 	    if (stretchedBackground != null) {
 	        // Se muevo un poco a la esquina
-	        g.drawImage(stretchedBackground,250, 15, this); 
+	        g.drawImage(stretchedBackground,220, 10, this); 
 	    }
 	}
 	

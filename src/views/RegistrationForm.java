@@ -49,7 +49,7 @@ public class RegistrationForm extends JFrame{
 	
 	public void panel() {
 		setSize(400, 500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(true);
 		setTitle("Registro");
 		setLocationRelativeTo(null);
@@ -180,7 +180,7 @@ public class RegistrationForm extends JFrame{
 		backButton.addActionListener(e -> {
 			int option = JOptionPane.showConfirmDialog(this,"Seguro que deseas regresar? Se perderan los datos");
 			if(option == JOptionPane.YES_OPTION) {
-				new LoginView();
+				new LoginWindow().setVisible(true);
 				dispose();
 			}
 		
