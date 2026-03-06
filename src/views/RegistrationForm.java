@@ -38,8 +38,159 @@ public class RegistrationForm extends JFrame{
 	private Color opaqueGreen = new Color(133,184,95);
 	private Color darkGreen = new Color(0, 102, 0);
 	private Font generalFont = new Font("Arial", Font.BOLD, 18);
+	private final Font labelFont = new Font("Arial", Font.BOLD, 13);
 	
-	public RegistrationForm() {
+	// Componentes principales
+		private JPanel containerPanel;
+		
+		public RegistrationForm() {
+			setupWindow();
+			initializeComponents();
+			setVisible(true); // Se llama al final para asegurar que todo cargue antes de mostrarse
+		}
+		
+		private void setupWindow() {
+			setSize(400, 500);
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setResizable(true);
+			setTitle("Registro");
+			setLocationRelativeTo(null);
+			setLayout(new BorderLayout());
+			
+			Toolkit tk = Toolkit.getDefaultToolkit();
+			Image icono = tk.getImage("src/images/image.jpg");
+			setIconImage(icono);
+		}
+		
+		private void initializeComponents() {
+			createTitle();
+			
+			// Panel principal que conttiene el formulario
+			containerPanel = new JPanel();
+			containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
+			containerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+			containerPanel.setBackground(yellow);
+			
+			createFormFields();
+			createGenderSelection();
+			createButtons();
+			
+			// Agrega el scroll
+			JScrollPane scroll = new JScrollPane(containerPanel);
+			scroll.setBorder(null);
+			add(scroll, BorderLayout.CENTER);
+		}
+		
+		private void createTitle() {
+			JLabel titleLabel = new JLabel("Ingrese sus datos para crear su cuenta:");
+			titleLabel.setFont(generalFont);
+			titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+			titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			titleLabel.setOpaque(true); 
+			titleLabel.setBackground(yellow); 
+			titleLabel.setForeground(darkGreen);
+			
+			add(titleLabel, BorderLayout.NORTH);
+		}
+		
+		private void createFormFields() {
+			String[] labels = {
+				"Nombre:", "Apellido Paterno:", "Apellido Materno:", 
+				"Nombre de Usuario:", "Fecha de Nacimiento:", 
+				"Correo electronico:", "Contraseña:", "Confirmar Contraseña:"
+			};
+			
+			// Declara los labels y los textbox en un for
+			for (String labelText : labels) {
+				JLabel lbl = new JLabel(labelText);
+				lbl.setAlignmentX(LEFT_ALIGNMENT);
+				lbl.setFont(labelFont);
+				lbl.setForeground(darkGreen);
+				
+				JTextField txt = new JTextField(20);
+				txt.setAlignmentX(LEFT_ALIGNMENT);
+				txt.setMaximumSize(new Dimension(Integer.MAX_VALUE, txt.getPreferredSize().height));
+				
+				containerPanel.add(lbl);
+				containerPanel.add(Box.createVerticalStrut(5)); 
+				containerPanel.add(txt);
+				containerPanel.add(Box.createVerticalStrut(20));
+			}
+		}
+		
+		private void createGenderSelection() {
+			JLabel genderLabel = new JLabel("Seleccione su genero:");
+			genderLabel.setFont(labelFont);
+			genderLabel.setAlignmentX(LEFT_ALIGNMENT);
+			genderLabel.setForeground(darkGreen);
+			containerPanel.add(genderLabel);
+			
+			JCheckBox cbMasculino = new JCheckBox("Masculino", true);
+			cbMasculino.setOpaque(false);
+			cbMasculino.setForeground(darkGreen);
+
+			JCheckBox cbFemenino = new JCheckBox("Femenino", false);
+			cbFemenino.setOpaque(false);
+			cbFemenino.setForeground(darkGreen);
+			
+			JCheckBox cbOtro = new JCheckBox("Otro", false);
+			cbOtro.setOpaque(false);
+			cbOtro.setForeground(darkGreen);
+			
+			// Esto es para que no deje seleccionar más de un checkbox a la vez
+			ButtonGroup buttonsGroup = new ButtonGroup();
+			buttonsGroup.add(cbMasculino);
+			buttonsGroup.add(cbFemenino);
+			buttonsGroup.add(cbOtro);
+			
+			containerPanel.add(cbMasculino);
+			containerPanel.add(cbFemenino);
+			containerPanel.add(cbOtro);
+			containerPanel.add(Box.createVerticalStrut(15));
+		}
+		
+		private void createButtons() {
+			JButton confirmButton = new JButton("Crear cuenta"); 
+			confirmButton.setBackground(green); 
+			confirmButton.setForeground(Color.WHITE); 
+			confirmButton.setToolTipText("De click para finalizar su registro");
+			confirmButton.setFont(generalFont); 
+			
+			confirmButton.addActionListener(e -> handleRegistration());
+			containerPanel.add(confirmButton);
+			
+			containerPanel.add(Box.createVerticalStrut(10)); 
+					
+			JButton backButton = new JButton("Regresar"); 
+			backButton.setBackground(opaqueGreen); 
+			backButton.setForeground(Color.WHITE); 
+			backButton.setToolTipText("De click para regresar");
+			backButton.setFont(new Font("Arial", Font.BOLD, 12)); 
+			backButton.setPreferredSize(new Dimension(100, 30));
+			backButton.setMaximumSize(new Dimension(100, 30));
+			
+			backButton.addActionListener(e -> handleBack());
+			containerPanel.add(backButton);
+		}
+		
+		private void handleRegistration() {
+			System.out.println("Se hizo click en el botón confirmar");
+			JOptionPane.showMessageDialog(this,
+					"Si desea continuar, ingrese sus datos para crear una cuenta nueva",
+					"Atención",
+					JOptionPane.INFORMATION_MESSAGE
+			);
+		}
+		
+		private void handleBack() {
+			int option = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas regresar? Se perderán los datos", "Confirmar", JOptionPane.YES_NO_OPTION);
+			if (option == JOptionPane.YES_OPTION) {
+				new LoginView().setVisible(true); 
+				dispose();
+			}
+		}
+	
+	/*public RegistrationForm() {
 		panel();
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
@@ -191,7 +342,7 @@ public class RegistrationForm extends JFrame{
         scroll.setBorder(null);
         
         add(scroll, BorderLayout.CENTER);
-	}
+	}*/
 	
 }
 
