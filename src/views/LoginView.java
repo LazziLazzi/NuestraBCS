@@ -29,10 +29,11 @@ public class LoginView extends JPanel {
 	//Atributos
 	private JTextField email;
 	private JPasswordField password;
-	private JButton access;
-	private JButton registerButton;
 	private JLabel errorEmail;
 	private JLabel errorPass;
+	private JButton access;
+	private JButton registerButton;
+	
 	private Image stretchedBackground;
 	
 	//Colores
