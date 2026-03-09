@@ -24,9 +24,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 
 public class RegistrationForm extends JFrame{
@@ -38,21 +41,20 @@ public class RegistrationForm extends JFrame{
 	"Nombre de Usuario:", "Fecha de Nacimiento:", 
 	"Correo electronico:", "Contraseña:", "Confirmar Contraseña:"*/
 	
+	private JTextField fieldName;
+	private JLabel errorName;
 	
-	private JTextField campoNombre;
-	private JLabel errorNombre;
+	private JTextField fieldLastNameP;
+	private JLabel errorLastnNameP;
 	
-	private JTextField campoApellidoP;
-	private JLabel errorApellidoP;
+	private JTextField fieldLastNameM;
+	private JLabel errorLastNameM;
 	
-	private JTextField campoApellidoM;
-	private JLabel errorApellidoM;
+	private JTextField fieldNameUser;
+	private JLabel errorNameUser;
 	
-	private JTextField campoNombreUsuario;
-	private JLabel errorNombreUsuario;
-	
-	private JTextField campoFechaNacimiento;
-	private JLabel errorFechaNacimiento;
+	private JTextField fieldDate;
+	private JLabel errorFieldDate;
 	
 	private JLabel correo;
 	private JTextField campoCorreo;
@@ -65,6 +67,11 @@ public class RegistrationForm extends JFrame{
 	private JLabel errorConfirmarContrasenia;
 	
 	private JButton confirmButton;
+	
+	private JRadioButton rbMasculino;
+	private JRadioButton rbFemenino;
+	private JRadioButton rbOtro;
+	private ButtonGroup grupoGenero;
 	
 	private Color yellow = new Color(255, 255, 204);
 	private Color green = new Color(56,142,60);
@@ -109,6 +116,8 @@ public class RegistrationForm extends JFrame{
 			createGenderSelection();
 			createButtons();
 			
+			assignListeners();
+			
 			// Agrega el scroll
 			JScrollPane scroll = new JScrollPane(containerPanel);
 			scroll.setBorder(null);
@@ -128,277 +137,115 @@ public class RegistrationForm extends JFrame{
 		}
 		
 		private void createFormFields() {
-			
-			JLabel nombre = new JLabel("Nombre"); 
-			nombre.setAlignmentX(LEFT_ALIGNMENT);
-			nombre.setFont(labelFont);
-			nombre.setForeground(darkGreen);
-			 
-			campoNombre = new JTextField(20);
-			campoNombre.setAlignmentX(LEFT_ALIGNMENT);
-			campoNombre.setMaximumSize(new Dimension(Integer.MAX_VALUE, nombre.getPreferredSize().height));
-			
-			errorNombre = new JLabel("No digito bien el nombre");
-			errorNombre.setAlignmentX(LEFT_ALIGNMENT);
-			errorNombre.setFont(errorFont);
-			errorNombre.setVisible(false);
-			
-			containerPanel.add(nombre);
-			containerPanel.add(Box.createVerticalStrut(5)); 
-			containerPanel.add(campoNombre);
-			containerPanel.add(Box.createVerticalStrut(20));
-			containerPanel.add(errorNombre);
-			containerPanel.add(Box.createVerticalStrut(5));
-			
-			JLabel apellidoP = new JLabel("Apellido Paterno"); 
-			apellidoP.setAlignmentX(LEFT_ALIGNMENT);
-			apellidoP.setFont(labelFont);
-			apellidoP.setForeground(darkGreen);
-			 
-			campoApellidoP = new JTextField(20);
-			campoApellidoP.setAlignmentX(LEFT_ALIGNMENT);
-			campoApellidoP.setMaximumSize(new Dimension(Integer.MAX_VALUE, nombre.getPreferredSize().height));
-			
-			errorApellidoP = new JLabel("No digito bien el apellido");
-			errorApellidoP.setAlignmentX(LEFT_ALIGNMENT);
-			errorApellidoP.setFont(errorFont);
-			errorApellidoP.setVisible(false);
-			
-			containerPanel.add(apellidoP);
-			containerPanel.add(Box.createVerticalStrut(5)); 
-			containerPanel.add(campoApellidoP);
-			containerPanel.add(Box.createVerticalStrut(20));
-			containerPanel.add(errorApellidoP);
-			containerPanel.add(Box.createVerticalStrut(5));
-			
-			JLabel apellidoM = new JLabel("Apellido Materno"); 
-			apellidoM.setAlignmentX(LEFT_ALIGNMENT);
-			apellidoM.setFont(labelFont);
-			apellidoM.setForeground(darkGreen);
-			 
-			campoApellidoM = new JTextField(20);
-			campoApellidoM.setAlignmentX(LEFT_ALIGNMENT);
-			campoApellidoM.setMaximumSize(new Dimension(Integer.MAX_VALUE, nombre.getPreferredSize().height));
-			
-			errorApellidoM = new JLabel("No digito bien el apellido");
-			errorApellidoM.setAlignmentX(LEFT_ALIGNMENT);
-			errorApellidoM.setFont(errorFont);
-			errorApellidoM.setVisible(false);
-			
-			containerPanel.add(apellidoM);
-			containerPanel.add(Box.createVerticalStrut(5)); 
-			containerPanel.add(campoApellidoM);
-			containerPanel.add(Box.createVerticalStrut(20));
-			containerPanel.add(errorApellidoM);
-			containerPanel.add(Box.createVerticalStrut(5));
-			
-			JLabel nombreUsuario = new JLabel("Apellido Materno"); 
-			nombreUsuario.setAlignmentX(LEFT_ALIGNMENT);
-			nombreUsuario.setFont(labelFont);
-			nombreUsuario.setForeground(darkGreen);
-			 
-			campoNombreUsuario = new JTextField(20);
-			campoNombreUsuario.setAlignmentX(LEFT_ALIGNMENT);
-			campoNombreUsuario.setMaximumSize(new Dimension(Integer.MAX_VALUE, nombre.getPreferredSize().height));
-			
-			errorNombreUsuario = new JLabel("No digito bien el apellido");
-			errorNombreUsuario.setAlignmentX(LEFT_ALIGNMENT);
-			errorNombreUsuario.setFont(errorFont);
-			errorNombreUsuario.setVisible(false);
-			
-			containerPanel.add(nombreUsuario);
-			containerPanel.add(Box.createVerticalStrut(5)); 
-			containerPanel.add(campoNombreUsuario);
-			containerPanel.add(Box.createVerticalStrut(20));
-			containerPanel.add(errorNombreUsuario);
-			containerPanel.add(Box.createVerticalStrut(5));
-			
-			JLabel fechaNacimiento = new JLabel("Apellido Materno"); 
-			fechaNacimiento.setAlignmentX(LEFT_ALIGNMENT);
-			fechaNacimiento.setFont(labelFont);
-			fechaNacimiento.setForeground(darkGreen);
-			 
-			campoFechaNacimiento = new JTextField(20);
-			campoFechaNacimiento.setAlignmentX(LEFT_ALIGNMENT);
-			campoFechaNacimiento.setMaximumSize(new Dimension(Integer.MAX_VALUE, nombre.getPreferredSize().height));
-			
-			errorFechaNacimiento = new JLabel("No digito bien el apellido");
-			errorFechaNacimiento.setAlignmentX(LEFT_ALIGNMENT);
-			errorFechaNacimiento.setFont(errorFont);
-			errorFechaNacimiento.setVisible(false);
-			
-			containerPanel.add(fechaNacimiento);
-			containerPanel.add(Box.createVerticalStrut(5)); 
-			containerPanel.add(campoFechaNacimiento);
-			containerPanel.add(Box.createVerticalStrut(20));
-			containerPanel.add(errorFechaNacimiento);
-			containerPanel.add(Box.createVerticalStrut(5));
-			
-			JLabel correo = new JLabel("Apellido Materno"); 
-			correo.setAlignmentX(LEFT_ALIGNMENT);
-			correo.setFont(labelFont);
-			correo.setForeground(darkGreen);
-			 
+			// Inicializamos los campos
+			fieldName = new JTextField(20);
+			errorName = new JLabel(" ");
+
+			fieldLastNameP = new JTextField(20);
+			errorLastnNameP = new JLabel(" ");
+
+			fieldLastNameM = new JTextField(20);
+			errorLastNameM = new JLabel(" ");
+
+			fieldNameUser = new JTextField(20);
+			errorNameUser = new JLabel(" ");
+
+			fieldDate = new JTextField(20);
+			errorFieldDate = new JLabel(" ");
+
 			campoCorreo = new JTextField(20);
-			campoCorreo.setAlignmentX(LEFT_ALIGNMENT);
-			campoCorreo.setMaximumSize(new Dimension(Integer.MAX_VALUE, nombre.getPreferredSize().height));
-			
-			errorCorreo = new JLabel("No digito bien el apellido");
-			errorCorreo.setAlignmentX(LEFT_ALIGNMENT);
-			errorCorreo.setFont(errorFont);
-			errorCorreo.setVisible(false);
-			
-			containerPanel.add(correo);
-			containerPanel.add(Box.createVerticalStrut(5)); 
-			containerPanel.add(campoCorreo);
-			containerPanel.add(Box.createVerticalStrut(20));
-			containerPanel.add(errorCorreo);
-			containerPanel.add(Box.createVerticalStrut(5));
-			
-			JLabel contrasenia = new JLabel("Apellido Materno"); 
-			contrasenia.setAlignmentX(LEFT_ALIGNMENT);
-			contrasenia.setFont(labelFont);
-			contrasenia.setForeground(darkGreen);
-			 
+			errorCorreo = new JLabel(" ");
+
 			campoContrasenia = new JPasswordField(20);
-			campoContrasenia.setAlignmentX(LEFT_ALIGNMENT);
-			campoContrasenia.setMaximumSize(new Dimension(Integer.MAX_VALUE, nombre.getPreferredSize().height));
-			
-			errorContrasenia = new JLabel("No digito bien el apellido");
-			errorContrasenia.setAlignmentX(LEFT_ALIGNMENT);
-			errorContrasenia.setFont(errorFont);
-			errorContrasenia.setVisible(false);
-			
-			containerPanel.add(contrasenia);
-			containerPanel.add(Box.createVerticalStrut(5)); 
-			containerPanel.add(campoContrasenia);
-			containerPanel.add(Box.createVerticalStrut(20));
-			containerPanel.add(errorContrasenia);
-			containerPanel.add(Box.createVerticalStrut(5));
-			
-			JLabel confirmarContrasenia = new JLabel("Confirmar contrasena"); 
-			confirmarContrasenia.setAlignmentX(LEFT_ALIGNMENT);
-			confirmarContrasenia.setFont(labelFont);
-			confirmarContrasenia.setForeground(darkGreen);
-			 
+			errorContrasenia = new JLabel(" ");
+
 			campoConfirmarContrasenia = new JPasswordField(20);
-			campoConfirmarContrasenia.setAlignmentX(LEFT_ALIGNMENT);
-			campoConfirmarContrasenia.setMaximumSize(new Dimension(Integer.MAX_VALUE, nombre.getPreferredSize().height));
-			
-			errorConfirmarContrasenia = new JLabel("No digito bien el apellido");
-			errorConfirmarContrasenia.setAlignmentX(LEFT_ALIGNMENT);
-			errorConfirmarContrasenia.setFont(errorFont);
-			errorConfirmarContrasenia.setVisible(false);
-			
-			containerPanel.add(confirmarContrasenia);
-			containerPanel.add(Box.createVerticalStrut(5)); 
-			containerPanel.add(confirmarContrasenia);
-			containerPanel.add(Box.createVerticalStrut(20));
-			containerPanel.add(confirmarContrasenia);
-			containerPanel.add(Box.createVerticalStrut(5));
-			
-			
-			
-			
-			/*String[] labels = {
-				"Nombre:", "Apellido Paterno:", "Apellido Materno:", 
-				"Nombre de Usuario:", "Fecha de Nacimiento:", 
-				"Correo electronico:", "Contraseña:", "Confirmar Contraseña:"
-			};
-			
-			// Declara los labels y los textbox en un for
-			for (String labelText : labels) {
-				JLabel lbl = new JLabel(labelText);
-				lbl.setAlignmentX(LEFT_ALIGNMENT);
-				lbl.setFont(labelFont);
-				lbl.setForeground(darkGreen);
-				
-				JTextField txt = new JTextField(20);
-				txt.setAlignmentX(LEFT_ALIGNMENT);
-				txt.setMaximumSize(new Dimension(Integer.MAX_VALUE, txt.getPreferredSize().height));
-				
-				containerPanel.add(lbl);
-				containerPanel.add(Box.createVerticalStrut(5)); 
-				containerPanel.add(txt);
-				containerPanel.add(Box.createVerticalStrut(20));
-			}*/
+			errorConfirmarContrasenia = new JLabel(" ");
+
+			// Metodo para llenar los campos
+			construirCampo("Nombre:", fieldName, errorName);
+			construirCampo("Apellido Paterno:", fieldLastNameP, errorLastnNameP);
+			construirCampo("Apellido Materno:", fieldLastNameM, errorLastNameM);
+			construirCampo("Nombre de Usuario:", fieldNameUser, errorNameUser);
+			construirCampo("Fecha de nacimiento:", fieldDate, errorFieldDate);
+			construirCampo("Correo electrónico:", campoCorreo, errorCorreo);
+			construirCampo("Contraseña:", campoContrasenia, errorContrasenia);
+			construirCampo("Confirmar contraseña:", campoConfirmarContrasenia, errorConfirmarContrasenia);
+		}
+
+		// Método auxiliar para construir etiquetas, campos y errores dinámicamente
+		private void construirCampo(String texto, JTextField campo, JLabel error) {
+			JLabel label = new JLabel(texto);
+			label.setAlignmentX(LEFT_ALIGNMENT);
+			label.setFont(labelFont);
+			label.setForeground(darkGreen);
+
+			campo.setAlignmentX(LEFT_ALIGNMENT);
+			campo.setMaximumSize(new Dimension(Integer.MAX_VALUE, campo.getPreferredSize().height));
+
+			error.setAlignmentX(LEFT_ALIGNMENT);
+			error.setFont(errorFont);
+			error.setForeground(Color.RED); // Texto rojo para los errores
+
+			containerPanel.add(label);
+			containerPanel.add(Box.createVerticalStrut(2));
+			containerPanel.add(campo);
+			containerPanel.add(Box.createVerticalStrut(2));
+			containerPanel.add(error);
+			containerPanel.add(Box.createVerticalStrut(10));
 		}
 		
+		//Para el genero
 		private void createGenderSelection() {
-			JLabel genderLabel = new JLabel("Seleccione su genero:");
-			genderLabel.setFont(labelFont);
-			genderLabel.setAlignmentX(LEFT_ALIGNMENT);
-			genderLabel.setForeground(darkGreen);
-			containerPanel.add(genderLabel);
-			
-			JCheckBox cbMasculino = new JCheckBox("Masculino", true);
-			cbMasculino.setOpaque(false);
-			cbMasculino.setForeground(darkGreen);
+		    JLabel genderLabel = new JLabel("Seleccione su género:");
+		    genderLabel.setFont(labelFont);
+		    genderLabel.setAlignmentX(LEFT_ALIGNMENT);
+		    genderLabel.setForeground(darkGreen);
+		    containerPanel.add(genderLabel);
+		    
+		    // Usar las variables de clase en lugar de crear nuevas
+		    rbMasculino = new JRadioButton("Masculino", true);
+		    rbMasculino.setOpaque(false);
+		    rbMasculino.setForeground(darkGreen);
 
-			JCheckBox cbFemenino = new JCheckBox("Femenino", false);
-			cbFemenino.setOpaque(false);
-			cbFemenino.setForeground(darkGreen);
-			
-			JCheckBox cbOtro = new JCheckBox("Otro", false);
-			cbOtro.setOpaque(false);
-			cbOtro.setForeground(darkGreen);
-			
-			// Esto es para que no deje seleccionar más de un checkbox a la vez
-			ButtonGroup buttonsGroup = new ButtonGroup();
-			buttonsGroup.add(cbMasculino);
-			buttonsGroup.add(cbFemenino);
-			buttonsGroup.add(cbOtro);
-			
-			containerPanel.add(cbMasculino);
-			containerPanel.add(cbFemenino);
-			containerPanel.add(cbOtro);
-			containerPanel.add(Box.createVerticalStrut(15));
+		    rbFemenino = new JRadioButton("Femenino", false);
+		    rbFemenino.setOpaque(false);
+		    rbFemenino.setForeground(darkGreen);
+		    
+		    rbOtro = new JRadioButton("Otro", false);
+		    rbOtro.setOpaque(false);
+		    rbOtro.setForeground(darkGreen);
+		    
+		    grupoGenero = new ButtonGroup();
+		    grupoGenero.add(rbMasculino);
+		    grupoGenero.add(rbFemenino);
+		    grupoGenero.add(rbOtro);
+		    
+		    containerPanel.add(rbMasculino);
+		    containerPanel.add(rbFemenino);
+		    containerPanel.add(rbOtro);
+		    //containerPanel.add(errorGenero); 
+		    containerPanel.add(Box.createVerticalStrut(15));
 		}
 		
 		private void createButtons() {
 			confirmButton = new JButton("Crear cuenta"); 
-			confirmButton.setBackground(green); 
-			confirmButton.setForeground(Color.WHITE); 
-			confirmButton.setToolTipText("De click para finalizar su registro");
-			confirmButton.setFont(generalFont); 
-			
-			//confirmButton.addActionListener(e -> handleRegistration());
-			confirmButton.addActionListener(e -> {
-				boolean error = false;
-				
-				if(campoNombre.getText().isEmpty()) {
-					errorNombre.setVisible(true);
-					error = true;
-				} else {
-					errorNombre.setVisible(false);
-				}
-				
-				if(campoApellidoP.getText().isEmpty()) {
-					errorApellidoP.setVisible(true);
-					error = true;
-				} else {
-					errorApellidoP.setVisible(false);
-				}
-				
-				if (campoContrasenia.getPassword().length == 0) {
-					campoContrasenia.setVisible(true);
-					error = true;
-				} else {
-					errorContrasenia.setVisible(false);
-				}
-				
-				if(error) {
-					popupWindow();
-				}
-				
-			});
-			containerPanel.add(confirmButton);
-			
-			containerPanel.add(Box.createVerticalStrut(10)); 
-			
-			
-			
-					
+		    confirmButton.setBackground(green); 
+		    confirmButton.setForeground(Color.WHITE); 
+		    confirmButton.setFont(generalFont); 
+		    
+		    confirmButton.addActionListener(e -> {
+		        if (validateAll()) {
+		            JOptionPane.showMessageDialog(this, "¡Registro exitoso!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+		            new LoginView();
+		        } else {
+		            popupWindow(); // Muestra el mensaje de que faltan datos
+		        }
+		    });
+		    
+		    containerPanel.add(confirmButton);
+		    containerPanel.add(Box.createVerticalStrut(10)); 
+						
 			JButton backButton = new JButton("Regresar"); 
 			backButton.setBackground(opaqueGreen); 
 			backButton.setForeground(Color.WHITE); 
@@ -437,11 +284,127 @@ public class RegistrationForm extends JFrame{
 			);
 		}
 		
-		private void validacionConfirmar() {
-			
-			
-			
+		private void assignListeners() {
+			addRealTimeValidation(fieldName, this::validateNombre);
+			addRealTimeValidation(fieldLastNameP, this::validateApellidoP);
+			addRealTimeValidation(fieldLastNameM, this::validateApellidoM);
+			addRealTimeValidation(fieldNameUser, this::validateNombreUsuario);
+			addRealTimeValidation(fieldDate, this::validateFechaNacimiento);
+			addRealTimeValidation(campoCorreo, this::validateCorreo);
+			addRealTimeValidation(campoContrasenia, this::validateContrasenia);
+			addRealTimeValidation(campoConfirmarContrasenia, this::validateConfirmarContrasenia);
 		}
-	
+
+		private void addRealTimeValidation(JTextField field, Runnable validatorMethod) {
+			field.getDocument().addDocumentListener(new DocumentListener() {
+				@Override public void insertUpdate(DocumentEvent e) { validatorMethod.run(); }
+				@Override public void removeUpdate(DocumentEvent e) { validatorMethod.run(); }
+				@Override public void changedUpdate(DocumentEvent e) { validatorMethod.run(); }
+			});
+		}
+		
+		// Agrupa todas las validaciones
+				private boolean validateAll() {
+				    // Ejecura todas las validaciones
+					boolean v1 = validateNombre();
+				    boolean v2 = validateApellidoP();
+				    boolean v3 = validateApellidoM(); 
+				    boolean v4 = validateNombreUsuario(); 
+				    boolean v5 = validateFechaNacimiento(); 
+				    boolean v6 = validateCorreo();
+				    boolean v7 = validateContrasenia();
+				    boolean v8 = validateConfirmarContrasenia();
+				    
+				    // Retorna si todas las validaciones son true
+				    return v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8;
+				}
+
+		private boolean validateNombre() {
+			if (fieldName.getText().trim().isEmpty()) { 
+				errorName.setText("El nombre es obligatorio"); return false; 
+			}
+			errorName.setText(" "); return true;
+		}
+
+		private boolean validateApellidoP() {
+			if (fieldLastNameP.getText().trim().isEmpty()) { 
+				errorLastnNameP.setText("El apellido paterno es obligatorio"); return false; 
+			}
+			errorLastnNameP.setText(" "); return true;
+		}
+		
+		private boolean validateApellidoM() {
+			if (fieldLastNameM.getText().trim().isEmpty()) { 
+				errorLastNameM.setText("El apellido materno es obligatorio"); return false; 
+			}
+			errorLastNameM.setText(" "); return true;
+		}
+
+		private boolean validateNombreUsuario() {
+			String usuario = fieldNameUser.getText().trim();
+			if (usuario.isEmpty()) {
+				errorNameUser.setText("El usuario es obligatorio"); 
+				return false; 
+			} 
+			else if (usuario.contains(" ")) { 
+				errorNameUser.setText("No debe contener espacios"); 
+				return false; 
+			} 
+			else if (usuario.length() < 4) { 
+				errorNameUser.setText("Mínimo 4 caracteres"); 
+				return false; 
+			}
+			errorNameUser.setText(" "); 
+			return true;
+		}
+
+		private boolean validateFechaNacimiento() {
+			String fecha = fieldDate.getText().trim();
+			
+			if (fecha.isEmpty()) { 
+				errorFieldDate.setText("La fecha es obligatoria"); 
+				return false; 
+			} 
+			errorFieldDate.setText(" "); 
+			return true;
+		}
+
+		private boolean validateCorreo() {
+			String correo = campoCorreo.getText().trim();
+			if (correo.isEmpty()) { 
+				errorCorreo.setText("El correo es obligatorio"); 
+				return false; 
+			} 
+			else if (!correo.contains("@") || !correo.contains(".")) { 
+				errorCorreo.setText("Ingrese un correo válido"); 
+				return false; 
+			}
+			errorCorreo.setText(" "); 
+			return true;
+		}
+
+		private boolean validateContrasenia() {
+			if (campoContrasenia.getPassword().length < 6) { 
+				errorContrasenia.setText("Mínimo 6 caracteres"); 
+				return false; 
+			}
+			errorContrasenia.setText(" ");
+			validateConfirmarContrasenia(); 
+			return true;
+		}
+
+		private boolean validateConfirmarContrasenia() {
+			String pass1 = new String(campoContrasenia.getPassword());
+			String pass2 = new String(campoConfirmarContrasenia.getPassword());
+			if (pass2.isEmpty()) { errorConfirmarContrasenia.setText("Confirme su contraseña"); 
+				return false; 
+			} 
+			else if (!pass1.equals(pass2)) { 
+				errorConfirmarContrasenia.setText("Las contraseñas no coinciden"); 
+				return false; 
+			}
+			errorConfirmarContrasenia.setText(" "); 
+			return true;
+		}	
 }
 
