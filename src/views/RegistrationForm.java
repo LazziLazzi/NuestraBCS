@@ -10,6 +10,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -19,6 +21,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -56,15 +59,14 @@ public class RegistrationForm extends JFrame{
 	private JTextField fieldDate;
 	private JLabel errorFieldDate;
 	
-	private JLabel correo;
-	private JTextField campoCorreo;
-	private JLabel errorCorreo;
+	private JTextField fieldEmail;
+	private JLabel errorEmail;
 	
-	private JPasswordField campoContrasenia;
-	private JLabel errorContrasenia;
+	private JPasswordField fieldPassword;
+	private JLabel errorPassword;
 	
-	private JPasswordField campoConfirmarContrasenia;
-	private JLabel errorConfirmarContrasenia;
+	private JPasswordField fieldConfirmPassword;
+	private JLabel errorConfirmPassword;
 	
 	private JButton confirmButton;
 	
@@ -74,9 +76,11 @@ public class RegistrationForm extends JFrame{
 	private ButtonGroup grupoGenero;
 	
 	private Color yellow = new Color(255, 255, 204);
+	private Color lightGreen = new Color(228,225,106);
 	private Color green = new Color(56,142,60);
 	private Color opaqueGreen = new Color(133,184,95);
 	private Color darkGreen = new Color(0, 102, 0);
+	Color defaultButtonColor;
 	private Font generalFont = new Font("Arial", Font.BOLD, 18);
 	private final Font labelFont = new Font("Arial", Font.BOLD, 13);
 	private final Font errorFont = new Font("Arial", Font.ITALIC, 8);
@@ -105,6 +109,7 @@ public class RegistrationForm extends JFrame{
 		
 		private void initializeComponents() {
 			createTitle();
+			
 			
 			// Panel principal que conttiene el formulario
 			containerPanel = new JPanel();
@@ -153,14 +158,14 @@ public class RegistrationForm extends JFrame{
 			fieldDate = new JTextField(20);
 			errorFieldDate = new JLabel(" ");
 
-			campoCorreo = new JTextField(20);
-			errorCorreo = new JLabel(" ");
+			fieldEmail = new JTextField(20);
+			errorEmail = new JLabel(" ");
 
-			campoContrasenia = new JPasswordField(20);
-			errorContrasenia = new JLabel(" ");
+			fieldPassword = new JPasswordField(20);
+			errorPassword = new JLabel(" ");
 
-			campoConfirmarContrasenia = new JPasswordField(20);
-			errorConfirmarContrasenia = new JLabel(" ");
+			fieldConfirmPassword = new JPasswordField(20);
+			errorConfirmPassword = new JLabel(" ");
 
 			// Metodo para llenar los campos
 			construirCampo("Nombre:", fieldName, errorName);
@@ -168,9 +173,9 @@ public class RegistrationForm extends JFrame{
 			construirCampo("Apellido Materno:", fieldLastNameM, errorLastNameM);
 			construirCampo("Nombre de Usuario:", fieldNameUser, errorNameUser);
 			construirCampo("Fecha de nacimiento:", fieldDate, errorFieldDate);
-			construirCampo("Correo electrónico:", campoCorreo, errorCorreo);
-			construirCampo("Contraseña:", campoContrasenia, errorContrasenia);
-			construirCampo("Confirmar contraseña:", campoConfirmarContrasenia, errorConfirmarContrasenia);
+			construirCampo("Correo electrónico:", fieldEmail, errorEmail);
+			construirCampo("Contraseña:", fieldPassword, errorPassword);
+			construirCampo("Confirmar contraseña:", fieldConfirmPassword, errorConfirmPassword);
 		}
 
 		// Método auxiliar para construir etiquetas, campos y errores dinámicamente
@@ -233,6 +238,8 @@ public class RegistrationForm extends JFrame{
 		    confirmButton.setBackground(green); 
 		    confirmButton.setForeground(Color.WHITE); 
 		    confirmButton.setFont(generalFont); 
+		    defaultButtonColor = confirmButton.getBackground();
+		    changueMouse();
 		    
 		    confirmButton.addActionListener(e -> {
 		        if (validateAll()) {
@@ -254,8 +261,33 @@ public class RegistrationForm extends JFrame{
 			backButton.setPreferredSize(new Dimension(100, 30));
 			backButton.setMaximumSize(new Dimension(100, 30));
 			
-			backButton.addActionListener(e -> handleBack());
+			backButton.addActionListener(e ->{
+				handleBack();
+				//new LoginView();
+			});
 			containerPanel.add(backButton);
+		}
+		
+		public void changueMouse() {
+			confirmButton.addMouseListener(new MouseAdapter() {
+				public void mouseEntered(MouseEvent e) {
+					changeBackground(confirmButton);
+
+				}
+				
+				public void mouseExited(MouseEvent e) {
+					resetBackground(confirmButton);
+				}
+			});
+		}
+		
+		private void changeBackground(JComponent c) {
+			c.setBackground(lightGreen);
+			c.setForeground(Color.WHITE);
+		}
+		
+		private void resetBackground(JComponent c) {
+			c.setBackground(defaultButtonColor);
 		}
 		
 		private void handleRegistration() {
@@ -270,7 +302,7 @@ public class RegistrationForm extends JFrame{
 		private void handleBack() {
 			int option = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas regresar? Se perderán los datos", "Confirmar", JOptionPane.YES_NO_OPTION);
 			if (option == JOptionPane.YES_OPTION) {
-				new LoginView().setVisible(true); 
+				new LoginView();
 				dispose();
 			}
 		}
@@ -290,9 +322,9 @@ public class RegistrationForm extends JFrame{
 			addRealTimeValidation(fieldLastNameM, this::validateApellidoM);
 			addRealTimeValidation(fieldNameUser, this::validateNombreUsuario);
 			addRealTimeValidation(fieldDate, this::validateFechaNacimiento);
-			addRealTimeValidation(campoCorreo, this::validateCorreo);
-			addRealTimeValidation(campoContrasenia, this::validateContrasenia);
-			addRealTimeValidation(campoConfirmarContrasenia, this::validateConfirmarContrasenia);
+			addRealTimeValidation(fieldEmail, this::validateCorreo);
+			addRealTimeValidation(fieldPassword, this::validateContrasenia);
+			addRealTimeValidation(fieldConfirmPassword, this::validateConfirmarContrasenia);
 		}
 
 		private void addRealTimeValidation(JTextField field, Runnable validatorMethod) {
@@ -304,40 +336,46 @@ public class RegistrationForm extends JFrame{
 		}
 		
 		// Agrupa todas las validaciones
-				private boolean validateAll() {
-				    // Ejecura todas las validaciones
-					boolean v1 = validateNombre();
-				    boolean v2 = validateApellidoP();
-				    boolean v3 = validateApellidoM(); 
-				    boolean v4 = validateNombreUsuario(); 
-				    boolean v5 = validateFechaNacimiento(); 
-				    boolean v6 = validateCorreo();
-				    boolean v7 = validateContrasenia();
-				    boolean v8 = validateConfirmarContrasenia();
+		private boolean validateAll() {
+			// Ejecura todas las validaciones
+			boolean v1 = validateNombre();
+		    boolean v2 = validateApellidoP();
+		    boolean v3 = validateApellidoM(); 
+		    boolean v4 = validateNombreUsuario(); 
+		    boolean v5 = validateFechaNacimiento(); 
+		    boolean v6 = validateCorreo();
+			boolean v7 = validateContrasenia();
+			boolean v8 = validateConfirmarContrasenia();
 				    
-				    // Retorna si todas las validaciones son true
-				    return v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8;
-				}
+			// Retorna si todas las validaciones son true
+			return v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8;
+		}
 
 		private boolean validateNombre() {
 			if (fieldName.getText().trim().isEmpty()) { 
-				errorName.setText("El nombre es obligatorio"); return false; 
+				errorName.setText("El nombre es obligatorio"); 
+				return false; 
 			}
-			errorName.setText(" "); return true;
+			errorName.setText(" "); 
+			return true;
 		}
 
 		private boolean validateApellidoP() {
 			if (fieldLastNameP.getText().trim().isEmpty()) { 
-				errorLastnNameP.setText("El apellido paterno es obligatorio"); return false; 
+				errorLastnNameP.setText("El apellido paterno es obligatorio"); 
+				return false; 
 			}
-			errorLastnNameP.setText(" "); return true;
+			errorLastnNameP.setText(" "); 
+			return true;
 		}
 		
 		private boolean validateApellidoM() {
 			if (fieldLastNameM.getText().trim().isEmpty()) { 
-				errorLastNameM.setText("El apellido materno es obligatorio"); return false; 
+				errorLastNameM.setText("El apellido materno es obligatorio"); 
+				return false; 
 			}
-			errorLastNameM.setText(" "); return true;
+			errorLastNameM.setText(" "); 
+			return true;
 		}
 
 		private boolean validateNombreUsuario() {
@@ -370,40 +408,41 @@ public class RegistrationForm extends JFrame{
 		}
 
 		private boolean validateCorreo() {
-			String correo = campoCorreo.getText().trim();
+			String correo = fieldEmail.getText().trim();
 			if (correo.isEmpty()) { 
-				errorCorreo.setText("El correo es obligatorio"); 
+				errorEmail.setText("El correo es obligatorio"); 
 				return false; 
 			} 
 			else if (!correo.contains("@") || !correo.contains(".")) { 
-				errorCorreo.setText("Ingrese un correo válido"); 
+				errorEmail.setText("Ingrese un correo válido"); 
 				return false; 
 			}
-			errorCorreo.setText(" "); 
+			errorEmail.setText(" "); 
 			return true;
 		}
 
 		private boolean validateContrasenia() {
-			if (campoContrasenia.getPassword().length < 6) { 
-				errorContrasenia.setText("Mínimo 6 caracteres"); 
+			if (fieldPassword.getPassword().length < 6) { 
+				errorPassword.setText("Minimo 6 caracteres"); 
 				return false; 
 			}
-			errorContrasenia.setText(" ");
+			errorPassword.setText(" ");
 			validateConfirmarContrasenia(); 
 			return true;
 		}
 
 		private boolean validateConfirmarContrasenia() {
-			String pass1 = new String(campoContrasenia.getPassword());
-			String pass2 = new String(campoConfirmarContrasenia.getPassword());
-			if (pass2.isEmpty()) { errorConfirmarContrasenia.setText("Confirme su contraseña"); 
+			String pass1 = new String(fieldPassword.getPassword());
+			String pass2 = new String(fieldConfirmPassword.getPassword());
+			if (pass2.isEmpty()) { 
+				errorConfirmPassword.setText("Confirme su contraseña"); 
 				return false; 
 			} 
 			else if (!pass1.equals(pass2)) { 
-				errorConfirmarContrasenia.setText("Las contraseñas no coinciden"); 
+				errorConfirmPassword.setText("Las contraseñas no coinciden"); 
 				return false; 
 			}
-			errorConfirmarContrasenia.setText(" "); 
+			errorConfirmPassword.setText(" "); 
 			return true;
 		}	
 }
