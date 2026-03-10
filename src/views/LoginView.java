@@ -10,12 +10,16 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -37,6 +41,7 @@ public class LoginView extends JPanel {
 	private Image stretchedBackground;
 	
 	//Colores
+	private Color lemonGreen = new Color(228,225,106);
 	private Color green = new Color(56,142,60);
 	private Color yellow = new Color(255, 255, 204);
 	private Color darkGreen = new Color(0, 102, 0);
@@ -153,20 +158,6 @@ public class LoginView extends JPanel {
 		buttonPanel.add(access);
 		add(buttonPanel);
 		
-//		acceder.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				System.out.println("Se hizo click en el botón acceder");
-//				//se pone null si el panel en el que se esta escribiendo
-//				JOptionPane.showMessageDialog(null, 
-//						"Si desea continuar, ingrese sus datos para acceder a su cuenta",
-//						"Atención",
-//						JOptionPane.INFORMATION_MESSAGE
-//				);
-//			}
-//		});
-		
 		access.addActionListener(e -> {
 			boolean error = false;
 			
@@ -220,6 +211,16 @@ public class LoginView extends JPanel {
 		registerButton.setToolTipText("De click para registrarse");
 		registerButton.setFont(new Font("Arial", Font.BOLD, 13));
 		
+		registerButton.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				changeBackground(registerButton);
+				//btnLogin.setIcon(new ImageIcon(getClass().getResource("/img/icono.png")));
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				resetBackground(registerButton);
+			}
+		});
 		
 		registerButton.addActionListener(e -> {
 	        new RegistrationForm(); 
@@ -263,12 +264,6 @@ public class LoginView extends JPanel {
 	    }
 	}
 	
-//	private void login() {
-//		if(correo.getText().trim().isEmpty()) {
-//			mostrarErrorCorreo("El correo es obligatorio");
-//		}
-//	}
-	
 	private String validateLogin() {
 		
 		if(email.getText().trim().isEmpty()) {
@@ -282,34 +277,15 @@ public class LoginView extends JPanel {
 		return "Correctos";
 	}
 	
-//	private JPanel createField(String labelText, Component field, JLabel errorLabel) {
-//		JLabel ingreseCorreo = new JLabel("Ingrese su correo electrónico:"); 
-//		ingreseCorreo.setFont(generalFont);
-//		ingreseCorreo.setForeground(Color.BLACK);
-//		ingreseCorreo.setAlignmentX(0.5f);
-//		add(ingreseCorreo);
-//		
-//		JPanel panelCorreo = new JPanel();
-//		panelCorreo.setBackground(yellow);
-//		
-//		email = new JTextField(25); 
-//		email.setFont(new Font("Arial", Font.PLAIN, 18));
-//		panelCorreo.add(email);
-//		add(panelCorreo);
-//		
-//		JPanel panelErrorCorreo = new JPanel();
-//		panelErrorCorreo.setBackground(yellow);
-//		errorEmail = new JLabel("Correo inválido."); 
-//		errorEmail.setVisible(false);
-//		errorEmail.setFont(errorFont);
-//		errorEmail.setForeground(Color.RED);
-//		errorEmail.setAlignmentX(0.5f);
-//		panelErrorCorreo.add(errorEmail);
-//		add(errorEmail);
-//		
-//		return panelCorreo;
-//		
-//		
-//	}
+	
+	private void changeBackground(JComponent c) {
+		c.setBackground(lemonGreen);
+		c.setForeground(green);
+	}
+	
+	private void resetBackground(JComponent c) {
+		c.setBackground(green);
+		c.setForeground(Color.WHITE);
+	}
 
 }
