@@ -60,8 +60,11 @@ public class LoginView extends JPanel {
 	
 	// Métodos
 	private void panel() {
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
 		setBackground(yellow);
+		uploadBCSImage();
 		
 		add(Box.createVerticalGlue()); 
 		
@@ -74,8 +77,6 @@ public class LoginView extends JPanel {
 		registrationButton();
 		
 		add(Box.createVerticalGlue()); 
-		
-		uploadBCSImage();
 	}
 	
 	private void titleLabel() {
@@ -97,7 +98,7 @@ public class LoginView extends JPanel {
 		add(enterEmail);
 		
 		JPanel panelEmail = new JPanel();
-		panelEmail.setBackground(yellow);
+		transBackground(panelEmail);
 		
 		email = new JTextField(25); 
 		email.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -105,7 +106,7 @@ public class LoginView extends JPanel {
 		add(panelEmail);
 		
 		JPanel panelErrorEmail = new JPanel();
-		panelErrorEmail.setBackground(yellow);
+		transBackground(panelErrorEmail);
 		errorEmail = new JLabel("Correo inválido."); 
 		errorEmail.setVisible(false);
 		errorEmail.setFont(errorFont);
@@ -125,8 +126,7 @@ public class LoginView extends JPanel {
 		add(enterPass);
 		
 		JPanel panelPass = new JPanel();
-		panelPass.setBackground(yellow);
-		
+		transBackground(panelPass);
 		password = new JPasswordField(25);
 		password.setFont(new Font("Arial", Font.PLAIN, 18));
 		panelPass.add(password);
@@ -145,7 +145,7 @@ public class LoginView extends JPanel {
 	private void accessButton() {
 		//Encerramos el boton en un panel para que no se estire
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.setBackground(yellow);
+		transBackground(buttonPanel);
 		
 		access = new JButton("Acceder"); 
 		access.setBackground(green); 
@@ -154,6 +154,17 @@ public class LoginView extends JPanel {
 		access.setFont(generalFont); 
 		
 		uploadIcon(access);
+		
+		access.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				changeBackground(access);
+				//btnLogin.setIcon(new ImageIcon(getClass().getResource("/img/icono.png")));
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				resetBackground(access);
+			}
+		});
 		
 		buttonPanel.add(access);
 		add(buttonPanel);
@@ -203,7 +214,7 @@ public class LoginView extends JPanel {
 		add(registerLabel);
 		
 		JPanel panelRegisterButton = new JPanel();
-		panelRegisterButton.setBackground(yellow);
+		transBackground(panelRegisterButton);
 		
 		registerButton = new JButton("Registrate aquí");
 		registerButton.setBackground(green); 
@@ -245,9 +256,9 @@ public class LoginView extends JPanel {
 	
 	private void uploadBCSImage() {
 		try {
-			Image fondoOriginal = ImageIO.read(getClass().getResource("../images/BCS.png")); 
-			if(fondoOriginal != null) {
-				stretchedBackground = fondoOriginal.getScaledInstance(120, 90, Image.SCALE_SMOOTH);
+			Image bcsImage = ImageIO.read(getClass().getResource("../images/BCS.png")); 
+			if(bcsImage != null) {
+				stretchedBackground = bcsImage.getScaledInstance(400, 325, Image.SCALE_SMOOTH);
 				repaint();
 			}
 		} catch(Exception ex) {
@@ -259,9 +270,21 @@ public class LoginView extends JPanel {
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
 	    if (stretchedBackground != null) {
-	        // Se muevo un poco a la esquina
-	        g.drawImage(stretchedBackground,220, 10, this); 
+	    	int panelWidth = getWidth();
+	    	int panelHeight = getHeight();
+	    	
+	    	int x = (panelWidth - stretchedBackground.getWidth(this)) / 2;
+	    	int y = (panelHeight - stretchedBackground.getHeight(this)) / 2;
+	    	
+	        // Se mueve un poco a la esquina
+	        g.drawImage(stretchedBackground,x, y, this);
+	        
 	    }
+	}
+	
+	private void transBackground(JPanel panel) {
+		panel.setOpaque(false);
+		panel.setBackground(new Color(0,0,0));
 	}
 	
 	private String validateLogin() {
