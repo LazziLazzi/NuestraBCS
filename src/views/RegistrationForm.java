@@ -33,6 +33,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 
 public class RegistrationForm extends JFrame{
@@ -96,7 +102,7 @@ public class RegistrationForm extends JFrame{
 		
 		private void setupWindow() {
 			setSize(400, 500);
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			setResizable(true);
 			setTitle("Registro");
 			setLocationRelativeTo(null);
@@ -105,6 +111,20 @@ public class RegistrationForm extends JFrame{
 			Toolkit tk = Toolkit.getDefaultToolkit();
 			Image icono = tk.getImage("src/images/image.jpg");
 			setIconImage(icono);
+			
+			addWindowListener(new WindowListener() {
+				@Override public void windowOpened(WindowEvent e) {}
+				@Override public void windowIconified(WindowEvent e) {}
+				@Override public void windowDeiconified(WindowEvent e) {}
+				@Override public void windowDeactivated(WindowEvent e) {}
+				@Override public void windowClosed(WindowEvent e) {}
+				@Override public void windowActivated(WindowEvent e) {}
+				
+				@Override
+				public void windowClosing(WindowEvent e) {
+					handleCloseWindow();
+				}
+			});
 		}
 		
 		private void initializeComponents() {
@@ -299,11 +319,24 @@ public class RegistrationForm extends JFrame{
 			);
 		}
 		
+	
+		private void handleCloseWindow() {
+			int option = JOptionPane.showConfirmDialog(this, 
+					"¿Seguro que deseas salir? Se perderán los datos ingresados.", 
+					"Confirmar salida", 
+					JOptionPane.YES_NO_OPTION);
+					
+			if (option == JOptionPane.YES_OPTION) {
+					System.exit(0);
+			}
+		}
+		
 		private void handleBack() {
 			int option = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas regresar? Se perderán los datos", "Confirmar", JOptionPane.YES_NO_OPTION);
 			if (option == JOptionPane.YES_OPTION) {
-				new LoginView();
-				dispose();
+				LoginWindow login = new LoginWindow();
+		        login.setVisible(true); 
+		        dispose();
 			}
 		}
 		
@@ -325,6 +358,35 @@ public class RegistrationForm extends JFrame{
 			addRealTimeValidation(fieldEmail, this::validateCorreo);
 			addRealTimeValidation(fieldPassword, this::validateContrasenia);
 			addRealTimeValidation(fieldConfirmPassword, this::validateConfirmarContrasenia);
+			// Focus Listener
+			fieldName.addFocusListener(new FocusListener() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					// Cambia el fondo del jtex del nombre al avitvarlo
+					fieldName.setBackground(new Color(240, 255, 240)); 
+				}
+								
+				@Override
+				public void focusLost(FocusEvent e) {
+					// Regresa al color blanco cuando quita el activo
+					fieldName.setBackground(Color.WHITE);
+				}
+			});
+	
+			// Key listener
+			fieldNameUser.addKeyListener(new KeyListener() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// Hace que el usuario no pueda usar los espacios
+					if (e.getKeyChar() == ' ') {
+						e.consume(); //Consume el evento para que no se repita
+						Toolkit.getDefaultToolkit().beep(); // Sonido de windows xd
+					}
+				}
+
+				@Override public void keyPressed(KeyEvent e) {}
+				@Override public void keyReleased(KeyEvent e) {}
+			});		
 		}
 
 		private void addRealTimeValidation(JTextField field, Runnable validatorMethod) {
