@@ -10,6 +10,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -28,6 +30,9 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import utils.AppFont;
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 public class LoginView extends JPanel {
 	
 	//Atributos
@@ -45,6 +50,7 @@ public class LoginView extends JPanel {
 	private Color green = new Color(56,142,60);
 	private Color yellow = new Color(255, 255, 204);
 	private Color darkGreen = new Color(0, 102, 0);
+	private Color lightGreen = new Color(240, 255, 240);
 	
 	//Fuentes
 	private Font titleFont = new Font("Arial Rounded MT Bold", Font.BOLD, 40);
@@ -65,14 +71,14 @@ public class LoginView extends JPanel {
 		
 		setBackground(yellow);
 		uploadBCSImage();
-		
 		add(Box.createVerticalGlue()); 
-		
 		titleLabel();
 		add(Box.createRigidArea(new Dimension(50, 20)));
 		textFields();
-		accessButton();
 		
+		assignRealTimeListeners();
+		
+		accessButton();
 		add(Box.createVerticalStrut(5)); 
 		registrationButton();
 		
@@ -287,20 +293,6 @@ public class LoginView extends JPanel {
 		panel.setBackground(new Color(0,0,0));
 	}
 	
-	private String validateLogin() {
-		
-		if(email.getText().trim().isEmpty()) {
-			return "El correo es obligatorio";
-		}
-		
-		if(password.getPassword().toString().trim().isEmpty()) {
-			return "La contraseña es obligatoria";
-		}
-		
-		return "Correctos";
-	}
-	
-	
 	private void changeBackground(JComponent c) {
 		c.setBackground(lemonGreen);
 		c.setForeground(green);
@@ -309,6 +301,66 @@ public class LoginView extends JPanel {
 	private void resetBackground(JComponent c) {
 		c.setBackground(green);
 		c.setForeground(Color.WHITE);
+	}
+	
+	private void assignRealTimeListeners() {
+	    addRealTimeValidation(email, this::validateEmail);
+	    addRealTimeValidation(password, this::validateContrasenia);
+	    
+	    focusListener(email);
+	    focusListener(password);
+	}
+	
+	/**
+	 * Agrega un focus listener con color verde claso al
+	 * @param textField que se pase.
+	 */
+	private void focusListener(JTextField textField) {
+		textField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				textField.setBackground(lightGreen); 
+			}
+							
+			@Override
+			public void focusLost(FocusEvent e) {
+				textField.setBackground(Color.WHITE);
+			}
+		});
+	}
+
+	private void addRealTimeValidation(JTextField field, Runnable validatorMethod) {
+	    field.getDocument().addDocumentListener(new DocumentListener() {
+	        @Override public void insertUpdate(DocumentEvent e) { validatorMethod.run(); }
+	        @Override public void removeUpdate(DocumentEvent e) { validatorMethod.run(); }
+	        @Override public void changedUpdate(DocumentEvent e) { validatorMethod.run(); }
+	    });
+	}
+
+	
+	private boolean validateEmail() {
+	    String actualEmail = email.getText().trim();
+	    if (actualEmail.isEmpty()) { 
+	        errorEmail.setText("El correo es obligatorio"); 
+	        errorEmail.setVisible(true);
+	        return false; 
+	    } else if (!actualEmail.contains("@") || !actualEmail.contains(".")) { 
+	        errorEmail.setText("Correo inválido"); 
+	        errorEmail.setVisible(true);
+	        return false; 
+	    }
+	    errorEmail.setVisible(false);
+	    return true;
+	}
+
+	private boolean validateContrasenia() {
+	    if (password.getPassword().length < 8) { 
+	        errorPass.setText("Ingrese mínimo 8 caracteres"); 
+	        errorPass.setVisible(true);
+	        return false; 
+	    }
+	    errorPass.setVisible(false);
+	    return true;
 	}
 
 }
