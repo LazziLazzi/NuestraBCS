@@ -33,6 +33,8 @@ import utils.AppFont;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import ejercicio.Window;
+
 public class LoginView extends JPanel {
 	
 	//Atributos
@@ -176,27 +178,48 @@ public class LoginView extends JPanel {
 		add(buttonPanel);
 		
 		access.addActionListener(e -> {
-			boolean error = false;
-			
-			if(email.getText().isEmpty()) {
+			errorEmail.setVisible(false);
+			errorPass.setVisible(false);
+			 
+			try {
+				
+				String correoText = email.getText();
+				String passText = new String(password.getPassword());
+				
+				validateCredencial(correoText, passText);
+				
+				handleLogin();
+				
+			}catch(EmailErroreException ex) {
+				
+				errorEmail.setText(ex.getMessage());
 				errorEmail.setVisible(true);
-				error = true;
-			} else {
-				errorEmail.setVisible(false);
-			}
-			
-			if (password.getPassword().length == 0) {
+			}catch(PasswordErrorException ex) {
+				
+				errorPass.setText(ex.getMessage());
 				errorPass.setVisible(true);
-				error = true;
-			} else {
-				errorPass.setVisible(false);
-			}
-			
-			if(error) {
-				popupWindow();
+			}catch(CredencialErrorException ex) {
+				
+				errorEmail.setText(ex.getMessage());
+			    errorEmail.setVisible(true);
+			    
+			    errorPass.setText(ex.getMessage());
+			    errorPass.setVisible(true);
 			}
 			
 		});
+	}
+	
+	private void handleLogin() {
+		JOptionPane.showMessageDialog(
+				this,
+				"Se inicio la sesion",
+				"Sesion iniciada",
+				JOptionPane.INFORMATION_MESSAGE
+		);
+		
+		new LoginView();
+		
 	}
 	
 	private void popupWindow() {
@@ -304,8 +327,8 @@ public class LoginView extends JPanel {
 	}
 	
 	private void assignRealTimeListeners() {
-	    addRealTimeValidation(email, this::validateEmail);
-	    addRealTimeValidation(password, this::validateContrasenia);
+	    addRealTimeValidation(email, () -> errorEmail.setVisible(false));
+	    addRealTimeValidation(password, () -> errorPass.setVisible(false));
 	    
 	    focusListener(email);
 	    focusListener(password);
@@ -337,30 +360,26 @@ public class LoginView extends JPanel {
 	    });
 	}
 
-	
-	private boolean validateEmail() {
-	    String actualEmail = email.getText().trim();
-	    if (actualEmail.isEmpty()) { 
-	        errorEmail.setText("El correo es obligatorio"); 
-	        errorEmail.setVisible(true);
-	        return false; 
-	    } else if (!actualEmail.contains("@") || !actualEmail.contains(".")) { 
-	        errorEmail.setText("Correo inválido"); 
-	        errorEmail.setVisible(true);
-	        return false; 
-	    }
-	    errorEmail.setVisible(false);
-	    return true;
-	}
-
-	private boolean validateContrasenia() {
-	    if (password.getPassword().length < 8) { 
-	        errorPass.setText("Ingrese mínimo 8 caracteres"); 
-	        errorPass.setVisible(true);
-	        return false; 
-	    }
-	    errorPass.setVisible(false);
-	    return true;
+	private void validateCredencial(String correo, String contrasenia) throws EmailErroreException, PasswordErrorException, CredencialErrorException {
+		//Comprueba el correo
+		if(correo.isEmpty()) {
+			throw new EmailErroreException("El correo es obligatorio");
+		}else if(!correo.contains("@") || !correo.contains(".")) {
+			throw new EmailErroreException("Correo invalido");
+		}
+		
+		//Comprueba la contrasenia
+		if(contrasenia.isEmpty()) {
+			throw new PasswordErrorException("Contrasenia obligatoria");
+		} else if(contrasenia.length() < 8) {
+			throw new PasswordErrorException("Minimo 8 digitos");
+		}
+		
+		if(!correo.equals("Lol@.") || !contrasenia.equals("12345678")) {
+			throw new CredencialErrorException("Algo no coincide");
+		}
+		
+		
 	}
 
 }
