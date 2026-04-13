@@ -1,5 +1,5 @@
 package views;
-
+import controllers.LoginController;
 import javax.swing.JFrame;
 import java.awt.Dimension;
 
@@ -9,6 +9,7 @@ public class LoginWindow extends JFrame{
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
        
         LoginView loginPanel = new LoginView();
+        LoginController controlador = new LoginController(loginPanel);
         add(loginPanel);
         
         setSize(400, 500); 

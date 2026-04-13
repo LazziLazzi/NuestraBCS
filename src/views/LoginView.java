@@ -64,8 +64,49 @@ public class LoginView extends JPanel {
 	// Constructor
 	public LoginView() {
 		panel();
+			
 	}
 	
+	public String getEmail() {
+		return email.getText();
+	}
+	
+	public String getPassword() {
+		return new String(password.getPassword());
+	}
+	
+	public void showErrorEmail(String message) {
+		errorEmail.setText(message);
+		errorEmail.setVisible(true);
+	}
+	
+	public void showErrorPass(String message) {
+		errorPass.setText(message);
+		errorPass.setVisible(true);
+	}
+	
+	public void clearErrors() {
+		errorEmail.setVisible(false);
+		errorPass.setVisible(false);
+	}
+
+	public void addLoginListener(ActionListener listener) {
+		access.addActionListener(listener);
+	}
+
+	public void addRegisterListener(ActionListener listener) {
+		registerButton.addActionListener(listener);
+	}
+	
+	public void showSuccessMessage() {
+		JOptionPane.showMessageDialog(
+				this,
+				"Se inicio la sesion",
+				"Sesion iniciada",
+				JOptionPane.INFORMATION_MESSAGE
+		);
+	}
+
 	// Métodos
 	private void panel() {
 
@@ -177,58 +218,7 @@ public class LoginView extends JPanel {
 		buttonPanel.add(access);
 		add(buttonPanel);
 		
-		access.addActionListener(e -> {
-			errorEmail.setVisible(false);
-			errorPass.setVisible(false);
-			 
-			try {
-				
-				String correoText = email.getText();
-				String passText = new String(password.getPassword());
-				
-				validateCredencial(correoText, passText);
-				
-				handleLogin();
-				
-			}catch(EmailErroreException ex) {
-				
-				errorEmail.setText(ex.getMessage());
-				errorEmail.setVisible(true);
-			}catch(PasswordErrorException ex) {
-				
-				errorPass.setText(ex.getMessage());
-				errorPass.setVisible(true);
-			}catch(CredencialErrorException ex) {
-				
-				errorEmail.setText(ex.getMessage());
-			    errorEmail.setVisible(true);
-			    
-			    errorPass.setText(ex.getMessage());
-			    errorPass.setVisible(true);
-			}
-			
-		});
-	}
-	
-	private void handleLogin() {
-		JOptionPane.showMessageDialog(
-				this,
-				"Se inicio la sesion",
-				"Sesion iniciada",
-				JOptionPane.INFORMATION_MESSAGE
-		);
 		
-		new LoginView();
-		
-	}
-	
-	private void popupWindow() {
-		JOptionPane.showMessageDialog(
-				null,
-				"Si desea continuar, ingrese sus datos para acceder a su cuenta.",
-				"ATENCIÓN",
-				JOptionPane.INFORMATION_MESSAGE
-		);
 	}
 	
 	/**
@@ -261,12 +251,7 @@ public class LoginView extends JPanel {
 				resetBackground(registerButton);
 			}
 		});
-		
-		registerButton.addActionListener(e -> {
-	        new RegistrationForm(); 
-	        javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
-	    });
-		
+			
 		panelRegisterButton.add(registerButton);
 		add(panelRegisterButton);
 	}
@@ -358,28 +343,6 @@ public class LoginView extends JPanel {
 	        @Override public void removeUpdate(DocumentEvent e) { validatorMethod.run(); }
 	        @Override public void changedUpdate(DocumentEvent e) { validatorMethod.run(); }
 	    });
-	}
-
-	private void validateCredencial(String correo, String contrasenia) throws EmailErroreException, PasswordErrorException, CredencialErrorException {
-		//Comprueba el correo
-		if(correo.isEmpty()) {
-			throw new EmailErroreException("El correo es obligatorio");
-		}else if(!correo.contains("@") || !correo.contains(".")) {
-			throw new EmailErroreException("Correo invalido");
-		}
-		
-		//Comprueba la contrasenia
-		if(contrasenia.isEmpty()) {
-			throw new PasswordErrorException("Contrasenia obligatoria");
-		} else if(contrasenia.length() < 8) {
-			throw new PasswordErrorException("Minimo 8 digitos");
-		}
-		
-		if(!correo.equals("Lol@.") || !contrasenia.equals("12345678")) {
-			throw new CredencialErrorException("Algo no coincide");
-		}
-		
-		
 	}
 
 }

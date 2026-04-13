@@ -1,5 +1,176 @@
 package controllers;
 
-public class RegistrationController {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import views.RegistrationView;
+import views.LoginWindow;
+
+public class RegistrationController {
+	private RegistrationView view;
+
+    public RegistrationController(RegistrationView view) {
+        this.view = view;
+
+        //La logica a los controles
+        this.view.addConfirmListener(new ConfirmAction());
+        this.view.addBackListener(new BackAction());
+
+        // Para cerrar la ventana
+        this.view.setWindowClosingListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (view.showCloseConfirmation() == javax.swing.JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+
+        // Validaciones
+        this.view.addNameValidator(this::validateNombre);
+        this.view.addLastNamePValidator(this::validateApellidoP);
+        this.view.addLastNameMValidator(this::validateApellidoM);
+        this.view.addNameUserValidator(this::validateNombreUsuario);
+        this.view.addDateValidator(this::validateFechaNacimiento);
+        this.view.addEmailValidator(this::validateCorreo);
+        this.view.addPasswordValidator(this::validateContrasenia);
+        this.view.addConfirmPasswordValidator(this::validateConfirmarContrasenia);
+    }
+
+    private class ConfirmAction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (validateAll()) {
+                view.showSuccessMessage();
+                
+                // Regresa a la pantalla de login 
+                LoginWindow loginWin = new LoginWindow(); 
+                loginWin.setVisible(true);
+                view.dispose();
+            } else {
+                view.showIncompleteDataMessage();
+            }
+        }
+    }
+
+    private class BackAction implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (view.showBackConfirmation() == javax.swing.JOptionPane.YES_OPTION) {
+                LoginWindow login = new LoginWindow();
+                login.setVisible(true); 
+                view.dispose();
+            }
+        }
+    }
+
+    private boolean validateAll() {
+        boolean v1 = validateNombre();
+        boolean v2 = validateApellidoP();
+        boolean v3 = validateApellidoM(); 
+        boolean v4 = validateNombreUsuario(); 
+        boolean v5 = validateFechaNacimiento(); 
+        boolean v6 = validateCorreo();
+        boolean v7 = validateContrasenia();
+        boolean v8 = validateConfirmarContrasenia();
+                
+        return v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8;
+    }
+
+    private boolean validateNombre() {
+        if (view.getNameText().trim().isEmpty()) { 
+            view.showNameError("El nombre es obligatorio"); 
+            return false; 
+        }
+        view.showNameError(" "); 
+        return true;
+    }
+
+    private boolean validateApellidoP() {
+        if (view.getLastNamePText().trim().isEmpty()) { 
+            view.showLastNamePError("El apellido paterno es obligatorio"); 
+            return false; 
+        }
+        view.showLastNamePError(" "); 
+        return true;
+    }
+    
+    private boolean validateApellidoM() {
+        if (view.getLastNameMText().trim().isEmpty()) { 
+            view.showLastNameMError("El apellido materno es obligatorio"); 
+            return false; 
+        }
+        view.showLastNameMError(" "); 
+        return true;
+    }
+
+    private boolean validateNombreUsuario() {
+        String usuario = view.getNameUserText().trim();
+        if (usuario.isEmpty()) {
+            view.showNameUserError("El usuario es obligatorio"); 
+            return false; 
+        } 
+        else if (usuario.contains(" ")) { 
+            view.showNameUserError("No debe contener espacios"); 
+            return false; 
+        } 
+        else if (usuario.length() < 4) { 
+            view.showNameUserError("Mínimo 4 caracteres"); 
+            return false; 
+        }
+        view.showNameUserError(" "); 
+        return true;
+    }
+
+    private boolean validateFechaNacimiento() {
+        String fecha = view.getDateText().trim();
+        if (fecha.isEmpty()) { 
+            view.showDateError("La fecha es obligatoria"); 
+            return false; 
+        } 
+        view.showDateError(" "); 
+        return true;
+    }
+
+    private boolean validateCorreo() {
+        String email = view.getEmailText().trim();
+        if (email.isEmpty()) { 
+            view.showEmailError("El correo es obligatorio"); 
+            return false; 
+        } 
+        else if (!email.contains("@") || !email.contains(".")) { 
+            view.showEmailError("Ingrese un correo válido"); 
+            return false; 
+        }
+        view.showEmailError(" "); 
+        return true;
+    }
+
+    private boolean validateContrasenia() {
+        if (view.getPasswordText().length() < 8) { 
+            view.showPasswordError("Mínimo 8 caracteres"); 
+            return false; 
+        }
+        view.showPasswordError(" ");
+        validateConfirmarContrasenia(); // Valida que sean iguales
+        return true;
+    }
+
+    private boolean validateConfirmarContrasenia() {
+        String pass1 = view.getPasswordText();
+        String pass2 = view.getConfirmPasswordText();
+        
+        if (pass2.isEmpty()) { 
+            view.showConfirmPasswordError("Confirme su contraseña"); 
+            return false; 
+        } 
+        else if (!pass1.equals(pass2)) { 
+            view.showConfirmPasswordError("Las contraseñas no coinciden"); 
+            return false; 
+        }
+        view.showConfirmPasswordError(" "); 
+        return true;
+    }
 }

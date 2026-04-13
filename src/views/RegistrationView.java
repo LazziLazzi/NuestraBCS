@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -41,7 +42,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 
-public class RegistrationForm extends JFrame{
+public class RegistrationView extends JFrame{
 	
 	//atributos
 	private Image scaledBackground;
@@ -75,6 +76,7 @@ public class RegistrationForm extends JFrame{
 	private JLabel errorConfirmPassword;
 	
 	private JButton confirmButton;
+	private JButton backButton;
 	
 	private JRadioButton rbMasculino;
 	private JRadioButton rbFemenino;
@@ -96,11 +98,48 @@ public class RegistrationForm extends JFrame{
 	// Componentes principales
 	private JPanel containerPanel;
 	
-	public RegistrationForm() {
+	public RegistrationView() {
 		setupWindow();
 		initializeComponents();
 		setVisible(true); // Se llama al final para asegurar que todo cargue antes de mostrarse
 	}
+	
+	
+	public String getNameText() { return fieldName.getText(); }
+	public String getLastNamePText() { return fieldLastNameP.getText(); }
+	public String getLastNameMText() { return fieldLastNameM.getText(); }
+	public String getNameUserText() { return fieldNameUser.getText(); }
+	public String getDateText() { return fieldDate.getText(); }
+	public String getEmailText() { return fieldEmail.getText(); }
+	public String getPasswordText() { return new String(fieldPassword.getPassword()); }
+	public String getConfirmPasswordText() { return new String(fieldConfirmPassword.getPassword()); }
+
+	public void showNameError(String msg) { errorName.setText(msg); }
+	public void showLastNamePError(String msg) { errorLastnNameP.setText(msg); }
+	public void showLastNameMError(String msg) { errorLastNameM.setText(msg); }
+	public void showNameUserError(String msg) { errorNameUser.setText(msg); }
+	public void showDateError(String msg) { errorFieldDate.setText(msg); }
+	public void showEmailError(String msg) { errorEmail.setText(msg); }
+	public void showPasswordError(String msg) { errorPassword.setText(msg); }
+	public void showConfirmPasswordError(String msg) { errorConfirmPassword.setText(msg); }
+		
+	public void addConfirmListener(ActionListener l) { confirmButton.addActionListener(l); }
+	public void addBackListener(ActionListener l) { backButton.addActionListener(l); }
+	public void setWindowClosingListener(WindowAdapter adapter) { addWindowListener(adapter); }
+
+	public void addNameValidator(Runnable validator) { addRealTimeValidation(fieldName, validator); }
+	public void addLastNamePValidator(Runnable validator) { addRealTimeValidation(fieldLastNameP, validator); }
+	public void addLastNameMValidator(Runnable validator) { addRealTimeValidation(fieldLastNameM, validator); }
+	public void addNameUserValidator(Runnable validator) { addRealTimeValidation(fieldNameUser, validator); }
+	public void addDateValidator(Runnable validator) { addRealTimeValidation(fieldDate, validator); }
+	public void addEmailValidator(Runnable validator) { addRealTimeValidation(fieldEmail, validator); }
+	public void addPasswordValidator(Runnable validator) { addRealTimeValidation(fieldPassword, validator); }
+	public void addConfirmPasswordValidator(Runnable validator) { addRealTimeValidation(fieldConfirmPassword, validator); }
+
+	public void showSuccessMessage() { JOptionPane.showMessageDialog(this, "¡Registro exitoso!", "Éxito", JOptionPane.INFORMATION_MESSAGE); }
+	public void showIncompleteDataMessage() { JOptionPane.showMessageDialog(this, "Si desea continuar, ingrese sus datos.", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE); }
+	public int showCloseConfirmation() { return JOptionPane.showConfirmDialog(this, "¿Seguro que deseas salir? Se perderán los datos ingresados.", "Confirmar salida", JOptionPane.YES_NO_OPTION); }
+	public int showBackConfirmation() { return JOptionPane.showConfirmDialog(this, "¿Seguro que deseas regresar? Se perderán los datos", "Confirmar", JOptionPane.YES_NO_OPTION); }
 	
 	private void setupWindow() {
 		setSize(400, 500);
@@ -111,22 +150,10 @@ public class RegistrationForm extends JFrame{
 		setLayout(new BorderLayout());
 		
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image icono = tk.getImage("src/images/image.jpg");
-		setIconImage(icono);
-		
-		addWindowListener(new WindowListener() {
-			@Override public void windowOpened(WindowEvent e) {}
-			@Override public void windowIconified(WindowEvent e) {}
-			@Override public void windowDeiconified(WindowEvent e) {}
-			@Override public void windowDeactivated(WindowEvent e) {}
-			@Override public void windowClosed(WindowEvent e) {}
-			@Override public void windowActivated(WindowEvent e) {}
-			
-			@Override
-			public void windowClosing(WindowEvent e) {
-				handleCloseWindow();
-			}
-		});
+		try {
+			Image icono = tk.getImage("src/images/image.jpg");
+			setIconImage(icono);
+		} catch(Exception e) { System.out.println("No se encontró el icono"); }
 	}
 	
 	private void initializeComponents() {
@@ -141,8 +168,7 @@ public class RegistrationForm extends JFrame{
 		createFormFields();
 		createGenderSelection();
 		createButtons();
-		
-		assignListeners();
+		assignUIListeners();
 		
 		// Agrega el scroll
 		JScrollPane scroll = new JScrollPane(containerPanel);
@@ -260,23 +286,16 @@ public class RegistrationForm extends JFrame{
 	    confirmButton.setForeground(Color.WHITE); 
 	    confirmButton.setFont(generalFont); 
 	    defaultButtonColor = confirmButton.getBackground();
-	    changueMouse();
 	    
-	    confirmButton.addActionListener(e -> {
-	        if (validateAll()) {
-	            JOptionPane.showMessageDialog(this, "¡Registro exitoso!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-	            LoginWindow loginWin = new LoginWindow(); 
-	            loginWin.setVisible(true);
-	            dispose();
-	        } else {
-	            popupWindow(); // Muestra el mensaje de que faltan datos
-	        }
-	    });
+	    confirmButton.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) { changeBackground(confirmButton); }
+			public void mouseExited(MouseEvent e) { resetBackground(confirmButton); }
+		});
 	    
 	    containerPanel.add(confirmButton);
 	    containerPanel.add(Box.createVerticalStrut(10)); 
 					
-		JButton backButton = new JButton("Regresar"); 
+		backButton = new JButton("Regresar"); 
 		backButton.setBackground(opaqueGreen); 
 		backButton.setForeground(Color.WHITE); 
 		backButton.setToolTipText("De click para regresar");
@@ -284,24 +303,7 @@ public class RegistrationForm extends JFrame{
 		backButton.setPreferredSize(new Dimension(100, 30));
 		backButton.setMaximumSize(new Dimension(100, 30));
 		
-		backButton.addActionListener(e ->{
-			handleBack();
-			//new LoginView();
-		});
 		containerPanel.add(backButton);
-	}
-	
-	public void changueMouse() {
-		confirmButton.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				changeBackground(confirmButton);
-
-			}
-			
-			public void mouseExited(MouseEvent e) {
-				resetBackground(confirmButton);
-			}
-		});
 	}
 	
 	private void changeBackground(JComponent c) {
@@ -313,45 +315,20 @@ public class RegistrationForm extends JFrame{
 		c.setBackground(defaultButtonColor);
 	}
 	
-	private void handleRegistration() {
-		System.out.println("Se hizo click en el botón confirmar");
-		JOptionPane.showMessageDialog(this,
-				"Si desea continuar, ingrese sus datos para crear una cuenta nueva",
-				"Atención",
-				JOptionPane.INFORMATION_MESSAGE
-		);
-	}
-	
+	private void assignUIListeners() {
+		focusListener(fieldName); focusListener(fieldLastNameP); focusListener(fieldLastNameM);
+		focusListener(fieldNameUser); focusListener(fieldDate); focusListener(fieldEmail);
+		focusListener(fieldPassword); focusListener(fieldConfirmPassword);
 
-	private void handleCloseWindow() {
-		int option = JOptionPane.showConfirmDialog(this, 
-				"¿Seguro que deseas salir? Se perderán los datos ingresados.", 
-				"Confirmar salida", 
-				JOptionPane.YES_NO_OPTION);
-				
-		if (option == JOptionPane.YES_OPTION) {
-				System.exit(0);
-		}
+		fieldNameUser.addKeyListener(new KeyListener() {
+			@Override public void keyTyped(KeyEvent e) {
+				if (e.getKeyChar() == ' ') { e.consume(); Toolkit.getDefaultToolkit().beep(); }
+			}
+			@Override public void keyPressed(KeyEvent e) {}
+			@Override public void keyReleased(KeyEvent e) {}
+		});		
 	}
-	
-	private void handleBack() {
-		int option = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas regresar? Se perderán los datos", "Confirmar", JOptionPane.YES_NO_OPTION);
-		if (option == JOptionPane.YES_OPTION) {
-			LoginWindow login = new LoginWindow();
-	        login.setVisible(true); 
-	        dispose();
-		}
-	}
-	
-	private void popupWindow() {
-		JOptionPane.showMessageDialog(
-				null,
-				"Si desea continuar, ingrese sus datos.",
-				"ATENCIÓN",
-				JOptionPane.INFORMATION_MESSAGE
-		);
-	}
-	
+		
 	private void focusListener(JTextField textField) {
 		textField.addFocusListener(new FocusListener() {
 			@Override
@@ -367,41 +344,6 @@ public class RegistrationForm extends JFrame{
 			}
 		});
 	}
-	
-	private void assignListeners() {
-		addRealTimeValidation(fieldName, this::validateNombre);
-		addRealTimeValidation(fieldLastNameP, this::validateApellidoP);
-		addRealTimeValidation(fieldLastNameM, this::validateApellidoM);
-		addRealTimeValidation(fieldNameUser, this::validateNombreUsuario);
-		addRealTimeValidation(fieldDate, this::validateFechaNacimiento);
-		addRealTimeValidation(fieldEmail, this::validateCorreo);
-		addRealTimeValidation(fieldPassword, this::validateContrasenia);
-		addRealTimeValidation(fieldConfirmPassword, this::validateConfirmarContrasenia);
-		
-		focusListener(fieldName);
-		focusListener(fieldLastNameP);
-		focusListener(fieldLastNameM);
-		focusListener(fieldNameUser);
-		focusListener(fieldDate);
-		focusListener(fieldEmail);
-		focusListener(fieldPassword);
-		focusListener(fieldConfirmPassword);
-
-		// Key listener
-		fieldNameUser.addKeyListener(new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// Hace que el usuario no pueda usar los espacios
-				if (e.getKeyChar() == ' ') {
-					e.consume(); //Consume el evento para que no se repita
-					Toolkit.getDefaultToolkit().beep(); // Sonido de windows xd
-				}
-			}
-
-			@Override public void keyPressed(KeyEvent e) {}
-			@Override public void keyReleased(KeyEvent e) {}
-		});		
-	}
 
 	private void addRealTimeValidation(JTextField field, Runnable validatorMethod) {
 		field.getDocument().addDocumentListener(new DocumentListener() {
@@ -410,116 +352,5 @@ public class RegistrationForm extends JFrame{
 			@Override public void changedUpdate(DocumentEvent e) { validatorMethod.run(); }
 		});
 	}
-	
-	// Agrupa todas las validaciones
-	private boolean validateAll() {
-		// Ejecura todas las validaciones
-		boolean v1 = validateNombre();
-	    boolean v2 = validateApellidoP();
-	    boolean v3 = validateApellidoM(); 
-	    boolean v4 = validateNombreUsuario(); 
-	    boolean v5 = validateFechaNacimiento(); 
-	    boolean v6 = validateCorreo();
-		boolean v7 = validateContrasenia();
-		boolean v8 = validateConfirmarContrasenia();
-			    
-		// Retorna si todas las validaciones son true
-		return v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8;
-	}
-
-	private boolean validateNombre() {
-		if (fieldName.getText().trim().isEmpty()) { 
-			errorName.setText("El nombre es obligatorio"); 
-			return false; 
-		}
-		errorName.setText(" "); 
-		return true;
-	}
-
-	private boolean validateApellidoP() {
-		if (fieldLastNameP.getText().trim().isEmpty()) { 
-			errorLastnNameP.setText("El apellido paterno es obligatorio"); 
-			return false; 
-		}
-		errorLastnNameP.setText(" "); 
-		return true;
-	}
-	
-	private boolean validateApellidoM() {
-		if (fieldLastNameM.getText().trim().isEmpty()) { 
-			errorLastNameM.setText("El apellido materno es obligatorio"); 
-			return false; 
-		}
-		errorLastNameM.setText(" "); 
-		return true;
-	}
-
-	private boolean validateNombreUsuario() {
-		String usuario = fieldNameUser.getText().trim();
-		if (usuario.isEmpty()) {
-			errorNameUser.setText("El usuario es obligatorio"); 
-			return false; 
-		} 
-		else if (usuario.contains(" ")) { 
-			errorNameUser.setText("No debe contener espacios"); 
-			return false; 
-		} 
-		else if (usuario.length() < 4) { 
-			errorNameUser.setText("Mínimo 4 caracteres"); 
-			return false; 
-		}
-		errorNameUser.setText(" "); 
-		return true;
-	}
-
-	private boolean validateFechaNacimiento() {
-		String fecha = fieldDate.getText().trim();
-		
-		if (fecha.isEmpty()) { 
-			errorFieldDate.setText("La fecha es obligatoria"); 
-			return false; 
-		} 
-		errorFieldDate.setText(" "); 
-		return true;
-	}
-
-	private boolean validateCorreo() {
-		String email = fieldEmail.getText().trim();
-		if (email.isEmpty()) { 
-			errorEmail.setText("El correo es obligatorio"); 
-			return false; 
-		} 
-		else if (!email.contains("@") || !email.contains(".")) { 
-			errorEmail.setText("Ingrese un correo válido"); 
-			return false; 
-		}
-		errorEmail.setText(" "); 
-		return true;
-	}
-
-	private boolean validateContrasenia() {
-		if (fieldPassword.getPassword().length < 8) { 
-			errorPassword.setText("Minimo 8 caracteres"); 
-			return false; 
-		}
-		errorPassword.setText(" ");
-		validateConfirmarContrasenia(); 
-		return true;
-	}
-
-	private boolean validateConfirmarContrasenia() {
-		String pass1 = new String(fieldPassword.getPassword());
-		String pass2 = new String(fieldConfirmPassword.getPassword());
-		if (pass2.isEmpty()) { 
-			errorConfirmPassword.setText("Confirme su contraseña"); 
-			return false; 
-		} 
-		else if (!pass1.equals(pass2)) { 
-			errorConfirmPassword.setText("Las contraseñas no coinciden"); 
-			return false; 
-		}
-		errorConfirmPassword.setText(" "); 
-		return true;
-	}	
-}
+}	
 

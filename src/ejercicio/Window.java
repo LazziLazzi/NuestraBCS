@@ -3,8 +3,11 @@ package ejercicio;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
-import views.RegistrationForm;
+
+import controllers.LoginController;
+import views.RegistrationView;
 import views.LoginView;
+import controllers.LoginController;
 
 public class Window extends JFrame {
 	public Window() {
@@ -20,8 +23,10 @@ public class Window extends JFrame {
 		Image icon = tk.getImage("src/images/image.jpg");
 		setIconImage(icon);
 		
-		LoginView panel = new LoginView();
-		add(panel);
+		LoginView vistaLogin = new LoginView();
+		LoginController controller = new LoginController(vistaLogin);
+		
+		add(vistaLogin);
 		
 		setVisible(true);
 		validate();
