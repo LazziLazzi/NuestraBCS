@@ -4,9 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import views.RegistrationView;
+import views.HomeView;
 import views.LoginWindow;
+import models.User;
+import repository.UserRepository;
 
 public class RegistrationController {
 	private RegistrationView view;
@@ -42,15 +46,37 @@ public class RegistrationController {
     private class ConfirmAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (validateAll()) {
-                view.showSuccessMessage();
-                
-                // Regresa a la pantalla de login 
-                LoginWindow loginWin = new LoginWindow(); 
-                loginWin.setVisible(true);
-                view.dispose();
-            } else {
-                view.showIncompleteDataMessage();
+        	if (validateNombre() && validateApellidoP() && validateApellidoM() && 
+                    validateNombreUsuario() && validateFechaNacimiento() && 
+                    validateCorreo() && validateContrasenia() && validateConfirmarContrasenia()) { 
+                    
+                //Extrae los datos 
+                String name = view.getNameText(); 
+                String lastNameP = view.getLastNamePText();
+                String lastNameM = view.getLastNameMText();
+                String username = view.getNameUserText(); 
+                String birthDate = view.getDateText();
+                String email = view.getEmailText(); 
+                String password = view.getPasswordText();
+                String gender = view.getGenderSelected();
+
+                //Crea el objeto user con los datos llamados
+                User newUser = new User(name, lastNameP, lastNameM, username, birthDate, email, password,gender);
+
+                //Lo guarda en el csv
+                UserRepository repository = new UserRepository();
+                try {
+                    repository.save(newUser);
+                    javax.swing.JOptionPane.showMessageDialog(null, "Usuario registrado");
+                    
+                    // Abre la pantalla para ver los cmbios
+                    new HomeController(new HomeView()); 
+                  
+                    view.dispose();
+
+                } catch (IOException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+                }
             }
         }
     }

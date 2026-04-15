@@ -113,6 +113,17 @@ public class RegistrationView extends JFrame{
 	public String getEmailText() { return fieldEmail.getText(); }
 	public String getPasswordText() { return new String(fieldPassword.getPassword()); }
 	public String getConfirmPasswordText() { return new String(fieldConfirmPassword.getPassword()); }
+	
+	public String getGenderSelected() {
+		if (rbMasculino.isSelected()) {
+			return "Masculino";
+		} else if (rbFemenino.isSelected()) {
+		    return "Femenino";
+		} else if (rbOtro.isSelected()) {
+		    return "Otro";
+		}
+		    return "No especificado";
+	}	
 
 	public void showNameError(String msg) { errorName.setText(msg); }
 	public void showLastNamePError(String msg) { errorLastnNameP.setText(msg); }
@@ -344,6 +355,8 @@ public class RegistrationView extends JFrame{
 			}
 		});
 	}
+	
+	
 
 	private void addRealTimeValidation(JTextField field, Runnable validatorMethod) {
 		field.getDocument().addDocumentListener(new DocumentListener() {
