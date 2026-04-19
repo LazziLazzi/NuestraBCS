@@ -61,7 +61,7 @@ public class RegistrationController {
                 String gender = view.getGenderSelected();
 
                 //Crea el objeto user con los datos llamados
-                User newUser = new User(name, lastNameP, lastNameM, username, birthDate, email, password,gender);
+                User newUser = new User(name, lastNameP, lastNameM, username, birthDate, email, password, gender);
 
                 //Lo guarda en el csv
                 UserRepository repository = new UserRepository();
@@ -71,7 +71,7 @@ public class RegistrationController {
                     
                     // Abre la pantalla para ver los cmbios
                     new HomeController(new HomeView()); 
-                  
+                   
                     view.dispose();
 
                 } catch (IOException ex) {
