@@ -2,36 +2,44 @@ package views;
 
 import javax.swing.*;
 import java.awt.*;
+import models.UserTableModel;
 
 public class HomeView extends JFrame {
-    private JTextArea txtUsers;
+    private JTable tableUsers;
     private JButton btnLoad;
 
     public HomeView() {
         setTitle("Home view");
-        setSize(500, 400);
+        setSize(750, 450);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
-
-        // Para mostrar el jtextarea
-        txtUsers = new JTextArea();
-        txtUsers.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(txtUsers);
+        setLayout(new BorderLayout(10, 10));
+        
+        //Estilo de la tabla(Lala)
+        tableUsers = new  JTable();
+        tableUsers.setRowHeight(25);
+        tableUsers.setGridColor(new Color(200, 200, 200));
+        
+        JScrollPane scrollPane = new JScrollPane(tableUsers);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         add(scrollPane, BorderLayout.CENTER);
         
-        //boton prueba
-        btnLoad = new JButton("Cargar");
-        add(btnLoad, BorderLayout.SOUTH);
+        
+        //Panel para el boton
+        btnLoad = new JButton("Actualizar");
+        btnLoad.setPreferredSize(new Dimension(120,30));
+        JPanel pnlBtn = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlBtn.add(btnLoad);
+        add(pnlBtn, BorderLayout.SOUTH);
         
         setVisible(true);
     }
 
-    public void setUsersText(String text) {
-        txtUsers.setText(text);
+    public void setTableModel(UserTableModel model) {
+        tableUsers.setModel(model);
     }
 
-    public void addLoadListener(java.awt.event.ActionListener listener) {
-        btnLoad.addActionListener(listener);
+    public void addReloadListener(java.awt.event.ActionListener l) {
+        btnLoad.addActionListener(l);
     }
 }

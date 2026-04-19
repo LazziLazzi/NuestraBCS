@@ -1,10 +1,11 @@
 package controllers;
 
-import models.User;
-import repository.UserRepository;
-import views.HomeView;
 import java.io.IOException;
 import java.util.List;
+import models.User;
+import models.UserTableModel;
+import repository.UserRepository;
+import views.HomeView;
 
 public class HomeController {
     private HomeView view;
@@ -14,31 +15,21 @@ public class HomeController {
         this.view = view;
         this.repository = new UserRepository();
 
-        //Se presioa el boton carga los datos
-        this.view.addLoadListener(e -> loadUsers());
-        
-        // Cargamos la ventana
-        loadUsers();
+        //Listener para el boton de recargar
+        this.view.addReloadListener(e -> refreshTable());
+       
+        //Carga inicial al abrir la ventana
+        refreshTable();
     }
 
-    private void loadUsers() {
-        try {
-            List<User> users = repository.getUsers();
-            StringBuilder sb = new StringBuilder();
-         
-            sb.append("Nombre | Usuario | Genero | Email | Cumpleanios\n");
-            sb.append("-------------------------------------------------------\n");
-            
-            for (User u : users) {
-                sb.append(u.getName()).append(" ")
-                  .append(" | ").append(u.getUsername())
-                  .append(" | ").append(u.getGender()) 
-                  .append(" | ").append(u.getEmail()).append("\n");
-            }
-            view.setUsersText(sb.toString());
-
-        } catch (IOException ex) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error en la carga: " + ex.getMessage());
-        }
+    private void refreshTable() {
+    		try {
+    			List<User> users = repository.getUsers();
+    			//Crea el modelo con los datos del CSV
+    			UserTableModel model = new UserTableModel(users);
+    			view.setTableModel(model);
+    		}catch(IOException ex){
+    			javax.swing.JOptionPane.showMessageDialog(null, "Error al cargar el archivo");
+    		}
     }
 }
