@@ -36,4 +36,34 @@ public class UserRepository {
         }
         return userList;
     }
+    
+    public void updateAll(List<User> users) throws IOException {
+        //Cuando se quita el true del FileOutputStream, sobreescribe todo el archivo
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FILE_PATH), StandardCharsets.UTF_8))) {
+            for (User user : users) {
+                writer.write(user.toCsv());
+                writer.newLine();
+            }
+        }
+    }
+    
+    public void delete(int index) throws IOException {
+        List<User> users = getUsers();
+        if (index >= 0 && index < users.size()) {
+            users.remove(index);
+            // Guarda la lista ya sin el usuario
+            updateAll(users); 
+        }
+    }
+    
+    public void update(int index, User updatedUser) throws IOException {
+        List<User> users = getUsers();
+        if (index >= 0 && index < users.size()) {
+            users.set(index, updatedUser);
+            // Guarda la lista con el usuario modificado
+            updateAll(users); 
+        }
+    }
+    
+    
 }

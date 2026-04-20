@@ -9,6 +9,7 @@ import java.io.IOException;
 import views.RegistrationView;
 import views.HomeView;
 import views.LoginWindow;
+import views.MainWindow;
 import models.User;
 import repository.UserRepository;
 
@@ -69,9 +70,22 @@ public class RegistrationController {
                     repository.save(newUser);
                     javax.swing.JOptionPane.showMessageDialog(null, "Usuario registrado");
                     
+<<<<<<< HEAD
                     // Abre la pantalla para ver los cmbios
                     new HomeController(new HomeView()); 
                    
+=======
+                    //Abre la ventana
+                    MainWindow mainWindow = new MainWindow();
+
+                    // Conecta el controlador a la tabla
+                    new UserController(mainWindow.usersPanel);
+
+                    //Muestra la pestanoa de los usuarios
+                    mainWindow.showView(MainWindow.USERS);
+                    
+                  
+>>>>>>> c2b329a (Se agrego los 3 botones, aun en proceso)
                     view.dispose();
 
                 } catch (IOException ex) {
