@@ -70,11 +70,10 @@ public class RegistrationController {
                     repository.save(newUser);
                     javax.swing.JOptionPane.showMessageDialog(null, "Usuario registrado");
                     
-<<<<<<< HEAD
-                    // Abre la pantalla para ver los cmbios
+                 // Abre la pantalla para ver los cmbios
                     new HomeController(new HomeView()); 
                    
-=======
+
                     //Abre la ventana
                     MainWindow mainWindow = new MainWindow();
 
@@ -85,7 +84,6 @@ public class RegistrationController {
                     mainWindow.showView(MainWindow.USERS);
                     
                   
->>>>>>> c2b329a (Se agrego los 3 botones, aun en proceso)
                     view.dispose();
 
                 } catch (IOException ex) {
