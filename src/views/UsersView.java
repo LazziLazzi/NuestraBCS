@@ -11,6 +11,7 @@ public class UsersView extends JPanel {
     private JButton btnDelete;
 
     public UsersView() {
+   
         //Configura el panel principal
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -50,4 +51,9 @@ public class UsersView extends JPanel {
     public JButton getBtnDelete() { 
     		return btnDelete; 
     	}
+    
+    public int getSelectedRow() {
+        return table.getSelectedRow();
+    }
+    
 }

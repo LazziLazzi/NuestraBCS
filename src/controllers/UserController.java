@@ -1,15 +1,15 @@
 package controllers;
 
-import repository.UserRepository;
-import models.User;
-import models.UserTableModel;
-import views.UserFormDialog;
-import views.UsersView;
-import javax.swing.SwingUtilities;
-
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import models.User;
+import repository.UserRepository;
+import models.UserTableModel; 
+import views.UserFormDialog;
+import views.UsersView;
 
 public class UserController {
 
@@ -19,39 +19,82 @@ public class UserController {
     
     public UserController(UsersView view) {
         this.view = view;
-        this.repo = new UserRepository();
-        
-        chargeTable();
+        repo = new UserRepository();
      
-        //El boton agregar abre el userformdialog
-        view.getBtnAdd().addActionListener(e -> {
-            //Busca la ventana principal para central el Dialog sobre ella
-            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(view);
-            UserFormDialog form = new UserFormDialog(parentFrame, null);
-            form.setVisible(true);
+        //Agregar
+        this.view.getBtnAdd().addActionListener(e -> {
+        		openForm(null);
         });
         
-        //Boton editar
-        view.getBtnEdit().addActionListener(e -> {
-            System.out.println("Editar laik");
+        //Editar
+        this.view.getBtnEdit().addActionListener(e -> {
+            int row = view.getSelectedRow(); 
+            if(row == -1) {
+                JOptionPane.showMessageDialog(view, "Selecciona un usuario");
+                return;
+            }
+            openForm(model.getUserAt(row));
         });
-
-        //Boton eliminar
-        view.getBtnDelete().addActionListener(e -> {
-            System.out.println("Borrar dislaik");
+        
+     	//Eliminar
+        this.view.getBtnDelete().addActionListener(e -> {
+            int row = view.getSelectedRow();
+            if(row == -1) {
+                JOptionPane.showMessageDialog(view, "Selecciona un usuario para eliminar");
+                return;
+            }
+            
+            int confirm = JOptionPane.showConfirmDialog(view, "¿Estas seguro de eliminar este registro?", "Confirmar eliminar", JOptionPane.YES_NO_OPTION);
+            if(confirm == JOptionPane.YES_OPTION) {
+                try {
+                    repo.delete(row); // Lo borra del CSV
+                    loadUsers();      // Recarga la tabla
+                    JOptionPane.showMessageDialog(view, "Usuario eliminado");
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(view, "Error al eliminar: " + ex.getMessage());
+                }
+            }
         });
+        
     }
     
-    public void chargeTable() {	
+    public void loadUsers() {
     		try {
     			List<User> users = repo.getUsers();
-    			model = new UserTableModel(users);
-    			view.setTableModel(model);
-    		}catch(Exception ex){
-    			System.out.println("Error al cargar el CSV" + ex.getMessage());
+    			
+    			if(model == null) {
+    				model = new UserTableModel(users);
+    				view.setTableModel(model);
+    			}else {
+    				model.setUsers(users);
+    			}
+    			
+    		} catch(IOException ex) {
+    			JOptionPane.showMessageDialog(view, ex.getMessage());
     		}
-    	
     }
     
+    private void openForm(User user) {
+    		UserFormDialog dialog = new UserFormDialog(null, user);
+    		dialog.setVisible(true);
+    		
+    		if(dialog.isSaved()) {
+    			User savedUser = dialog.getUser();
+    			try {
+    				if(user == null) {
+    					repo.save(savedUser);
+    				} else {
+    					int row = view.getSelectedRow();
+    					repo.update(row, savedUser);
+    				}
+    				loadUsers();
+    			} catch(Exception e) {
+    				e.printStackTrace();
+    				JOptionPane.showMessageDialog(view, e.getMessage());
+    			}
+    		}
+    		
+    }
+   
     
 }

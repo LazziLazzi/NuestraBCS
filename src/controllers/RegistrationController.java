@@ -70,18 +70,15 @@ public class RegistrationController {
                     repository.save(newUser);
                     javax.swing.JOptionPane.showMessageDialog(null, "Usuario registrado");
                     
-                 // Abre la pantalla para ver los cmbios
-                    new HomeController(new HomeView()); 
-                   
-
                     //Abre la ventana
                     MainWindow mainWindow = new MainWindow();
 
-                    // Conecta el controlador a la tabla
-                    new UserController(mainWindow.usersPanel);
+                    
+                    // 2. Conecta el HomeController a la ventana
+                    new HomeController(mainWindow);
 
-                    //Muestra la pestanoa de los usuarios
-                    mainWindow.showView(MainWindow.USERS);
+                    // 3. Forzamos a que inicie en la vista de usuarios (opcional)
+                    mainWindow.btnUsers.doClick();
                     
                   
                     view.dispose();
