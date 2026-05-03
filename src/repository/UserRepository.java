@@ -2,6 +2,7 @@ package repository;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,44 +12,42 @@ import java.util.ArrayList;
 import java.util.List;
 import models.User;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 public class UserRepository {
 
-    private final String FILE_PATH = "users.csv"; 
+	private final String FILE_PATH = "users.json";
+
+	private final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
     public void save(User user) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FILE_PATH, true), StandardCharsets.UTF_8))) {
-            writer.write(user.toCsv());
-            writer.newLine();
-        }
+        List<User> users = getUsers();
+        users.add(user);
+        updateAll(users);
     }
 
     public List<User> getUsers() throws IOException {
-        List<User> userList = new ArrayList<>();
+        File file = new File(FILE_PATH);
         
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                User user = User.fromCsv(line);
-                if (user != null) {
-                    userList.add(user);
-                }
-            }
+        // Si el archivo no existe o esta vacio, regresa una lista nueva
+        if (!file.exists() || file.length() == 0) {
+            return new ArrayList<>();
         }
-        return userList;
+        
+        // Jackson lee el archivo y lo trae como lista de usuarios
+        return mapper.readValue(file, new TypeReference<List<User>>() {});
     }
     
     public void updateAll(List<User> users) throws IOException {
-        //Cuando se quita el true del FileOutputStream, sobreescribe todo el archivo
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FILE_PATH), StandardCharsets.UTF_8))) {
-            for (User user : users) {
-                writer.write(user.toCsv());
-                writer.newLine();
-            }
-        }
+        //Sobreescrisbre el archivo json con la lista actualizada
+        mapper.writeValue(new File(FILE_PATH), users);
     }
     
     public void delete(int index) throws IOException {
         List<User> users = getUsers();
+        // Mantiene la validacion para evitar errores
         if (index >= 0 && index < users.size()) {
             users.remove(index);
             // Guarda la lista ya sin el usuario
@@ -58,6 +57,7 @@ public class UserRepository {
     
     public void update(int index, User updatedUser) throws IOException {
         List<User> users = getUsers();
+        // Mantenemos tu validación original
         if (index >= 0 && index < users.size()) {
             users.set(index, updatedUser);
             // Guarda la lista con el usuario modificado
