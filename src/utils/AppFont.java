@@ -24,5 +24,9 @@ public class AppFont {
 	public static Font title() {
 		return base.deriveFont(60f);
 	}
+
+	public static Font bold() {
+		return base.deriveFont(Font.BOLD, 14f);
+	}
 	
 }

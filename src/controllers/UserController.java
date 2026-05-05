@@ -1,5 +1,7 @@
 package controllers;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import javax.swing.JOptionPane;
 import models.User;
 import repository.UserRepository;
 import models.UserTableModel; 
+import services.PDFExporter;
 import views.UserFormDialog;
 import views.UsersView;
 
@@ -16,10 +19,12 @@ public class UserController {
     private UsersView view;
     private UserRepository repo;
     private UserTableModel model;
+    private PDFExporter pdfExporter;
     
     public UserController(UsersView view) {
         this.view = view;
         repo = new UserRepository();
+        this.pdfExporter = new PDFExporter();
      
         //Agregar
         this.view.getBtnAdd().addActionListener(e -> {
@@ -56,6 +61,8 @@ public class UserController {
             }
         });
         
+        //Exportar a pdf
+        this.view.getBtnPdf().addActionListener(e -> generatePdf());
     }
     
     public void loadUsers() {
@@ -94,6 +101,30 @@ public class UserController {
     			}
     		}
     		
+    }
+    
+    // Metodopara la exportacion
+    public void generatePdf() {
+        File file = view.selectPdfFile();
+        
+        //Si el usuario cerro o cancelo la ventana
+        if(file == null) {
+            return; 
+        }
+        
+        try {
+            //Se mandan los datos
+            pdfExporter.exportUsers(repo.getUsers(), file);
+            
+            //Si la compu deja, abre el pdf d una
+            if(Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(file);
+            }
+            
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(view, "Error al exportar el PDF: " + ex.getMessage());
+        }
     }
    
     
