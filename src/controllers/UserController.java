@@ -15,7 +15,7 @@ import views.UserFormDialog;
 import views.UsersView;
 
 public class UserController {
-
+	
     private UsersView view;
     private UserRepository repo;
     private UserTableModel model;

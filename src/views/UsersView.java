@@ -11,6 +11,17 @@ import models.UserTableModel;
 import utils.AppFont;
 
 public class UsersView extends JPanel {
+	
+	//Colores
+	private Color green = new Color(56,142,60);
+	private Color yellow = new Color(255, 255, 204);
+	private Color darkGreen = new Color(0, 102, 0);
+	private Color lightGreen = new Color(240, 255, 240);
+	
+	//Fuentes
+	private Font titleFont = new Font("Arial Rounded MT Bold", Font.BOLD, 12);
+	private Font generalFont = new Font("Arial", Font.BOLD, 12);
+	
     private JTable table;
     private JButton btnAdd;
     private JButton btnEdit;
@@ -79,7 +90,7 @@ public class UsersView extends JPanel {
         table.setGridColor(new Color(230, 230, 230));
         table.setBackground(Color.WHITE);
         table.setForeground(Color.BLACK);
-        table.setFont(AppFont.normal());
+        table.setFont(generalFont);
         
         table.setSelectionBackground(new Color(52, 152, 219));
         table.setSelectionForeground(Color.WHITE);
@@ -87,9 +98,9 @@ public class UsersView extends JPanel {
         
         // Estilo del encabezado
         JTableHeader header = table.getTableHeader();
-        header.setBackground(new Color(44, 62, 80));
+        header.setBackground(darkGreen);
         header.setForeground(Color.WHITE);
-        header.setFont(AppFont.bold());
+        header.setFont(titleFont);
         header.setPreferredSize(new Dimension(0, 40));
         header.setReorderingAllowed(false);
         
@@ -112,14 +123,14 @@ public class UsersView extends JPanel {
                     c.setForeground(Color.BLACK);
                 }
                 
-                // Hace que la columna 1 resalte en azul y negritas
+                // Hace que la columna 1 resalte en verde y negritas
                 if(column == 1) {
-                    c.setFont(AppFont.bold());
+                    c.setFont(generalFont);
                     if(!isSelected) {
-                        c.setForeground(new Color(41, 128, 185));
+                        c.setForeground(darkGreen);
                     }
                 } else {
-                    c.setFont(AppFont.normal());
+                    c.setFont(generalFont);
                 }
             
                 return c;

@@ -5,11 +5,13 @@ import java.awt.event.ActionListener;
 import views.CredencialErrorException;
 import views.EmailErroreException;
 import views.LoginView;
+import views.MainWindow;
 import views.PasswordErrorException;
 import views.RegistrationView;
 
 public class LoginController {
 	private LoginView view;
+	//private RegistrationView registrationView;
 
     public LoginController(LoginView view) {
         this.view = view;
@@ -87,8 +89,27 @@ public class LoginController {
             throw new PasswordErrorException("Minimo 8 digitos");
         }
         
-        if(!correo.equals("Lol@.") || !contrasenia.equals("12345678")) {
-            throw new CredencialErrorException("Algo no coincide");
+        // Inicio de sesion del usuario
+        if(correo.equals("usuario@gmail.com") || contrasenia.equals("12345678")) {
+        		System.out.println("Usuaro inicio sesion");
+        } else {
+        		throw new CredencialErrorException("Algo no coincide");
         }
+        
+        // Inicio de sesion del administrador 
+        if(correo.equals("usuario@gmail.com") || contrasenia.equals("12345678")) {
+    			System.out.println("Administrador inicio sesion");
+			//Abre la ventana
+            MainWindow mainWindow = new MainWindow();
+            
+            // Conecta el HomeController a la ventana
+            new HomeController(mainWindow);
+            
+            // Forzamos a que inicie en la vista de usuarios
+            mainWindow.btnUsers.doClick();
+
+	    } else {
+	    		throw new CredencialErrorException("Algo no coincide");
+	    }
     }
 }

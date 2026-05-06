@@ -1,28 +1,10 @@
 [ {
-  "name" : "qqq",
-  "lastNameP" : "qqqqq",
-  "lastNameM" : "qqq",
-  "username" : "qqqq",
-  "birthDate" : "88/88/88",
-  "email" : "@@@.",
-  "password" : null,
-  "gender" : "Masculino"
-}, {
   "name" : "ddfssf",
   "lastNameP" : "sdfs",
   "lastNameM" : "sdfs",
   "username" : "aaaa",
   "birthDate" : "88/88/88",
   "email" : "@@.",
-  "password" : "147258369",
-  "gender" : "Masculino"
-}, {
-  "name" : "sdsd",
-  "lastNameP" : "sdsds",
-  "lastNameM" : "sdsd",
-  "username" : "sdsd",
-  "birthDate" : "88/88/88",
-  "email" : "@@..",
   "password" : "147258369",
   "gender" : "Masculino"
 }, {
@@ -43,4 +25,67 @@
   "email" : "@@...",
   "password" : "147258369",
   "gender" : "Masculino"
+}, {
+  "name" : "Diego",
+  "lastNameP" : "Yepiz",
+  "lastNameM" : "Langarica",
+  "username" : "OverwatcherLover",
+  "birthDate" : "21/08/2006",
+  "email" : "stormday345@gmail.com",
+  "password" : "123456789",
+  "gender" : "Masculino"
+}, {
+  "name" : "Ceyla ",
+  "lastNameP" : "Chavez",
+  "lastNameM" : "Lopez",
+  "username" : "Lazzi",
+  "birthDate" : "11/11/2002",
+  "email" : "lazzizizizi@gmail.com",
+  "password" : null,
+  "gender" : "Otro"
+}, {
+  "name" : "gguguig",
+  "lastNameP" : "fthcfhcfh",
+  "lastNameM" : "sertsetse",
+  "username" : "Puccha",
+  "birthDate" : "44/44/44",
+  "email" : "Diego@gmail.com",
+  "password" : null,
+  "gender" : "Femenino"
+}, {
+  "name" : "Chcas",
+  "lastNameP" : "Camacho",
+  "lastNameM" : "Vazquez",
+  "username" : "Chacas1",
+  "birthDate" : "08/05/2006",
+  "email" : "chacasprogamer@gmai.com",
+  "password" : null,
+  "gender" : "Masculino"
+}, {
+  "name" : "sdsdfsdf",
+  "lastNameP" : "sdfsdfs",
+  "lastNameM" : "sdfsdf",
+  "username" : "sdfsdf",
+  "birthDate" : "147258369",
+  "email" : "@.",
+  "password" : "123456789",
+  "gender" : "Masculino"
+}, {
+  "name" : "lalazi",
+  "lastNameP" : "shabe",
+  "lastNameM" : "lope",
+  "username" : "lalazziii",
+  "birthDate" : "11/11/2002",
+  "email" : "lalaci@gmail.com",
+  "password" : "12345678",
+  "gender" : "Femenino"
+}, {
+  "name" : "lala",
+  "lastNameP" : "shabe",
+  "lastNameM" : "lope",
+  "username" : "lalazi",
+  "birthDate" : "11/11/2002",
+  "email" : "lala@gemail.com",
+  "password" : "12345678",
+  "gender" : "Otro"
 } ]
