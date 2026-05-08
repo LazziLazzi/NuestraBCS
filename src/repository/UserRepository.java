@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class UserRepository {
 
-	private final String FILE_PATH = "users.json";
+	private final String FILE_PATH = "data" + File.separator + "users.json";
 
 	private final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -30,6 +30,10 @@ public class UserRepository {
 
     public List<User> getUsers() throws IOException {
         File file = new File(FILE_PATH);
+        
+        if(file.getParentFile() != null) {
+            file.getParentFile().mkdirs();
+        }
         
         // Si el archivo no existe o esta vacio, regresa una lista nueva
         if (!file.exists() || file.length() == 0) {

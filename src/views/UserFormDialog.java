@@ -10,6 +10,9 @@ public class UserFormDialog extends JDialog {
     private JPasswordField txtPassword;
     private JComboBox<String> cbGender;
     private JButton btnSave, btnCancel;
+    private JButton btnSelectImage;
+    private JLabel lblImagePreview;
+    private String selectedImagePath = "";
 
     public User user;
     private boolean saved = false;
@@ -81,6 +84,25 @@ public class UserFormDialog extends JDialog {
         panel.add(createField("Fecha de Nacimiento:", txtDate));
         panel.add(createField("Contraseña:", txtPassword));
         
+        btnSelectImage = new JButton("Seleccionar Foto de Perfil");
+        lblImagePreview = new JLabel("Sin imagen");
+        lblImagePreview.setForeground(Color.GRAY);
+        
+        btnSelectImage.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            int res = chooser.showOpenDialog(this);
+            if(res == JFileChooser.APPROVE_OPTION){
+                selectedImagePath = chooser.getSelectedFile().getAbsolutePath();
+                lblImagePreview.setText("✓ Imagen seleccionada");
+                lblImagePreview.setForeground(new Color(56,142,60));
+            }
+        });
+
+        JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        imagePanel.add(btnSelectImage);
+        imagePanel.add(lblImagePreview);
+        panel.add(imagePanel);
+        
         return scroll;
     }
     
@@ -110,6 +132,12 @@ public class UserFormDialog extends JDialog {
             txtEmail.setText(user.getEmail());
             txtDate.setText(user.getBirthDate());
             txtPassword.setText(user.getPassword());
+            
+            if(user.getImagePath() != null && !user.getImagePath().isEmpty()) {
+                selectedImagePath = user.getImagePath();
+                lblImagePreview.setText("Imagen cargada");
+                lblImagePreview.setForeground(new Color(56,142,60));
+            }
     		}
     }
     
@@ -121,9 +149,8 @@ public class UserFormDialog extends JDialog {
 	    String lastNameG = txtLastNameM.getText();
 	    String userName = txtUsername.getText();
 	    String date = txtDate.getText();
-	    
 	
-	    user = new User(name, lastNameP, lastNameG, userName, date, email, gender);
+	    user = new User(name, lastNameP, lastNameG, userName, date, email, gender,selectedImagePath);
         
         saved = true;
         dispose();

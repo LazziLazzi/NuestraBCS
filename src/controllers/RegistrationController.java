@@ -62,7 +62,7 @@ public class RegistrationController {
                 String gender = view.getGenderSelected();
 
                 //Crea el objeto user con los datos llamados
-                User newUser = new User(name, lastNameP, lastNameM, username, birthDate, email, password, gender);
+                User newUser = new User(name, lastNameP, lastNameM, username, birthDate, email, password, gender, null);
 
                 //Lo guarda en el csv
                 UserRepository repository = new UserRepository();

@@ -9,6 +9,7 @@ public class User {
     private String email;
     private String password;
     private String gender;
+    private String imagePath;
     
     public User() {
     	
@@ -22,9 +23,10 @@ public class User {
         this.birthDate = birthDate;
         this.email = email;
         this.gender = gender;
+        this.imagePath = "";
     }
     
-    public User(String name, String lastNameP, String lastNameM, String username, String birthDate, String email, String password,String gender) {
+    public User(String name, String lastNameP, String lastNameM, String username, String birthDate, String email, String password,String gender,String imagePath) {
         this.name = name;
         this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
@@ -33,6 +35,18 @@ public class User {
         this.email = email;
         this.password = password;
         this.gender = gender;
+        this.imagePath = imagePath;
+    }
+    
+    public User(String name, String lastNameP, String lastNameM, String username, String birthDate, String email,String gender,String imagePath) {
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.username = username;
+        this.birthDate = birthDate;
+        this.email = email;
+        this.gender = gender;
+        this.imagePath = imagePath;
     }
 
     // Formato de data pra el csv
@@ -44,14 +58,16 @@ public class User {
                birthDate + "," + 
                email + "," + 
                password + "," + 
-               gender;
+               gender +
+               (imagePath != null ? imagePath : "");
     }
 
     // Crea un objeto user de una linea csv
     public static User fromCsv(String userData) {
-        String[] data = userData.split(",");
+        String[] data = userData.split(",",-1);
         if (data.length >= 8) {
-            return new User(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+        	String imgPath = data.length >= 9 ? data[8] : ""; // Si tiene foto la lee, si no, vacío
+            return new User(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], imgPath);
         }
         return null; 
     }
@@ -92,6 +108,10 @@ public class User {
     public String getGender() {
         return gender;
     }
+    
+    public String getImagePath() {
+    		return imagePath;
+    }
 
 	public void setName(String name) {
 		this.name = name;
@@ -123,6 +143,10 @@ public class User {
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
     
     
