@@ -34,6 +34,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import assets.Colors;
+
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -83,12 +86,6 @@ public class RegistrationView extends JFrame{
 	private JRadioButton rbOtro;
 	private ButtonGroup grupoGenero;
 	
-	private Color yellow = new Color(255, 255, 204);
-	private Color lemonGreen = new Color(228,225,106);
-	private Color green = new Color(56,142,60);
-	private Color opaqueGreen = new Color(133,184,95);
-	private Color darkGreen = new Color(0, 102, 0);
-	private Color lightGreen = new Color(240, 255, 240);
 	Color defaultButtonColor;
 	
 	private Font generalFont = new Font("Arial", Font.BOLD, 18);
@@ -147,10 +144,14 @@ public class RegistrationView extends JFrame{
 	public void addPasswordValidator(Runnable validator) { addRealTimeValidation(fieldPassword, validator); }
 	public void addConfirmPasswordValidator(Runnable validator) { addRealTimeValidation(fieldConfirmPassword, validator); }
 
-	public void showSuccessMessage() { JOptionPane.showMessageDialog(this, "¡Registro exitoso!", "Éxito", JOptionPane.INFORMATION_MESSAGE); }
-	public void showIncompleteDataMessage() { JOptionPane.showMessageDialog(this, "Si desea continuar, ingrese sus datos.", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE); }
-	public int showCloseConfirmation() { return JOptionPane.showConfirmDialog(this, "¿Seguro que deseas salir? Se perderán los datos ingresados.", "Confirmar salida", JOptionPane.YES_NO_OPTION); }
-	public int showBackConfirmation() { return JOptionPane.showConfirmDialog(this, "¿Seguro que deseas regresar? Se perderán los datos", "Confirmar", JOptionPane.YES_NO_OPTION); }
+	public void showSuccessMessage() { JOptionPane.showMessageDialog(this,
+			"¡Registro exitoso!", "Éxito", JOptionPane.INFORMATION_MESSAGE); }
+	public void showIncompleteDataMessage() { JOptionPane.showMessageDialog(this,
+			"Si desea continuar, ingrese sus datos.", "ATENCIÓN", JOptionPane.INFORMATION_MESSAGE); }
+	public int showCloseConfirmation() { return JOptionPane.showConfirmDialog(this,
+			"¿Seguro que deseas salir? Se perderán los datos ingresados.", "Confirmar salida", JOptionPane.YES_NO_OPTION); }
+	public int showBackConfirmation() { return JOptionPane.showConfirmDialog(this,
+			"¿Seguro que deseas regresar? Se perderán los datos", "Confirmar", JOptionPane.YES_NO_OPTION); }
 	
 	private void setupWindow() {
 		setSize(400, 500);
@@ -174,7 +175,7 @@ public class RegistrationView extends JFrame{
 		containerPanel = new JPanel();
 		containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
 		containerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-		containerPanel.setBackground(yellow);
+		containerPanel.setBackground(Colors.yellow);
 		
 		createFormFields();
 		createGenderSelection();
@@ -193,8 +194,8 @@ public class RegistrationView extends JFrame{
 		titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setOpaque(true); 
-		titleLabel.setBackground(yellow); 
-		titleLabel.setForeground(darkGreen);
+		titleLabel.setBackground(Colors.yellow); 
+		titleLabel.setForeground(Colors.darkGreen);
 		
 		add(titleLabel, BorderLayout.NORTH);
 	}
@@ -241,7 +242,7 @@ public class RegistrationView extends JFrame{
 		JLabel label = new JLabel(texto);
 		label.setAlignmentX(LEFT_ALIGNMENT);
 		label.setFont(labelFont);
-		label.setForeground(darkGreen);
+		label.setForeground(Colors.darkGreen);
 
 		campo.setAlignmentX(LEFT_ALIGNMENT);
 		campo.setMaximumSize(new Dimension(Integer.MAX_VALUE, campo.getPreferredSize().height));
@@ -263,21 +264,21 @@ public class RegistrationView extends JFrame{
 	    JLabel genderLabel = new JLabel("Seleccione su género:");
 	    genderLabel.setFont(labelFont);
 	    genderLabel.setAlignmentX(LEFT_ALIGNMENT);
-	    genderLabel.setForeground(darkGreen);
+	    genderLabel.setForeground(Colors.darkGreen);
 	    containerPanel.add(genderLabel);
 	    
 	    // Usar las variables de clase en lugar de crear nuevas
 	    rbMasculino = new JRadioButton("Masculino", true);
 	    rbMasculino.setOpaque(false);
-	    rbMasculino.setForeground(darkGreen);
+	    rbMasculino.setForeground(Colors.darkGreen);
 
 	    rbFemenino = new JRadioButton("Femenino", false);
 	    rbFemenino.setOpaque(false);
-	    rbFemenino.setForeground(darkGreen);
+	    rbFemenino.setForeground(Colors.darkGreen);
 	    
 	    rbOtro = new JRadioButton("Otro", false);
 	    rbOtro.setOpaque(false);
-	    rbOtro.setForeground(darkGreen);
+	    rbOtro.setForeground(Colors.darkGreen);
 	    
 	    grupoGenero = new ButtonGroup();
 	    grupoGenero.add(rbMasculino);
@@ -293,7 +294,7 @@ public class RegistrationView extends JFrame{
 	
 	private void createButtons() {
 		confirmButton = new JButton("Crear cuenta"); 
-	    confirmButton.setBackground(green); 
+	    confirmButton.setBackground(Colors.green); 
 	    confirmButton.setForeground(Color.WHITE); 
 	    confirmButton.setFont(generalFont); 
 	    defaultButtonColor = confirmButton.getBackground();
@@ -307,7 +308,7 @@ public class RegistrationView extends JFrame{
 	    containerPanel.add(Box.createVerticalStrut(10)); 
 					
 		backButton = new JButton("Regresar"); 
-		backButton.setBackground(opaqueGreen); 
+		backButton.setBackground(Colors.opaqueGreen); 
 		backButton.setForeground(Color.WHITE); 
 		backButton.setToolTipText("De click para regresar");
 		backButton.setFont(new Font("Arial", Font.BOLD, 12)); 
@@ -318,7 +319,7 @@ public class RegistrationView extends JFrame{
 	}
 	
 	private void changeBackground(JComponent c) {
-		c.setBackground(lemonGreen);
+		c.setBackground(Colors.lemonGreen);
 		c.setForeground(Color.WHITE);
 	}
 	
@@ -345,7 +346,7 @@ public class RegistrationView extends JFrame{
 			@Override
 			public void focusGained(FocusEvent e) {
 				// Cambia el fondo del jtex del nombre al avitvarlo
-				textField.setBackground(lightGreen); 
+				textField.setBackground(Colors.lightGreen); 
 			}
 							
 			@Override

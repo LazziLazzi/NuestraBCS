@@ -6,6 +6,7 @@ import views.CredencialErrorException;
 import views.EmailErroreException;
 import views.LoginView;
 import views.MainWindow;
+import views.MenuWindow;
 import views.PasswordErrorException;
 import views.RegistrationView;
 
@@ -91,25 +92,27 @@ public class LoginController {
         
         // Inicio de sesion del usuario
         if(correo.equals("usuario@gmail.com") || contrasenia.equals("12345678")) {
-        		System.out.println("Usuaro inicio sesion");
+        		System.out.println("Usuario inicio sesion");
+        		MenuWindow menu = new MenuWindow();
         } else {
         		throw new CredencialErrorException("Algo no coincide");
         }
         
-        // Inicio de sesion del administrador 
-        if(correo.equals("usuario@gmail.com") || contrasenia.equals("12345678")) {
-    			System.out.println("Administrador inicio sesion");
-			//Abre la ventana
+        if(correo.equals("usuario@gmail.com") && contrasenia.equals("12345678")) {
+            System.out.println("Usuario inicio sesion");
+            MenuWindow menu = new MenuWindow(); 
+            menu.setVisible(true);
+        } 
+        // Inicio de sesión del administrador
+        else if(correo.equals("admin@gmail.com") && contrasenia.equals("12345678")) {
+            System.out.println("Administrador inicio sesion");
             MainWindow mainWindow = new MainWindow();
-            
-            // Conecta el HomeController a la ventana
             new HomeController(mainWindow);
-            
-            // Forzamos a que inicie en la vista de usuarios
             mainWindow.btnUsers.doClick();
-
-	    } else {
-	    		throw new CredencialErrorException("Algo no coincide");
-	    }
+            mainWindow.setVisible(true);
+        } 
+        else {
+            throw new CredencialErrorException("Correo o contraseña incorrectos");
+        }
     }
 }

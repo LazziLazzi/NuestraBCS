@@ -33,6 +33,8 @@ import utils.AppFont;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import assets.Colors;
+import assets.Fonts;
 import ejercicio.Window;
 
 public class LoginView extends JPanel {
@@ -46,20 +48,6 @@ public class LoginView extends JPanel {
 	private JButton registerButton;
 	
 	private Image stretchedBackground;
-	
-	//Colores
-	private Color lemonGreen = new Color(228,225,106);
-	private Color green = new Color(56,142,60);
-	private Color yellow = new Color(255, 255, 204);
-	private Color darkGreen = new Color(0, 102, 0);
-	private Color lightGreen = new Color(240, 255, 240);
-	
-	//Fuentes
-	private Font titleFont = new Font("Arial Rounded MT Bold", Font.BOLD, 40);
-	private Font generalFont = new Font("Arial", Font.BOLD, 16);
-	private Font errorFont = new Font("Arial", Font.BOLD, 10);
-	
-	
 	
 	// Constructor
 	public LoginView() {
@@ -112,7 +100,7 @@ public class LoginView extends JPanel {
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		setBackground(yellow);
+		setBackground(Colors.yellow);
 		uploadBCSImage();
 		add(Box.createVerticalGlue()); 
 		titleLabel();
@@ -132,7 +120,7 @@ public class LoginView extends JPanel {
 		// Texto del título
 		JLabel title = new JLabel("NuestraBCS");
 		title.setFont(AppFont.title());
-		title.setForeground(green);
+		title.setForeground(Colors.green);
 		title.setAlignmentX(0.5f); 
 		add(title);
 		
@@ -141,7 +129,7 @@ public class LoginView extends JPanel {
 	
 	private void textFields() {
 		JLabel enterEmail = new JLabel("Ingrese su correo electrónico:"); 
-		enterEmail.setFont(generalFont);
+		enterEmail.setFont(Fonts.generalFont);
 		enterEmail.setForeground(Color.BLACK);
 		enterEmail.setAlignmentX(0.5f);
 		add(enterEmail);
@@ -158,7 +146,7 @@ public class LoginView extends JPanel {
 		transBackground(panelErrorEmail);
 		errorEmail = new JLabel("Correo inválido."); 
 		errorEmail.setVisible(false);
-		errorEmail.setFont(errorFont);
+		errorEmail.setFont(Fonts.errorFont);
 		errorEmail.setForeground(Color.RED);
 		errorEmail.setAlignmentX(0.5f);
 		panelErrorEmail.add(errorEmail);
@@ -169,7 +157,7 @@ public class LoginView extends JPanel {
 		add(Box.createVerticalStrut(5));
 		
 		JLabel enterPass = new JLabel("Ingrese su contraseña:"); 
-		enterPass.setFont(generalFont);
+		enterPass.setFont(Fonts.generalFont);
 		enterPass.setForeground(Color.BLACK);
 		enterPass.setAlignmentX(0.5f);
 		add(enterPass);
@@ -183,7 +171,7 @@ public class LoginView extends JPanel {
 		
 		errorPass = new JLabel("Mínimo 8 digitos."); 
 		errorPass.setVisible(false);
-		errorPass.setFont(errorFont);
+		errorPass.setFont(Fonts.errorFont);
 		errorPass.setForeground(Color.RED);
 		errorPass.setAlignmentX(0.5f);
 		add(errorPass);
@@ -197,17 +185,16 @@ public class LoginView extends JPanel {
 		transBackground(buttonPanel);
 		
 		access = new JButton("Acceder"); 
-		access.setBackground(green); 
+		access.setBackground(Colors.green); 
 		access.setForeground(Color.WHITE); 
 		access.setToolTipText("Da click para iniciar sesión");
-		access.setFont(generalFont); 
+		access.setFont(Fonts.generalFont); 
 		
 		uploadIcon(access);
 		
 		access.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
 				changeBackground(access);
-				//btnLogin.setIcon(new ImageIcon(getClass().getResource("/img/icono.png")));
 			}
 			
 			public void mouseExited(MouseEvent e) {
@@ -228,7 +215,7 @@ public class LoginView extends JPanel {
 	private void registrationButton() {
 		JLabel registerLabel = new JLabel("¿Aún no tienes una cuenta?"); 
 		registerLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-		registerLabel.setForeground(darkGreen);
+		registerLabel.setForeground(Colors.darkGreen);
 		registerLabel.setAlignmentX(0.5f);
 		add(registerLabel);
 		
@@ -236,7 +223,7 @@ public class LoginView extends JPanel {
 		transBackground(panelRegisterButton);
 		
 		registerButton = new JButton("Registrate aquí");
-		registerButton.setBackground(green); 
+		registerButton.setBackground(Colors.green); 
 		registerButton.setForeground(Color.WHITE); 
 		registerButton.setToolTipText("De click para registrarse");
 		registerButton.setFont(new Font("Arial", Font.BOLD, 13));
@@ -244,7 +231,6 @@ public class LoginView extends JPanel {
 		registerButton.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
 				changeBackground(registerButton);
-				//btnLogin.setIcon(new ImageIcon(getClass().getResource("/img/icono.png")));
 			}
 			
 			public void mouseExited(MouseEvent e) {
@@ -302,12 +288,12 @@ public class LoginView extends JPanel {
 	}
 	
 	private void changeBackground(JComponent c) {
-		c.setBackground(lemonGreen);
-		c.setForeground(green);
+		c.setBackground(Colors.lemonGreen);
+		c.setForeground(Colors.green);
 	}
 	
 	private void resetBackground(JComponent c) {
-		c.setBackground(green);
+		c.setBackground(Colors.green);
 		c.setForeground(Color.WHITE);
 	}
 	
@@ -327,7 +313,7 @@ public class LoginView extends JPanel {
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				textField.setBackground(lightGreen); 
+				textField.setBackground(Colors.lightGreen); 
 			}
 							
 			@Override
