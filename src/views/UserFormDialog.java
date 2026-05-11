@@ -32,7 +32,7 @@ public class UserFormDialog extends JDialog {
         setLocationRelativeTo(parent);
      
         JPanel contentPane = new JPanel(new BorderLayout());
-        contentPane.setBackground(Colors.lightGreen());
+        contentPane.setBackground(Colors.lightGreen);
         setContentPane(contentPane);
         
         contentPane.add(createTitlePanel(), BorderLayout.NORTH);
@@ -44,7 +44,7 @@ public class UserFormDialog extends JDialog {
     
     private JPanel createTitlePanel() {
     	JPanel panel = new JPanel();
-        panel.setBackground(Colors.darkGreen()); 
+        panel.setBackground(Colors.darkGreen); 
         panel.setPreferredSize(new Dimension(0, 50));
         
         JLabel title = new JLabel("DATOS DEL USUARIO");
@@ -57,13 +57,13 @@ public class UserFormDialog extends JDialog {
     
     private JPanel createButtonPanel() {
     	JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 15));
-        panel.setBackground(Colors.lightGreen());
+        panel.setBackground(Colors.lightGreen);
         
         btnSave = new JButton("Guardar");
         btnCancel = new JButton("Cancelar");
         
         // Estilo de botones
-        styleButton(btnSave, Colors.green(), Color.WHITE);
+        styleButton(btnSave, Colors.green, Color.WHITE);
         styleButton(btnCancel, new Color(231, 76, 60), Color.WHITE);
         
         panel.add(btnCancel);
@@ -88,11 +88,11 @@ public class UserFormDialog extends JDialog {
     	JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
-        panel.setBackground(Colors.lightGreen());
+        panel.setBackground(Colors.lightGreen);
 
         JScrollPane scroll = new JScrollPane(panel);
         scroll.setBorder(null);
-        scroll.getViewport().setBackground(Colors.lightGreen());
+        scroll.getViewport().setBackground(Colors.lightGreen);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         txtName = createStyledField();
@@ -104,7 +104,7 @@ public class UserFormDialog extends JDialog {
         txtPassword = new JPasswordField();
         txtPassword.setFont(fieldFont);
         txtPassword.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Colors.green()), 
+            BorderFactory.createLineBorder(Colors.green), 
             BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         
         cbGender = new JComboBox<>(new String[] { "Masculino", "Femenino", "Otro" });
@@ -121,7 +121,7 @@ public class UserFormDialog extends JDialog {
         panel.add(createField("Contraseña:", txtPassword));
         
         btnSelectImage = new JButton("Seleccionar Foto de Perfil");
-        styleButton(btnSelectImage, Colors.lemonGreen(), Colors.darkGreen());
+        styleButton(btnSelectImage, Colors.lemonGreen, Colors.darkGreen);
         
         lblImagePreview = new JLabel("Sin imagen");
         lblImagePreview.setFont(new Font("Segoe UI", Font.ITALIC, 11));
@@ -133,12 +133,12 @@ public class UserFormDialog extends JDialog {
             if(res == JFileChooser.APPROVE_OPTION){
                 selectedImagePath = chooser.getSelectedFile().getAbsolutePath();
                 lblImagePreview.setText("✓ Imagen seleccionada");
-                lblImagePreview.setForeground(Colors.darkGreen());
+                lblImagePreview.setForeground(Colors.darkGreen);
             }
         });
 
         JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        imagePanel.setBackground(Colors.lightGreen());
+        imagePanel.setBackground(Colors.lightGreen);
         imagePanel.add(btnSelectImage);
         imagePanel.add(lblImagePreview);
         panel.add(imagePanel);
@@ -150,7 +150,7 @@ public class UserFormDialog extends JDialog {
         JTextField field = new JTextField();
         field.setFont(fieldFont);
         field.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Colors.green()), 
+            BorderFactory.createLineBorder(Colors.green), 
             BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         return field;
     }
@@ -158,13 +158,13 @@ public class UserFormDialog extends JDialog {
     
     private JPanel createField(String labelText, Component field) {
         JPanel panel = new JPanel();
-        panel.setBackground(Colors.lightGreen());
+        panel.setBackground(Colors.lightGreen);
         panel.setLayout(new BorderLayout(0, 5));
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
         
         JLabel label = new JLabel(labelText);
         label.setFont(labelFont);
-        label.setForeground(Colors.darkGreen());
+        label.setForeground(Colors.darkGreen);
 
         panel.add(label, BorderLayout.NORTH);
         panel.add(field, BorderLayout.CENTER);
@@ -185,7 +185,7 @@ public class UserFormDialog extends JDialog {
             if(user.getImagePath() != null && !user.getImagePath().isEmpty()) {
                 selectedImagePath = user.getImagePath();
                 lblImagePreview.setText("Imagen cargada");
-                lblImagePreview.setForeground(Colors.darkGreen());
+                lblImagePreview.setForeground(Colors.darkGreen);
             }
     		}
     }
@@ -203,19 +203,22 @@ public class UserFormDialog extends JDialog {
 
         
         if (name.isEmpty() || lastNameP.isEmpty() || lastNameG.isEmpty() || userName.isEmpty() || date.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, llena todos los campos personales.", "Campos incompletos", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor, llena todos los campos personales.",
+            		"Campos incompletos", JOptionPane.WARNING_MESSAGE);
             return; // Detiene el método, no guarda nada y mantiene la ventana abierta
         }
 
         
         if (email.isEmpty() || !email.contains("@") || !email.contains(".")) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa un correo electrónico válido.", "Correo inválido", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa un correo electrónico válido.",
+            		"Correo inválido", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
        
         if (password.isEmpty() || password.length() < 8) {
-            JOptionPane.showMessageDialog(this, "La contraseña debe tener al menos 8 caracteres.", "Contraseña débil", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "La contraseña debe tener al menos 8 caracteres.",
+            		"Contraseña débil", JOptionPane.WARNING_MESSAGE);
             return;
         }
 

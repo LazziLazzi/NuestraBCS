@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import assets.Colors;
+import utils.Colors;
 import utils.AppFont;
 
 public class MenuView extends JPanel {
@@ -21,10 +21,10 @@ public class MenuView extends JPanel {
     private JButton animales, plantas, insectos, aracnidos;
     private Font titleFont = new Font("Arial", Font.BOLD, 22);
     private Font buttonFont = new Font("Arial", Font.PLAIN, 18);
-    private Image stretchedBackground; // Variable para la imagen
+    private Image stretchedBackground;
 
     public MenuView() {
-        uploadBCSImage(); // Cargamos la imagen al iniciar
+        uploadBCSImage(); 
         initPanel();
     }
 

@@ -13,12 +13,6 @@ import utils.AppFont;
 
 public class UsersView extends JPanel {
 	
-	//Colores
-	/*private Color green = new Color(56,142,60);
-	private Color yellow = new Color(255, 255, 204);
-	private Color darkGreen = new Color(0, 102, 0);
-	private Color lightGreen = new Color(240, 255, 240);*/
-	
 	//Fuentes
 	private Font titleFont = new Font("Arial Rounded MT Bold", Font.BOLD, 12);
 	private Font generalFont = new Font("Arial", Font.BOLD, 12);
@@ -35,28 +29,28 @@ public class UsersView extends JPanel {
         //Configura el panel principal
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        setBackground(Colors.lightGreen());
+        setBackground(Colors.lightGreen);
 
         //Tabla central
         table = new JTable();
         styleTable();
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.getViewport().setBackground(Color.WHITE);
-        scrollPane.setBorder(BorderFactory.createLineBorder(Colors.green(), 2));
+        scrollPane.setBorder(BorderFactory.createLineBorder((Colors.green), 2));
         add(new JScrollPane(table), BorderLayout.CENTER);
 
         //Panel para los botones debajo
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setBackground(Colors.lightGreen());
+        buttonPanel.setBackground(Colors.lightGreen);
         btnAdd = new JButton("Agregar Usuario");
         btnEdit = new JButton("Editar Seleccionado");
         btnDelete = new JButton("Eliminar");
         btnPdf = new JButton("Exportar a PDF");
         
-        styleButton(btnAdd, Colors.green(), Color.WHITE);
-        styleButton(btnEdit, Colors.lemonGreen(), Colors.darkGreen()); 
+        styleButton(btnAdd, Colors.green, Color.WHITE);
+        styleButton(btnEdit, Colors.lemonGreen, Colors.darkGreen); 
         styleButton(btnDelete, new Color(231, 76, 60), Color.WHITE); 
-        styleButton(btnPdf, Colors.darkGreen(), Color.WHITE);
+        styleButton(btnPdf, Colors.darkGreen, Color.WHITE);
 
         buttonPanel.add(btnAdd);
         buttonPanel.add(btnEdit);
@@ -112,18 +106,18 @@ public class UsersView extends JPanel {
     private void styleTable() {
         table.setRowHeight(35);
         table.setShowGrid(true);
-        table.setGridColor(Colors.lemonGreen());
+        table.setGridColor(Colors.lemonGreen);
         table.setBackground(Color.WHITE);
         table.setForeground(Color.BLACK);
         table.setFont(generalFont);
         
-        table.setSelectionBackground(Colors.green());
+        table.setSelectionBackground(Colors.green);
         table.setSelectionForeground(Color.WHITE);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         // Estilo del encabezado
         JTableHeader header = table.getTableHeader();
-        header.setBackground(Colors.darkGreen());
+        header.setBackground(Colors.darkGreen);
         header.setForeground(Color.WHITE);
         header.setFont(titleFont);
         header.setPreferredSize(new Dimension(0, 40));
@@ -143,7 +137,7 @@ public class UsersView extends JPanel {
                     if (row % 2 == 0) {
                         c.setBackground(Color.WHITE);
                     } else {
-                        c.setBackground(Colors.lightGreen());
+                        c.setBackground(Colors.lightGreen);
                     }
                     c.setForeground(Color.BLACK);
                 }
@@ -152,7 +146,7 @@ public class UsersView extends JPanel {
                 if(column == 1) {
                     c.setFont(generalFont);
                     if(!isSelected) {
-                        c.setForeground(Colors.green());
+                        c.setForeground(Colors.green);
                     }
                 } else {
                     c.setFont(generalFont);

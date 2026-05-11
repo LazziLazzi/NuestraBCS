@@ -35,7 +35,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import assets.Colors;
+import utils.Colors;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;

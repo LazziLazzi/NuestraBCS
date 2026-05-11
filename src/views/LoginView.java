@@ -29,12 +29,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import utils.AppFont;
+import utils.Fonts;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import assets.Colors;
-import assets.Fonts;
+import utils.Colors;
 import ejercicio.Window;
 
 public class LoginView extends JPanel {
