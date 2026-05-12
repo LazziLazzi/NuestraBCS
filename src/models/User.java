@@ -1,6 +1,7 @@
 package models;
 
 public class User {
+	private int id;
 	private String name;
     private String lastNameP;
     private String lastNameM;
@@ -15,8 +16,15 @@ public class User {
     	
     }
     
-    public User(String name, String lastNameP, String lastNameM, String username, String birthDate, String email,String gender) {
-        this.name = name;
+    public User(int id, String email, String password) {
+		this.id = id;
+		this.email = email;
+		this.password = password;
+	}
+    
+    public User(int id, String name, String lastNameP, String lastNameM, String username, String birthDate, String email,String gender) {
+    	this.id = id;
+    	this.name = name;
         this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
         this.username = username;
@@ -25,6 +33,14 @@ public class User {
         this.gender = gender;
         this.imagePath = "";
     }
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
     
     public User(String name, String lastNameP, String lastNameM, String username, String birthDate, String email, String password,String gender,String imagePath) {
         this.name = name;

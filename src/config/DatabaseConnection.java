@@ -1,17 +1,19 @@
 package config;
 
+import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Properties;
 
 public class DatabaseConnection {
-	
-/*  
+ 
 	private static Connection connection;
 	public static Connection getConnection() {
 		try {
-			if(connection ==  null || connection.isClosed()) {
+			if(connection == null || connection.isClosed()) {
 				Properties props = new Properties();
-				InputSream input = DatabaseConnection.class.getClassLoader().get
+				
+				InputStream input = DatabaseConnection.class.getClassLoader().getResourceAsStream("config/database.properties");
 				props.load(input);
 				
 				String url = props.getProperty("db.url");
@@ -19,11 +21,16 @@ public class DatabaseConnection {
 				String password = props.getProperty("db.password");
 				String driver = props.getProperty("db.driver");
 				
+				Class.forName(driver);
+				
+				connection = DriverManager.getConnection(url, user, password);
 			}
 			
-		} catch(Exception e){
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return connection;
 	}
-*/
+
 }

@@ -1,4 +1,5 @@
 package controllers;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,12 +15,10 @@ import views.RegistrationView;
 
 public class LoginController {
 	private LoginView view;
-	//private RegistrationView registrationView;
 
     public LoginController(LoginView view) {
         this.view = view;
 
-        // Asignamos los listener sus acciones
         this.view.addLoginListener(new LoginAction());
         this.view.addRegisterListener(new RegisterAction());
     }
@@ -27,7 +26,7 @@ public class LoginController {
     private class LoginAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // ocultamos los mensajes de erroes
+       
             view.clearErrors();
 
             try {

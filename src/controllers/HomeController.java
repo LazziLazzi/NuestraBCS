@@ -6,12 +6,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
+
+import config.Config;
 import models.User;
 import models.UserTableModel;
 import repository.UserRepository;
 import views.HomeView;
 import views.MainWindow;
-import utils.Config;
 
 public class HomeController {
 	private MainWindow view; // Cambiamos HomeView por MainWindow

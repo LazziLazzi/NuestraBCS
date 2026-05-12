@@ -10,6 +10,7 @@ import java.io.File;
 import models.UserTableModel;
 import utils.Colors;
 import utils.AppFont;
+import config.Config;
 
 public class UsersView extends JPanel {
 	
@@ -73,7 +74,7 @@ public class UsersView extends JPanel {
     
     //MEtodo que abre la ventana para guardar el archvo
     public File selectPdfFile() {
-    		String lastPath = utils.Config.get("users.export.pdf", System.getProperty("user.home") + "/Desktop");
+    		String lastPath = config.Config.get("users.export.pdf", System.getProperty("user.home") + "/Desktop");
         JFileChooser chooser = new JFileChooser(lastPath);
         
         chooser.setSelectedFile(new File("Reporte_Usuarios.pdf"));
@@ -92,7 +93,7 @@ public class UsersView extends JPanel {
         
         File file = chooser.getSelectedFile();
         
-        utils.Config.set("users.export.pdf", file.getParent());
+        config.Config.set("users.export.pdf", file.getParent());
         
         // Asegura que termine en .pdf
         if(!file.getName().toLowerCase().endsWith(".pdf")) {
