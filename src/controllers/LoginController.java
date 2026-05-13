@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import models.User;
+import repository.LoginRepository;
 import views.CredencialErrorException;
 import views.EmailErroreException;
 import views.LoginView;
@@ -15,9 +17,11 @@ import views.RegistrationView;
 
 public class LoginController {
 	private LoginView view;
+	private LoginRepository loginRepo;
 
     public LoginController(LoginView view) {
         this.view = view;
+        this.loginRepo = new LoginRepository();
 
         this.view.addLoginListener(new LoginAction());
         this.view.addRegisterListener(new RegisterAction());
@@ -76,20 +80,25 @@ public class LoginController {
             throw new PasswordErrorException("Minimo 8 digitos");
         }
         
-        // Verifica si es el usuario normal
-        if(correo.equals("usuario@gmail.com") && contrasenia.equals("12345678")) {
-            System.out.println("Usuario inicio sesion");
-            MenuWindow menu = new MenuWindow(); 
-            menu.setVisible(true);
-        } 
-        else if(correo.equals("admin@gmail.com") && contrasenia.equals("12345678")) {
-            System.out.println("Administrador inicio sesion");
-            MainWindow mainWindow = new MainWindow();
-            new HomeController(mainWindow);
-            mainWindow.btnUsers.doClick();
-            mainWindow.setVisible(true);
-        } 
-        else {
+        User user = loginRepo.login(correo, contrasenia);
+        
+        // Checa si hay usuario
+        if(user != null) {
+            
+            if(user.getEmail().equals("admin@gmail.com")) {
+                System.out.println("Administrador inicio sesión");
+                MainWindow mainWindow = new MainWindow();
+                new HomeController(mainWindow);
+                mainWindow.btnUsers.doClick();
+                mainWindow.setVisible(true);
+            } else {
+                System.out.println("Usuario normal inicio sesión");
+                MenuWindow menu = new MenuWindow(); 
+                menu.setVisible(true);
+            }
+            
+        } else {
+            //No existe en el sql
             throw new CredencialErrorException("Correo o contraseña incorrectos");
         }
     }
