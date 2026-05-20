@@ -24,9 +24,11 @@ public class DatabaseConnection {
 				Class.forName(driver);
 				
 				connection = DriverManager.getConnection(url, user, password);
+				System.out.println("Conexion exitosa");
 			}
 			
 		} catch(Exception e) {
+			System.out.println("Conexion fallida");
 			e.printStackTrace();
 		}
 		

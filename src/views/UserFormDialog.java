@@ -225,6 +225,8 @@ public class UserFormDialog extends JDialog {
         
         user = new User(name, lastNameP, lastNameG, userName, date, email, password, gender, selectedImagePath);
         
+        
+        
         saved = true;
         dispose(); // Cierra la ventana solo si todo salió bien
     	}

@@ -8,6 +8,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import models.User;
@@ -16,58 +21,98 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import config.DatabaseConnection;
+
 public class UserRepository {
 
-	private final String FILE_PATH = "data" + File.separator + "users.json";
-
-	private final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-
     public void save(User user) throws IOException {
-        List<User> users = getUsers();
-        users.add(user);
-        updateAll(users);
+    		String sql = "INSERT INTO Usuarios (nombre, apellido_paterno, apellido_materno, usuario, fecha_nacimiento, email, contrasenia, genero) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    		
+    		try (Connection conn = DatabaseConnection.getConnection();
+    	             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    	            
+    	            stmt.setString(1, user.getName());
+    	            stmt.setString(2, user.getLastNameP());
+    	            stmt.setString(3, user.getLastNameM());
+    	            stmt.setString(4, user.getUsername());
+    	            stmt.setString(5, user.getBirthDate());
+    	            stmt.setString(6, user.getEmail());
+    	            stmt.setString(7, user.getPassword());
+    	            stmt.setString(8, user.getGender());
+    	            
+    	            stmt.executeUpdate();
+    	            System.out.println("Usuario guardado en la Base de Datos exitosamente.");
+    	            
+    	        } catch (SQLException ex) {
+    	            System.out.println("Error al guardar en Base de Datos:");
+    	            ex.printStackTrace();
+    	        }
+    
     }
 
-    public List<User> getUsers() throws IOException {
-        File file = new File(FILE_PATH);
+    public List<User> getUsers() {
+        List<User> usersList = new ArrayList<>();
+        String sql = "SELECT * FROM Usuarios";
         
-        if(file.getParentFile() != null) {
-            file.getParentFile().mkdirs();
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id_usuario"));
+                user.setName(rs.getString("nombre"));
+                user.setLastNameP(rs.getString("apellido_paterno"));
+                user.setLastNameM(rs.getString("apellido_materno"));
+                user.setUsername(rs.getString("usuario"));
+                user.setBirthDate(rs.getString("fecha_nacimiento"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("contrasenia"));
+                user.setGender(rs.getString("genero"));
+                
+                usersList.add(user);
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         
-        // Si el archivo no existe o esta vacio, regresa una lista nueva
-        if (!file.exists() || file.length() == 0) {
-            return new ArrayList<>();
-        }
-        
-        // Jackson lee el archivo y lo trae como lista de usuarios
-        return mapper.readValue(file, new TypeReference<List<User>>() {});
+        return usersList;
     }
     
-    public void updateAll(List<User> users) throws IOException {
-        //Sobreescrisbre el archivo json con la lista actualizada
-        mapper.writeValue(new File(FILE_PATH), users);
-    }
-    
-    public void delete(int index) throws IOException {
-        List<User> users = getUsers();
-        // Mantiene la validacion para evitar errores
-        if (index >= 0 && index < users.size()) {
-            users.remove(index);
-            // Guarda la lista ya sin el usuario
-            updateAll(users); 
+    public void delete(int idUsuario) {
+        String sql = "DELETE FROM Usuarios WHERE id_usuario = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, idUsuario);
+            stmt.executeUpdate();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
     
-    public void update(int index, User updatedUser) throws IOException {
-        List<User> users = getUsers();
-        // Mantenemos tu validación original
-        if (index >= 0 && index < users.size()) {
-            users.set(index, updatedUser);
-            // Guarda la lista con el usuario modificado
-            updateAll(users); 
+    public void update(User user) {
+        String sql = "UPDATE Usuarios SET nombre=?, apellido_paterno=?, apellido_materno=?, usuario=?, fecha_nacimiento=?, email=?, contrasenia=?, genero=? WHERE id_usuario=?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getLastNameP());
+            stmt.setString(3, user.getLastNameM());
+            stmt.setString(4, user.getUsername());
+            stmt.setString(5, user.getBirthDate());
+            stmt.setString(6, user.getEmail());
+            stmt.setString(7, user.getPassword());
+            stmt.setString(8, user.getGender());
+            stmt.setInt(9, user.getId()); 
+            
+            stmt.executeUpdate();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
-    
     
 }

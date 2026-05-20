@@ -52,10 +52,11 @@ public class UserController {
             int confirm = JOptionPane.showConfirmDialog(view, "¿Estas seguro de eliminar este registro?", "Confirmar eliminar", JOptionPane.YES_NO_OPTION);
             if(confirm == JOptionPane.YES_OPTION) {
                 try {
-                    repo.delete(row); // Lo borra del CSV
-                    loadUsers();      // Recarga la tabla
+                		User userToDelete = model.getUserAt(row);
+                    repo.delete(userToDelete.getId()); 
+                    loadUsers();      
                     JOptionPane.showMessageDialog(view, "Usuario eliminado");
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(view, "Error al eliminar: " + ex.getMessage());
                 }
             }
@@ -76,7 +77,7 @@ public class UserController {
     				model.setUsers(users);
     			}
     			
-    		} catch(IOException ex) {
+    		} catch(Exception ex) {
     			JOptionPane.showMessageDialog(view, ex.getMessage());
     		}
     }
@@ -91,8 +92,8 @@ public class UserController {
     				if(user == null) {
     					repo.save(savedUser);
     				} else {
-    					int row = view.getSelectedRow();
-    					repo.update(row, savedUser);
+                    savedUser.setId(user.getId());
+    					repo.update(savedUser);
     				}
     				loadUsers();
     			} catch(Exception e) {
