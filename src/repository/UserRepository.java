@@ -115,4 +115,27 @@ public class UserRepository {
         }
     }
     
+    //Verifica si hay un correo en a base de datos
+    public boolean emailExists(String email) {
+        boolean exists = false;
+        String sql = "SELECT id_usuario FROM Usuarios WHERE email = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            
+            // Si rs.next() es verdadero, es que si ese correo ya s esta usando
+            if (rs.next()) {
+                exists = true; 
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return exists;
+    }
+    
 }

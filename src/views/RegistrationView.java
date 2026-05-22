@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
+import javax.swing.JFormattedTextField; 
+import javax.swing.text.MaskFormatter;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -66,7 +68,7 @@ public class RegistrationView extends JFrame{
 	private JTextField fieldNameUser;
 	private JLabel errorNameUser;
 	
-	private JTextField fieldDate;
+	private JFormattedTextField fieldDate;
 	private JLabel errorFieldDate;
 	
 	private JTextField fieldEmail;
@@ -214,7 +216,15 @@ public class RegistrationView extends JFrame{
 		fieldNameUser = new JTextField(20);
 		errorNameUser = new JLabel(" ");
 
-		fieldDate = new JTextField(20);
+		try {
+		    MaskFormatter dateMask = new MaskFormatter("##/##/####");
+		    
+		    dateMask.setPlaceholderCharacter('_'); 
+		    fieldDate = new JFormattedTextField(dateMask);
+		    fieldDate.setColumns(20);
+		} catch (java.text.ParseException e) {
+		    fieldDate = new JFormattedTextField(); 
+		}
 		errorFieldDate = new JLabel(" ");
 
 		fieldEmail = new JTextField(20);

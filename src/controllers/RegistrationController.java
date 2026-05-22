@@ -70,20 +70,16 @@ public class RegistrationController {
                     repository.save(newUser);
                     javax.swing.JOptionPane.showMessageDialog(null, "Usuario registrado");
                     
-                    //Abre la ventana
-                    MainWindow mainWindow = new MainWindow();
-
+                    // Abre la ventana de Login nuevamente
+                    LoginWindow loginWindow = new LoginWindow();
+                    loginWindow.setVisible(true);
                     
-                    // 2. Conecta el HomeController a la ventana
-                    new HomeController(mainWindow);
-
-                    // 3. Forzamos a que inicie en la vista de usuarios (opcional)
-                    mainWindow.btnUsers.doClick();
-                    
+                    // Cierra la ventana de registro actual
+                    view.dispose();
                   
                     view.dispose();
 
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
                 }
             }
@@ -160,9 +156,10 @@ public class RegistrationController {
     }
 
     private boolean validateFechaNacimiento() {
-        String fecha = view.getDateText().trim();
-        if (fecha.isEmpty()) { 
-            view.showDateError("La fecha es obligatoria"); 
+    		String fecha = view.getDateText(); 
+        
+        if (fecha.contains("_")) { 
+            view.showDateError("Complete la fecha (DD/MM/AAAA)"); 
             return false; 
         } 
         view.showDateError(" "); 
@@ -170,7 +167,7 @@ public class RegistrationController {
     }
 
     private boolean validateCorreo() {
-        String email = view.getEmailText().trim();
+    		String email = view.getEmailText().trim();
         if (email.isEmpty()) { 
             view.showEmailError("El correo es obligatorio"); 
             return false; 
@@ -179,6 +176,13 @@ public class RegistrationController {
             view.showEmailError("Ingrese un correo válido"); 
             return false; 
         }
+       
+        UserRepository repo = new UserRepository();
+        if (repo.emailExists(email)) {
+            view.showEmailError("Este correo ya está registrado"); 
+            return false; // Detiene el registro porque ya esta registrado
+        }
+
         view.showEmailError(" "); 
         return true;
     }
