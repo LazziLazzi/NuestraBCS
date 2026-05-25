@@ -10,6 +10,7 @@ public class Colors {
 	public static final Color darkGreen = new Color(0, 102, 0);
 	public static final Color lightGreen = new Color(240, 255, 240);
 	public static final Color opaqueGreen = new Color(133,184,95);
+	public static final Color gray = new Color(230, 230, 230);
 	
 	public void Colors() {
 	}

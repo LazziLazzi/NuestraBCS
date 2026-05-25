@@ -116,4 +116,11 @@ public class MenuView extends JPanel {
         
         return button;
     }
+    
+ // Métodos para que el controlador pueda agregarles acciones a los botones
+    public void addAnimalesListener(java.awt.event.ActionListener listener) { animales.addActionListener(listener); }
+    public void addPlantasListener(java.awt.event.ActionListener listener) { plantas.addActionListener(listener); }
+    public void addInsectosListener(java.awt.event.ActionListener listener) { insectos.addActionListener(listener); }
+    public void addAracnidosListener(java.awt.event.ActionListener listener) { aracnidos.addActionListener(listener); }
 }
+
