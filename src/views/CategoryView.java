@@ -13,7 +13,9 @@ import javax.swing.SwingConstants;
 import utils.Colors;
 
 public class CategoryView extends JPanel {
-
+	
+	private java.util.ArrayList<JButton> botonesEspecies = new java.util.ArrayList<>();
+	
     // Constructor que recibe el título y la lista de nombres
     public CategoryView(String categoryTitle, String[] itemNames) {
         initPanel(categoryTitle, itemNames);
@@ -65,7 +67,15 @@ public class CategoryView extends JPanel {
         
         card.add(imagePlaceholder, BorderLayout.CENTER);
         card.add(nameButton, BorderLayout.SOUTH);
-
+        
+        botonesEspecies.add(nameButton);
+        
         return card;
+    }
+    
+    public void addSpeciesListener(java.awt.event.ActionListener listener) {
+        for (JButton btn : botonesEspecies) {
+            btn.addActionListener(listener);
+        }
     }
 }
