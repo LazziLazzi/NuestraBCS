@@ -18,7 +18,7 @@ import utils.AppFont;
 
 public class MenuView extends JPanel {
     
-    private JButton animales, plantas, insectos, aracnidos;
+    private JButton animales, plantas, insectos, aracnidos,cerrar_sesion;
     private Font titleFont = new Font("Arial", Font.BOLD, 22);
     private Font buttonFont = new Font("Arial", Font.PLAIN, 18);
     private Image stretchedBackground;
@@ -55,6 +55,7 @@ public class MenuView extends JPanel {
         plantas = createButton("Plantas");
         insectos = createButton("Insectos");
         aracnidos = createButton("Arácnidos");
+        cerrar_sesion = createButton("Cerrar Sesion");
 
         add(animales);
         add(Box.createRigidArea(new Dimension(0, 18)));
@@ -63,7 +64,9 @@ public class MenuView extends JPanel {
         add(insectos);
         add(Box.createRigidArea(new Dimension(0, 18)));
         add(aracnidos);
-
+        add(Box.createRigidArea(new Dimension(0, 18)));
+        add(cerrar_sesion);
+        
         add(Box.createVerticalGlue()); 
     }
 
@@ -122,5 +125,6 @@ public class MenuView extends JPanel {
     public void addPlantasListener(java.awt.event.ActionListener listener) { plantas.addActionListener(listener); }
     public void addInsectosListener(java.awt.event.ActionListener listener) { insectos.addActionListener(listener); }
     public void addAracnidosListener(java.awt.event.ActionListener listener) { aracnidos.addActionListener(listener); }
+    public void addCerrarSesionListener(java.awt.event.ActionListener listener) { cerrar_sesion.addActionListener(listener); }
 }
 

@@ -6,7 +6,7 @@ public class SpeciesDetailWindow extends JFrame {
 
     public SpeciesDetailWindow(String name, String scientificName, String kingdom, 
                                String phylum, String speciesClass, String family, 
-                               String genus, String description) {
+                               String genus, String description, String bannerPath) {
         
         setTitle("NuestraBCS - Detalle de " + name);
         setSize(600, 650);
@@ -15,7 +15,7 @@ public class SpeciesDetailWindow extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         SpeciesDetailView detailPanel = new SpeciesDetailView(
-            name, scientificName, kingdom, phylum, speciesClass, family, genus, description
+            name, scientificName, kingdom, phylum, speciesClass, family, genus, description, bannerPath
         );
         
         add(detailPanel);

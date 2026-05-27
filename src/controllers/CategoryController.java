@@ -2,6 +2,12 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
+import config.DatabaseConnection; 
 import views.CategoryView;
 import views.SpeciesDetailWindow;
 
@@ -28,37 +34,45 @@ public class CategoryController {
             String family = "Desconocido";
             String genus = "Desconocido";
             String description = "Descripción provisional en lo que se conecta la base de datos.";
+            String bannerPath = "";
 
-            // Simulación de consulta a la base de datos
-            if (nombreEspecie.equals("Ballena Gris")) {
-                scientificName = "Eschrichtius robustus";
-                kingdom = "Animalia";
-                phylum = "Chordata";
-                speciesClass = "Mammalia"; // Nota: si en tu ventana se llama speciesClass, mapealo ahí
-                family = "Eschrichtiidae";
-                genus = "Eschrichtius";
-                description = "La ballena gris es un mamífero marino que realiza una de las migraciones más largas del mundo, llegando a las lagunas de Baja California Sur para reproducirse.";
-            } else if (nombreEspecie.equals("Cardón Gigante")) {
-                scientificName = "Pachycereus pringlei";
-                kingdom = "Plantae";
-                phylum = "Tracheophyta";
-                speciesClass = "Magnoliopsida";
-                family = "Cactaceae";
-                genus = "Pachycereus";
-                description = "El cardón gigante es una de las plantas más emblemáticas y grandes del desierto de la península de Baja California.";
-            } else if (nombreEspecie.equals("Avispa Caza-Tarántulas")) {
-                scientificName = "Pepsis formosa";
-                kingdom = "Animalia";
-                phylum = "Arthropoda";
-                speciesClass = "Insecta";
-                family = "Pompilidae";
-                genus = "Pepsis";
-                description = "Este insecto es famoso en la región por su potente picadura y por cazar tarántulas para alimentar a sus larvas.";
+            // Consulta que une las 3 tablaS
+            String sql = "SELECT e.descripcion, c.nombre_cientifico, c.reino, c.filo, c.clase, c.familia, c.genero, i.portada " +
+                         "FROM Especies e " +
+                         "LEFT JOIN Caracteristicas c ON e.id_especie = c.id_especie " +
+                         "LEFT JOIN Imagenes i ON e.id_especie = i.id_especie " +
+                         "WHERE e.nombre_especie = ?";
+
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+                
+                stmt.setString(1, nombreEspecie);
+                ResultSet rs = stmt.executeQuery();
+                
+                if (rs.next()) {
+                    description = rs.getString("descripcion");
+                    scientificName = rs.getString("nombre_cientifico");
+                    kingdom = rs.getString("reino");
+                    phylum = rs.getString("filo");
+                    speciesClass = rs.getString("clase");
+                    family = rs.getString("familia");
+                    genus = rs.getString("genero");
+                    
+                    bannerPath = rs.getString("portada"); 
+                } else {
+                    JOptionPane.showMessageDialog(null, "Aún no hay datos en la BD para: " + nombreEspecie);
+                    return; 
+                }
+                
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al conectar con la Base de Datos.");
+                return;
             }
 
-            // se crea la ventana y se le pasan la info correspondiente
+            // Creamos la ventana enviando los datos reales extraidos de SQL
             SpeciesDetailWindow detailWindow = new SpeciesDetailWindow(
-                nombreEspecie, scientificName, kingdom, phylum, speciesClass, family, genus, description
+                nombreEspecie, scientificName, kingdom, phylum, speciesClass, family, genus, description, bannerPath
             );
             detailWindow.setVisible(true);
         }

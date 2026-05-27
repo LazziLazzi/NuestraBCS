@@ -5,9 +5,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,7 +22,7 @@ public class SpeciesDetailView extends JPanel {
 	
     public SpeciesDetailView(String name, String scientificName, String kingdom, 
                              String phylum, String speciesClass, String family, 
-                             String genus, String description) {
+                             String genus, String description, String bannerPath) {
         
         // BoxLayout vertical
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -27,14 +30,28 @@ public class SpeciesDetailView extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // placeholder estirado
-        JLabel imagePlaceholder = new JLabel("Foto de " + name, SwingConstants.CENTER);
+        JLabel imagePlaceholder = new JLabel();
+        imagePlaceholder.setHorizontalAlignment(SwingConstants.CENTER);
         imagePlaceholder.setOpaque(true);
         imagePlaceholder.setBackground(new Color(230, 230, 230));
         imagePlaceholder.setBorder(BorderFactory.createLineBorder(Colors.green, 2));
         imagePlaceholder.setAlignmentX(CENTER_ALIGNMENT);
         imagePlaceholder.setMaximumSize(new Dimension(550, 200));
         imagePlaceholder.setPreferredSize(new Dimension(550, 200));
+        
+        try {
+            // Le quita el / del inicio para que no haya problemas con las lecturas
+            String cleanPath = bannerPath.startsWith("/") ? bannerPath.substring(1) : bannerPath;
+            ImageIcon icon = new ImageIcon(cleanPath);
+            // Escala la imagen 
+            Image img = icon.getImage().getScaledInstance(550, 200, Image.SCALE_SMOOTH);
+            imagePlaceholder.setIcon(new ImageIcon(img));
+        } catch (Exception e) {
+            imagePlaceholder.setText("Imagen no encontrada");
+        }
         add(imagePlaceholder);
+        
+        //--------
 
         add(Box.createRigidArea(new Dimension(0, 15)));
 
