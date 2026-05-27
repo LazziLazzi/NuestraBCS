@@ -18,26 +18,33 @@ public class CategoryController {
         this.view = view;
         // Le asignamos el listener a todos los botones guardados en la lista de la vista
         this.view.addSpeciesListener(new SpeciesAction());
+        uploadCover();
+    }
+    
+	// Busca las imagenes de la portada
+    private void uploadCover() {
+    		String sql = "SELECT e.nombre_especie, i.portada " +
+                "FROM Especies e " +
+                "INNER JOIN Imagenes i ON e.id_especie = i.id_especie";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+            		view.setPortada(rs.getString("nombre_especie"), rs.getString("portada"));
+            }
+        } catch (Exception ex) {
+            System.out.println("Error al cargar portadas: " + ex.getMessage());
+        }
     }
 
     private class SpeciesAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Captura el nombre exacto escrito en el botón (ej. "Ballena Gris")
-            String nombreEspecie = e.getActionCommand();
+String nombreEspecie = e.getActionCommand();
             
-            // Variables provisionales en lo que integran la base de datos
-            String scientificName = "Desconocido";
-            String kingdom = "Desconocido";
-            String phylum = "Desconocido";
-            String speciesClass = "Desconocido";
-            String family = "Desconocido";
-            String genus = "Desconocido";
-            String description = "Descripción provisional en lo que se conecta la base de datos.";
-            String bannerPath = "";
-
-            // Consulta que une las 3 tablaS
-            String sql = "SELECT e.descripcion, c.nombre_cientifico, c.reino, c.filo, c.clase, c.familia, c.genero, i.portada " +
+            // Consulta que trae ambas imagenes
+            String sql = "SELECT e.descripcion, c.nombre_cientifico, c.reino, c.filo, c.clase, c.familia, c.genero, i.banner " +
                          "FROM Especies e " +
                          "LEFT JOIN Caracteristicas c ON e.id_especie = c.id_especie " +
                          "LEFT JOIN Imagenes i ON e.id_especie = i.id_especie " +
@@ -50,31 +57,28 @@ public class CategoryController {
                 ResultSet rs = stmt.executeQuery();
                 
                 if (rs.next()) {
-                    description = rs.getString("descripcion");
-                    scientificName = rs.getString("nombre_cientifico");
-                    kingdom = rs.getString("reino");
-                    phylum = rs.getString("filo");
-                    speciesClass = rs.getString("clase");
-                    family = rs.getString("familia");
-                    genus = rs.getString("genero");
+                    //Captura de datos
+                    String desc = rs.getString("descripcion");
+                    String sci = rs.getString("nombre_cientifico");
+                    String rei = rs.getString("reino");
+                    String fil = rs.getString("filo");
+                    String cla = rs.getString("clase");
+                    String fam = rs.getString("familia");
+                    String gen = rs.getString("genero");
+                    String rutaBanner = rs.getString("banner"); 
                     
-                    bannerPath = rs.getString("portada"); 
+                    
+                    SpeciesDetailWindow detailWindow = new SpeciesDetailWindow(
+                        nombreEspecie, sci, rei, fil, cla, fam, gen, desc, rutaBanner
+                    );
+                    detailWindow.setVisible(true);
+                    
                 } else {
-                    JOptionPane.showMessageDialog(null, "Aún no hay datos en la BD para: " + nombreEspecie);
-                    return; 
+                    JOptionPane.showMessageDialog(null, "No se encontraron datos.");
                 }
-                
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error al conectar con la Base de Datos.");
-                return;
             }
-
-            // Creamos la ventana enviando los datos reales extraidos de SQL
-            SpeciesDetailWindow detailWindow = new SpeciesDetailWindow(
-                nombreEspecie, scientificName, kingdom, phylum, speciesClass, family, genus, description, bannerPath
-            );
-            detailWindow.setVisible(true);
         }
     }
 }

@@ -84,7 +84,6 @@ public class LoginController {
         
         // Checa si hay usuario
         if(user != null) {
-            
             if(user.getEmail().equals("admin@gmail.com")) {
                 System.out.println("Administrador inicio sesión");
                 MainWindow mainWindow = new MainWindow();

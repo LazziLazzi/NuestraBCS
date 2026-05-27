@@ -115,6 +115,29 @@ public class UserRepository {
         }
     }
     
+    public boolean userExists(String user) {
+        boolean exists = false;
+        String sql = "SELECT id_usuario FROM Usuarios WHERE usuario = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, user);
+            ResultSet rs = stmt.executeQuery();
+            
+            // Si rs.next() es verdadero, es porque ese nombre de usuario ya se esta usando
+            if (rs.next()) {
+                exists = true; 
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return exists;
+    }
+
+    
     //Verifica si hay un correo en a base de datos
     public boolean emailExists(String email) {
         boolean exists = false;

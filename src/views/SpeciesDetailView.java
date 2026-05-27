@@ -6,7 +6,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -40,14 +43,21 @@ public class SpeciesDetailView extends JPanel {
         imagePlaceholder.setPreferredSize(new Dimension(550, 200));
         
         try {
-            // Le quita el / del inicio para que no haya problemas con las lecturas
             String cleanPath = bannerPath.startsWith("/") ? bannerPath.substring(1) : bannerPath;
-            ImageIcon icon = new ImageIcon(cleanPath);
-            // Escala la imagen 
-            Image img = icon.getImage().getScaledInstance(550, 200, Image.SCALE_SMOOTH);
-            imagePlaceholder.setIcon(new ImageIcon(img));
+            File file = new File(cleanPath);
+            if(file.exists()) {
+                BufferedImage img = ImageIO.read(file);
+                if(img != null) {
+                    Image scaledImg = img.getScaledInstance(550, 200, Image.SCALE_SMOOTH);
+                    imagePlaceholder.setIcon(new ImageIcon(scaledImg));
+                } else {
+                    imagePlaceholder.setText("Formato de imagen inválido");
+                }
+            } else {
+                imagePlaceholder.setText("Archivo no encontrado: " + cleanPath);
+            }
         } catch (Exception e) {
-            imagePlaceholder.setText("Imagen no encontrada");
+            imagePlaceholder.setText("Error al cargar la imagen");
         }
         add(imagePlaceholder);
         

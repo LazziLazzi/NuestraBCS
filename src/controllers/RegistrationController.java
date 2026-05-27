@@ -138,19 +138,26 @@ public class RegistrationController {
     }
 
     private boolean validateNombreUsuario() {
-        String usuario = view.getNameUserText().trim();
-        if (usuario.isEmpty()) {
+        String user = view.getNameUserText().trim();
+        if (user.isEmpty()) {
             view.showNameUserError("El usuario es obligatorio"); 
             return false; 
         } 
-        else if (usuario.contains(" ")) { 
+        else if (user.contains(" ")) { 
             view.showNameUserError("No debe contener espacios"); 
             return false; 
         } 
-        else if (usuario.length() < 4) { 
+        else if (user.length() < 4) { 
             view.showNameUserError("Mínimo 4 caracteres"); 
             return false; 
         }
+        
+        UserRepository repo = new UserRepository();
+        if (repo.userExists(user)) {
+            view.showNameUserError("Ese nombre de usuario ya existe"); 
+            return false; // Detiene el registro porque ya esta registrado
+        }
+        
         view.showNameUserError(" "); 
         return true;
     }
