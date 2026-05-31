@@ -5,15 +5,15 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import exceptions.CredencialErrorException;
+import exceptions.EmailErroreException;
+import exceptions.PasswordErrorException;
 import models.User;
 import repository.LoginRepository;
-import views.CredencialErrorException;
-import views.EmailErroreException;
 import views.LoginView;
-import views.MainWindow;
-import views.MenuWindow;
-import views.PasswordErrorException;
 import views.RegistrationView;
+import windows.MainWindow;
+import windows.MenuWindow;
 
 public class LoginController {
 	private LoginView view;

@@ -1,4 +1,4 @@
-package views;
+package exceptions;
 
 public class PasswordErrorException extends Exception {
 	

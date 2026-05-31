@@ -7,9 +7,9 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import views.RegistrationView;
+import windows.LoginWindow;
+import windows.MainWindow;
 import views.HomeView;
-import views.LoginWindow;
-import views.MainWindow;
 import models.User;
 import repository.UserRepository;
 

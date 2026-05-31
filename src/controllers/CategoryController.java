@@ -5,19 +5,33 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import config.DatabaseConnection; 
 import views.CategoryView;
-import views.SpeciesDetailWindow;
+import windows.CategoryWindow;
+import windows.SpeciesDetailWindow;
 
 public class CategoryController {
     private CategoryView view;
+    private CategoryWindow currentWindow;
+    private JFrame previousWindow;
 
-    public CategoryController(CategoryView view) {
+    public CategoryController(CategoryView view, CategoryWindow currentWindow, javax.swing.JFrame previousWindow) {
         this.view = view;
-        // Le asignamos el listener a todos los botones guardados en la lista de la vista
+        this.currentWindow = currentWindow;
+        this.previousWindow = previousWindow;
+
         this.view.addSpeciesListener(new SpeciesAction());
+        
+        // Lógica del botón de regresar
+        this.view.addRegresarListener(e -> {
+            previousWindow.setVisible(true); // se nuestra el menú de nuevo
+            currentWindow.dispose();
+        });
+        
         uploadCover();
     }
     
@@ -41,7 +55,7 @@ public class CategoryController {
     private class SpeciesAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-String nombreEspecie = e.getActionCommand();
+        	String nombreEspecie = e.getActionCommand();
             
             // Consulta que trae ambas imagenes
             String sql = "SELECT e.descripcion, c.nombre_cientifico, c.reino, c.filo, c.clase, c.familia, c.genero, i.banner " +
@@ -67,11 +81,12 @@ String nombreEspecie = e.getActionCommand();
                     String gen = rs.getString("genero");
                     String rutaBanner = rs.getString("banner"); 
                     
-                    
                     SpeciesDetailWindow detailWindow = new SpeciesDetailWindow(
-                        nombreEspecie, sci, rei, fil, cla, fam, gen, desc, rutaBanner
-                    );
-                    detailWindow.setVisible(true);
+                            currentWindow, nombreEspecie, sci, rei, fil, cla, fam, gen, desc, rutaBanner
+                        );               
+                        new SpeciesDetailController(detailWindow.getDetailPanel(), detailWindow, currentWindow, nombreEspecie);
+                        detailWindow.setVisible(true);
+                        currentWindow.setVisible(false); // Ocultamos categorías
                     
                 } else {
                     JOptionPane.showMessageDialog(null, "No se encontraron datos.");

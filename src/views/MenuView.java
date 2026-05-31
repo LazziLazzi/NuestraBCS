@@ -18,7 +18,7 @@ import utils.AppFont;
 
 public class MenuView extends JPanel {
     
-    private JButton animales, plantas, insectos, aracnidos,cerrar_sesion;
+    private JButton animales, plantas, insectos, aracnidos,cerrarSesion;
     private Font titleFont = new Font("Arial", Font.BOLD, 22);
     private Font buttonFont = new Font("Arial", Font.PLAIN, 18);
     private Image stretchedBackground;
@@ -55,8 +55,9 @@ public class MenuView extends JPanel {
         plantas = createButton("Plantas");
         insectos = createButton("Insectos");
         aracnidos = createButton("Arácnidos");
-        cerrar_sesion = createButton("Cerrar Sesion");
-
+        
+        cerrarSesion = createCloseBtn("Cerrar Sesion");
+        
         add(animales);
         add(Box.createRigidArea(new Dimension(0, 18)));
         add(plantas);
@@ -65,7 +66,7 @@ public class MenuView extends JPanel {
         add(Box.createRigidArea(new Dimension(0, 18)));
         add(aracnidos);
         add(Box.createRigidArea(new Dimension(0, 18)));
-        add(cerrar_sesion);
+        add(cerrarSesion);
         
         add(Box.createVerticalGlue()); 
     }
@@ -97,6 +98,30 @@ public class MenuView extends JPanel {
 	    }
 	}
 
+    private JButton createCloseBtn(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(Colors.opaqueGreen);
+        button.setForeground(Color.WHITE);
+        button.setFont(new Font("Arial", Font.PLAIN, 14));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setMaximumSize(new Dimension(180, 30)); 
+        button.setFocusPainted(false);
+        button.setToolTipText("De click para cerrar su sesión");
+        
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(Colors.lemonGreen);
+                button.setForeground(Colors.green);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(Colors.opaqueGreen);
+                button.setForeground(Color.WHITE);
+            }
+        });
+        
+        return button;
+    }
+    
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setBackground(Colors.green);
@@ -105,6 +130,7 @@ public class MenuView extends JPanel {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setMaximumSize(new Dimension(200, 80)); 
         button.setFocusPainted(false);
+        button.setToolTipText("Abrir la categoría " + text);
         
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -125,6 +151,6 @@ public class MenuView extends JPanel {
     public void addPlantasListener(java.awt.event.ActionListener listener) { plantas.addActionListener(listener); }
     public void addInsectosListener(java.awt.event.ActionListener listener) { insectos.addActionListener(listener); }
     public void addAracnidosListener(java.awt.event.ActionListener listener) { aracnidos.addActionListener(listener); }
-    public void addCerrarSesionListener(java.awt.event.ActionListener listener) { cerrar_sesion.addActionListener(listener); }
+    public void addCerrarSesionListener(java.awt.event.ActionListener listener) { cerrarSesion.addActionListener(listener); }
 }
 

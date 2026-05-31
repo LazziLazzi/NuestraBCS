@@ -21,6 +21,8 @@ import utils.Colors;
 
 public class CategoryView extends JPanel {
 	
+	private JButton btnBack;
+	
 	private java.util.ArrayList<JButton> buttonSpecies = new java.util.ArrayList<>();
 	
 	private HashMap<String, JLabel> imageLabels = new HashMap<>();
@@ -31,19 +33,49 @@ public class CategoryView extends JPanel {
     }
 
     private void initPanel(String categoryTitle, String[] itemNames) {
-        // Layout principal con separación entre los bordes
         setLayout(new BorderLayout(20, 20));
         setBackground(Colors.yellow); 
         
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        JPanel northPanel = new JPanel();
+        northPanel.setLayout(new javax.swing.BoxLayout(northPanel, javax.swing.BoxLayout.Y_AXIS));
+        northPanel.setOpaque(false);
+        
+        // boton para volver
+        btnBack = new JButton("Regresar a la ventana anterior");
+        btnBack.setBackground(Colors.opaqueGreen);
+        btnBack.setForeground(Color.WHITE);
+        btnBack.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnBack.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        btnBack.setMaximumSize(new Dimension(300, 30));
+        btnBack.setToolTipText("De click para volver a la ventana anterior");
+        btnBack.setFocusPainted(false);
+        
+        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBack.setBackground(Colors.lemonGreen);
+                btnBack.setForeground(Colors.green);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBack.setBackground(Colors.opaqueGreen);
+                btnBack.setForeground(Color.WHITE);
+            }
+        });
 
         JLabel header = new JLabel(categoryTitle, SwingConstants.CENTER);
         header.setOpaque(true);
         header.setBackground(Colors.green);
         header.setForeground(Color.WHITE);
         header.setFont(new Font("Arial", Font.BOLD, 24));
-        header.setPreferredSize(new Dimension(0, 60));
-        add(header, BorderLayout.NORTH);
+        header.setMaximumSize(new Dimension(550, 60));
+        header.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+
+        northPanel.add(btnBack);
+        northPanel.add(javax.swing.Box.createRigidArea(new Dimension(0, 10)));
+        northPanel.add(header);
+
+        add(northPanel, BorderLayout.NORTH);
 
         // La cuadrícula de 3 filas y 2 columnas
         JPanel gridPanel = new JPanel(new GridLayout(3, 2, 20, 20));
@@ -127,4 +159,6 @@ public class CategoryView extends JPanel {
             btn.addActionListener(listener);
         }
     }
+    
+    public void addRegresarListener(java.awt.event.ActionListener listener) { btnBack.addActionListener(listener); }
 }

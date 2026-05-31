@@ -1,7 +1,9 @@
-package views;
+package windows;
 
 import java.awt.*;
 import javax.swing.*;
+
+import views.UsersView;
 
 public class MainWindow extends JFrame {
     

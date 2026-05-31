@@ -3,7 +3,7 @@ package controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import views.MenuView;
-import views.CategoryWindow;
+import windows.CategoryWindow;
 import views.LoginView;
 
 public class MenuController {
@@ -40,22 +40,37 @@ public class MenuController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Se crea la ventana con la categoría que corresponda al botón que se selecciono
-            CategoryWindow window = new CategoryWindow(categoryTitle, items);
+            // Obtenemos la ventana actual del menú
+            javax.swing.JFrame currentWindow = (javax.swing.JFrame) javax.swing.SwingUtilities.getWindowAncestor(view);
+            
+            CategoryWindow window = new CategoryWindow(currentWindow, categoryTitle, items);
             window.setVisible(true); 
-
-            // javax.swing.SwingUtilities.getWindowAncestor(view).dispose();
+            currentWindow.setVisible(false); 
         }
     }
-    
-    private class closeSesion implements ActionListener{
-    	@Override
+
+    private class closeSesion implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
-            // Se crea la ventana con la categoría que corresponda al botón que se selecciono
-            LoginView window = new LoginView();
-            window.setVisible(true);
-          
-            javax.swing.SwingUtilities.getWindowAncestor(view).dispose();
+            int opcion = javax.swing.JOptionPane.showConfirmDialog(view, 
+                "¿Está seguro que desea cerrar sesión?", "Cerrar Sesión", 
+                javax.swing.JOptionPane.YES_NO_OPTION);
+                
+            if (opcion == javax.swing.JOptionPane.YES_OPTION) {
+                javax.swing.SwingUtilities.getWindowAncestor(view).dispose(); 
+                
+                javax.swing.JFrame loginFrame = new javax.swing.JFrame("Iniciar Sesión");
+                loginFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+                loginFrame.setSize(400, 500); 
+                loginFrame.setResizable(false); 
+                loginFrame.setLocationRelativeTo(null);
+                
+                views.LoginView loginPanel = new views.LoginView();
+                new controllers.LoginController(loginPanel); 
+                
+                loginFrame.add(loginPanel);
+                loginFrame.setVisible(true);
+            }
         }
     }
 }

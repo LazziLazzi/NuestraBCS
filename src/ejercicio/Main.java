@@ -1,5 +1,5 @@
 package ejercicio;
-import views.LoginWindow;
+import windows.LoginWindow;
 
 public class Main {
 

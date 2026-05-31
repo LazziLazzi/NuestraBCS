@@ -1,4 +1,4 @@
-package views;
+package windows;
 
 public class RegistrationWindow {
 

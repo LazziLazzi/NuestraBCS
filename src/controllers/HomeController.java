@@ -12,7 +12,7 @@ import models.User;
 import models.UserTableModel;
 import repository.UserRepository;
 import views.HomeView;
-import views.MainWindow;
+import windows.MainWindow;
 
 public class HomeController {
 	private MainWindow view; // Cambiamos HomeView por MainWindow

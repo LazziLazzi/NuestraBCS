@@ -52,10 +52,6 @@ public class RegistrationView extends JFrame{
 	//atributos
 	private Image scaledBackground;
 	
-	/*"Nombre:", "Apellido Paterno:", "Apellido Materno:", 
-	"Nombre de Usuario:", "Fecha de Nacimiento:", 
-	"Correo electronico:", "Contraseña:", "Confirmar Contraseña:"*/
-	
 	private JTextField fieldName;
 	private JLabel errorName;
 	
@@ -187,6 +183,7 @@ public class RegistrationView extends JFrame{
 		// Agrega el scroll
 		JScrollPane scroll = new JScrollPane(containerPanel);
 		scroll.setBorder(null);
+		scroll.getVerticalScrollBar().setUnitIncrement(16);
 		add(scroll, BorderLayout.CENTER);
 	}
 	

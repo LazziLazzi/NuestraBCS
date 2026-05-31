@@ -1,4 +1,4 @@
-package views;
+package exceptions;
 
 public class CredencialErrorException extends Exception {
 	

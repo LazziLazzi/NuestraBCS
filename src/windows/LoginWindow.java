@@ -1,19 +1,21 @@
-package views;
+package windows;
+import controllers.LoginController;
+import views.LoginView;
 
 import javax.swing.JFrame;
+import java.awt.Dimension;
 
-import controllers.MenuController;
-
-public class MenuWindow extends JFrame{
-	public MenuWindow() {
-		setTitle("NuestraBCS - Menú");
+public class LoginWindow extends JFrame{
+	public LoginWindow() {
+		setTitle("NuestraBCS - Iniciar Sesión");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
        
-        MenuView menuPanel = new MenuView();
-        MenuController controlador = new MenuController(menuPanel);
-        add(menuPanel);
+        LoginView loginPanel = new LoginView();
+        LoginController controlador = new LoginController(loginPanel);
+        add(loginPanel);
         
         setSize(400, 500); 
+        setResizable(false);
         setLocationRelativeTo(null);
         
         addWindowListener(new java.awt.event.WindowAdapter() {

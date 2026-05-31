@@ -8,12 +8,14 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.awt.event.ActionListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,16 +25,39 @@ import utils.Colors;
 
 public class SpeciesDetailView extends JPanel {
 	
+    private JButton noteBtn;
+    private JButton btnBack;
+
     public SpeciesDetailView(String name, String scientificName, String kingdom, 
                              String phylum, String speciesClass, String family, 
                              String genus, String description, String bannerPath) {
         
-        // BoxLayout vertical
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Colors.yellow);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+        btnBack = new JButton("Regresar a la ventana anterior");
+        btnBack.setBackground(Colors.opaqueGreen);
+        btnBack.setForeground(Color.WHITE);
+        btnBack.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnBack.setAlignmentX(CENTER_ALIGNMENT);
+        btnBack.setMaximumSize(new Dimension(300, 30));
+        btnBack.setToolTipText("De click para volver a la ventana anterior");
+        btnBack.setFocusPainted(false);
+        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBack.setBackground(Colors.lemonGreen);
+                btnBack.setForeground(Colors.green);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBack.setBackground(Colors.opaqueGreen);
+                btnBack.setForeground(Color.WHITE);
+            }
+        });
 
-        // placeholder estirado
+        add(btnBack);
+        add(Box.createRigidArea(new Dimension(0, 15)));
+        
         JLabel imagePlaceholder = new JLabel();
         imagePlaceholder.setHorizontalAlignment(SwingConstants.CENTER);
         imagePlaceholder.setOpaque(true);
@@ -60,31 +85,38 @@ public class SpeciesDetailView extends JPanel {
             imagePlaceholder.setText("Error al cargar la imagen");
         }
         add(imagePlaceholder);
-        
-        //--------
 
         add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // titulo recuadro verde con nombre del animal
-        JLabel titleLabel = new JLabel(name, SwingConstants.CENTER);
-        titleLabel.setOpaque(true);
-        titleLabel.setBackground(Colors.green);
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
-        titleLabel.setAlignmentX(CENTER_ALIGNMENT);
-        titleLabel.setMaximumSize(new Dimension(550, 50));
-        titleLabel.setPreferredSize(new Dimension(550, 50));
-        add(titleLabel);
+        // Titulo y el botón para las notas
+        JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
+        titlePanel.setBackground(Colors.yellow); 
+        titlePanel.setAlignmentX(CENTER_ALIGNMENT);
+
+        JLabel titleLabel = new JLabel(name);
+        titleLabel.setForeground(Colors.green);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
+
+        noteBtn = new JButton("Nota");
+        noteBtn.setBackground(Colors.green);
+        noteBtn.setForeground(Color.WHITE);
+        noteBtn.setFont(new Font("Arial", Font.BOLD, 16));
+        noteBtn.setFocusPainted(false);
+
+        titlePanel.add(titleLabel);
+        titlePanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        titlePanel.add(noteBtn);
+
+        add(titlePanel);
 
         add(Box.createRigidArea(new Dimension(0, 15)));
 
-        // gridlayout para la tabla de las caracteristicas
         JPanel tablePanel = new JPanel(new GridLayout(6, 2));
         tablePanel.setMaximumSize(new Dimension(550, 180));
         tablePanel.setBackground(Colors.yellow);
-        tablePanel.setBorder(BorderFactory.createLineBorder(Colors.green, 2)); // Borde exterior
+        tablePanel.setBorder(BorderFactory.createLineBorder(Colors.green, 2)); 
 
-        // filas de la supuesta tabla
         addTableRow(tablePanel, "Nombre científico:", scientificName);
         addTableRow(tablePanel, "Reino:", kingdom);
         addTableRow(tablePanel, "Filo:", phylum);
@@ -96,30 +128,26 @@ public class SpeciesDetailView extends JPanel {
 
         add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // descripcion de la especie
         JTextArea descArea = new JTextArea(description);
         descArea.setFont(new Font("Arial", Font.PLAIN, 16));
         descArea.setForeground(Colors.darkGreen);
-        descArea.setLineWrap(true); // Hace que el texto baje de línea si no cabe
-        descArea.setWrapStyleWord(true); // Corta por palabras, no por letras
+        descArea.setLineWrap(true); 
+        descArea.setWrapStyleWord(true); 
         descArea.setOpaque(false);
-        descArea.setEditable(false); // El usuario no puede editar este texto
+        descArea.setEditable(false); 
 
-        // Scroll por si hace falta
-        JScrollPane scrollPane = new JScrollPane(descArea);
-        scrollPane.setOpaque(false);
-        scrollPane.getViewport().setOpaque(false);
-        scrollPane.setBorder(null); // Sin bordes feos
-        scrollPane.setAlignmentX(CENTER_ALIGNMENT);
-        add(scrollPane);
+        JScrollPane scroll = new JScrollPane(descArea);
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false);
+        scroll.setBorder(null); 
+        scroll.setAlignmentX(CENTER_ALIGNMENT);
+        add(scroll);
     }
 
     private void addTableRow(JPanel table, String title, String value) {
         JLabel lblTitle = new JLabel("  " + title);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 14));
         lblTitle.setForeground(Colors.darkGreen);
-        
-        // Borde para que parezca tabla
         lblTitle.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Colors.green));
 
         JLabel lblValue = new JLabel("  " + value);
@@ -130,4 +158,10 @@ public class SpeciesDetailView extends JPanel {
         table.add(lblTitle);
         table.add(lblValue);
     }
+
+    public void addNoteListener(ActionListener listener) {
+        noteBtn.addActionListener(listener);
+    }
+    
+    public void addRegresarListener(ActionListener listener) { btnBack.addActionListener(listener); }
 }
