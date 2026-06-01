@@ -70,8 +70,11 @@ public class LoginController {
         
         if(correo.isEmpty()) {
             throw new EmailErroreException("El correo es obligatorio");
-        } else if(!correo.contains("@") || !correo.contains(".")) {
-            throw new EmailErroreException("Correo invalido");
+        } else {
+            String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,}$";
+            if (!correo.matches(regex)) {
+                throw new EmailErroreException("Correo inválido (ej: usuario@correo.com)");
+            }
         }
         
         if(contrasenia.isEmpty()) {
@@ -84,11 +87,13 @@ public class LoginController {
         
         // Checa si hay usuario
         if(user != null) {
+        		//Guarda que usuario ingreso en la memoria
+        		utils.Session.setUserLogged(user);
+        	
             if(user.getEmail().equals("admin@gmail.com")) {
                 System.out.println("Administrador inicio sesión");
                 MainWindow mainWindow = new MainWindow();
                 new HomeController(mainWindow);
-                mainWindow.btnUsers.doClick();
                 mainWindow.setVisible(true);
             } else {
                 System.out.println("Usuario normal inicio sesión");

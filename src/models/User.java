@@ -65,7 +65,7 @@ public class User {
         this.imagePath = imagePath;
     }
 
-    // Formato de data pra el csv
+    /*// Formato de data pra el csv
     public String toCsv() {
         return name + "," + 
                lastNameP + "," + 
@@ -86,7 +86,7 @@ public class User {
             return new User(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], imgPath);
         }
         return null; 
-    }
+    }*/
 
     @Override
     public String toString() {

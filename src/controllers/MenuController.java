@@ -12,7 +12,7 @@ public class MenuController {
     public MenuController(MenuView view) {
         this.view = view;
 
-        // Animales random
+        // Animales actuales de la base de datos
         String[] animalesBCS = {"Liebre Negra de Espíritu Santo", "Ratón de la Isla Santa Catalina", "Lobo Marino Californiano", "Berrendo Peninsular", "Zafiro Bajacaliforniano", "Cuicacoche Bajacaliforniano"};
         String[] plantasBCS = {"Cardón Gigante", "Pitaya de Baja California", "Biznaga Barril Delgada", "Biznaga Llavina", "Agave de la Costa", "Lentisco"};
         String[] insectosBCS = {"Chinche Chichona", "Mariposa Bufón de Alas Azules", "Libélula Zurcidora de Baja California", "Mariposa Jaspeada", "Mariposa Metalmark", "Coccobius sp"};
@@ -29,10 +29,11 @@ public class MenuController {
         this.view.addCerrarSesionListener(new closeSesion());
     }
 
+    //Hace el cambio de ventanas entre el menu y la ventana de categoria
     private class OpenCategoryAction implements ActionListener {
         private String categoryTitle;
         private String[] items;
-
+        //Trae los datos de la categoria
         public OpenCategoryAction(String categoryTitle, String[] items) {
             this.categoryTitle = categoryTitle;
             this.items = items;
@@ -49,6 +50,7 @@ public class MenuController {
         }
     }
 
+    //Cierre de sesion
     private class closeSesion implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

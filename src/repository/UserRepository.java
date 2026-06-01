@@ -23,8 +23,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import config.DatabaseConnection;
 
+//Se encarga de las cosas d crear,leer,actualizar y borrar de la tabla de usuarios en la base de datos
 public class UserRepository {
 
+	//Guarda un nuevo usuario en la base de datos
     public void save(User user) throws IOException {
     		String sql = "INSERT INTO Usuarios (nombre, apellido_paterno, apellido_materno, usuario, fecha_nacimiento, email, contrasenia, genero) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     		
@@ -50,6 +52,7 @@ public class UserRepository {
     
     }
 
+    //Trae toda una lista de los usaios en la base d datos
     public List<User> getUsers() {
         List<User> usersList = new ArrayList<>();
         String sql = "SELECT * FROM Usuarios";
@@ -80,6 +83,7 @@ public class UserRepository {
         return usersList;
     }
     
+    //Elimina a un usuario de la base de datos usando su ID.
     public void delete(int idUsuario) {
         String sql = "DELETE FROM Usuarios WHERE id_usuario = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -93,6 +97,7 @@ public class UserRepository {
         }
     }
     
+    //Actualiza los datos de un usuario que ya existe usando el ID
     public void update(User user) {
         String sql = "UPDATE Usuarios SET nombre=?, apellido_paterno=?, apellido_materno=?, usuario=?, fecha_nacimiento=?, email=?, contrasenia=?, genero=? WHERE id_usuario=?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -115,6 +120,7 @@ public class UserRepository {
         }
     }
     
+    //Verifica si ya existe alguien usando el username para no repetir nombres
     public boolean userExists(String user) {
         boolean exists = false;
         String sql = "SELECT id_usuario FROM Usuarios WHERE usuario = ?";

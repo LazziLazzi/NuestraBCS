@@ -6,8 +6,9 @@ import views.SpeciesDetailView;
 public class SpeciesDetailWindow extends JFrame {
 
     private SpeciesDetailView detailPanel;
+    private windows.NotesWindow windowNotesOpen = null;
 
-    public SpeciesDetailWindow(javax.swing.JFrame previousWindow, String name, String scientificName, String kingdom, 
+    public SpeciesDetailWindow(String name, String scientificName, String kingdom, 
             String phylum, String speciesClass, String family, 
             String genus, String description, String bannerPath) {
 
@@ -16,6 +17,11 @@ public class SpeciesDetailWindow extends JFrame {
 		setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        // Guardamos el panel en la variable global
+        this.detailPanel = new SpeciesDetailView(
+            name, scientificName, kingdom, phylum, speciesClass, family, genus, description, bannerPath
+        );
 
         // Guardamos el panel instanciado en nuestra variable global
         this.detailPanel = new SpeciesDetailView(

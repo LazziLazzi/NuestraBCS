@@ -15,14 +15,15 @@ import views.HomeView;
 import windows.MainWindow;
 
 public class HomeController {
-	private MainWindow view; // Cambiamos HomeView por MainWindow
+	private MainWindow view; 
     private UserRepository repository;
-    private UserController userController; // Agregamos esta variable que faltaba
+    private UserController userController; 
 
     public HomeController(MainWindow view) {
         this.view = view;
         loadWindowPreferences();
         registerListener();
+        showUsers();
     }
     
     public void registerListener() {
@@ -33,34 +34,18 @@ public class HomeController {
                 	handleClose();
                 }
             });
-            
-            view.btnUsers.addActionListener(e -> {
-                showUsers();
-            });
-            
-            view.btnHome.addActionListener(e -> {
-                view.showView(MainWindow.HOME);
-                updateMenuState(MainWindow.HOME);
-            });
     }
 
+    //Carga los usuarios y los muestra
     private void showUsers() {
         if(userController == null) {
             userController = new UserController(view.usersPanel);
         }
         userController.loadUsers();
-        
-        view.showView(MainWindow.USERS);
-        updateMenuState(MainWindow.USERS);
     }
     
     private void handleClose() {
         view.dispose();
-    }
-    
-    private void updateMenuState(String viewName) {
-        view.btnUsers.setEnabled(!viewName.equals(MainWindow.USERS));
-        view.btnHome.setEnabled(!viewName.equals(MainWindow.HOME));
     }
     
     private void saveWindowPreferences() {

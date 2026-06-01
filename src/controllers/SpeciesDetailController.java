@@ -2,6 +2,8 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
@@ -14,6 +16,7 @@ public class SpeciesDetailController {
     private String speciesName;
     private SpeciesDetailWindow currentWindow;
     private JFrame previousWindow;
+    private NotesWindow ventanaNotasAbierta = null;
 
     public SpeciesDetailController(SpeciesDetailView view, SpeciesDetailWindow currentWindow, javax.swing.JFrame previousWindow, String speciesName) {
         this.view = view;
@@ -23,19 +26,35 @@ public class SpeciesDetailController {
 
         this.view.addNoteListener(new OpenNotesAction());
         
-        // Lógica para regresar a Categorías
         this.view.addRegresarListener(e -> {
-            previousWindow.setVisible(true); // Muestra la categoría oculta
+            closeNotes(); // Cierra las notas antes de regresar
+            previousWindow.setVisible(true); // Muestra la categoria oculta
             currentWindow.dispose();
         });
+        
+        this.currentWindow.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                closeNotes();
+            }
+        });
+    }
+    
+    private void closeNotes() {
+        if (ventanaNotasAbierta != null) {
+            ventanaNotasAbierta.dispose();
+        }
     }
 
     private class OpenNotesAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Abre la nueva ventana de notas cuando se hace clic en el botón
-            NotesWindow notesWindow = new NotesWindow(speciesName);
-            notesWindow.setVisible(true);
+            if (ventanaNotasAbierta == null || !ventanaNotasAbierta.isVisible()) {
+                ventanaNotasAbierta = new NotesWindow(speciesName);
+                ventanaNotasAbierta.setVisible(true);
+            } else {
+                ventanaNotasAbierta.toFront(); 
+            }
         }
     }
 }

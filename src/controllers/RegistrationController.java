@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import views.RegistrationView;
 import windows.LoginWindow;
@@ -169,28 +172,45 @@ public class RegistrationController {
             view.showDateError("Complete la fecha (DD/MM/AAAA)"); 
             return false; 
         } 
+        
+        try {
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate fechaNac = LocalDate.parse(fecha, fmt);
+            LocalDate hoy = LocalDate.now();
+ 
+            if (!fechaNac.isBefore(hoy)) {
+                view.showDateError("La fecha debe ser anterior a hoy");
+                return false;
+            }
+        } catch (DateTimeParseException ex) {
+            view.showDateError("Fecha inválida (DD/MM/AAAA)");
+            return false;
+        }
+        
         view.showDateError(" "); 
         return true;
     }
 
     private boolean validateCorreo() {
     		String email = view.getEmailText().trim();
-        if (email.isEmpty()) { 
-            view.showEmailError("El correo es obligatorio"); 
-            return false; 
-        } 
-        else if (!email.contains("@") || !email.contains(".")) { 
-            view.showEmailError("Ingrese un correo válido"); 
-            return false; 
+    	 
+        if (email.isEmpty()) {
+            view.showEmailError("El correo es obligatorio");
+            return false;
         }
-       
+ 
+        if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]{2,}$")) {
+            view.showEmailError("Ingrese un correo válido (ej: nombre@dominio.com)");
+            return false;
+        }
+ 
         UserRepository repo = new UserRepository();
         if (repo.emailExists(email)) {
-            view.showEmailError("Este correo ya está registrado"); 
-            return false; // Detiene el registro porque ya esta registrado
+            view.showEmailError("Este correo ya está registrado");
+            return false;
         }
-
-        view.showEmailError(" "); 
+ 
+        view.showEmailError(" ");
         return true;
     }
 

@@ -82,11 +82,12 @@ public class CategoryController {
                     String rutaBanner = rs.getString("banner"); 
                     
                     SpeciesDetailWindow detailWindow = new SpeciesDetailWindow(
-                            currentWindow, nombreEspecie, sci, rei, fil, cla, fam, gen, desc, rutaBanner
-                        );               
-                        new SpeciesDetailController(detailWindow.getDetailPanel(), detailWindow, currentWindow, nombreEspecie);
-                        detailWindow.setVisible(true);
-                        currentWindow.setVisible(false); // Ocultamos categorías
+                        nombreEspecie, sci, rei, fil, cla, fam, gen, desc, rutaBanner
+                    );
+                        
+                    new SpeciesDetailController(detailWindow.getDetailPanel(), detailWindow, currentWindow, nombreEspecie);
+                    
+                    detailWindow.setVisible(true);
                     
                 } else {
                     JOptionPane.showMessageDialog(null, "No se encontraron datos.");

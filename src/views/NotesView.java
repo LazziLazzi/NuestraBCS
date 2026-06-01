@@ -40,7 +40,7 @@ public class NotesView extends JPanel {
 
         // Area del texto
         // mientras tiene User123 pero aqui se tiene que trarer de la base de datos
-        textArea = new JTextArea("User123:\n\n"); 
+        textArea = new JTextArea(); 
         textArea.setFont(new Font("Arial", Font.PLAIN, 16));
         textArea.setForeground(Colors.darkGreen);
         textArea.setLineWrap(true);
@@ -77,9 +77,13 @@ public class NotesView extends JPanel {
         btn.setFocusPainted(false);
         return btn;
     }
+    
+    public void setNotesContent(String text) { 
+        textArea.setText(text); 
+    }
 
     // Métodos para el controlador
     public String getNotesContent() { return textArea.getText(); }
-    public void addCancelarListener(ActionListener listener) { btnCancelar.addActionListener(listener); }
-    public void addGuardarListener(ActionListener listener) { btnGuardar.addActionListener(listener); }
+    public void addCancelListener(ActionListener listener) { btnCancelar.addActionListener(listener); }
+    public void addSaveListener(ActionListener listener) { btnGuardar.addActionListener(listener); }
 }
