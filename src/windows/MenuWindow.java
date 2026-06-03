@@ -1,5 +1,8 @@
 package windows;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import controllers.MenuController;
@@ -17,6 +20,13 @@ public class MenuWindow extends JFrame{
         setSize(400, 500); 
         setResizable(false);
         setLocationRelativeTo(null);
+        
+        try {
+            Image icon = new ImageIcon(getClass().getResource("/images/BCS.png")).getImage();
+            setIconImage(icon);
+        } catch (Exception ex) {
+            System.out.println("No se pudo cargar el icono");
+        }
         
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override

@@ -2,8 +2,10 @@ package windows;
 import controllers.LoginController;
 import views.LoginView;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.Dimension;
+import java.awt.Image;
 
 public class LoginWindow extends JFrame{
 	public LoginWindow() {
@@ -17,6 +19,14 @@ public class LoginWindow extends JFrame{
         setSize(400, 500); 
         setResizable(false);
         setLocationRelativeTo(null);
+        
+        // Cargar la imagen del icono
+        try {
+            Image icon = new ImageIcon(getClass().getResource("/images/BCS.png")).getImage();
+            setIconImage(icon);
+        } catch (Exception ex) {
+            System.out.println("No se pudo cargar el icono");
+        }
         
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override

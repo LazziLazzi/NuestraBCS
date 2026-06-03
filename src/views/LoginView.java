@@ -80,8 +80,9 @@ public class LoginView extends JPanel {
 
 	public void addLoginListener(ActionListener listener) {
 		access.addActionListener(listener);
+		email.addActionListener(listener);
+		password.addActionListener(listener);
 	}
-
 	public void addRegisterListener(ActionListener listener) {
 		registerButton.addActionListener(listener);
 	}

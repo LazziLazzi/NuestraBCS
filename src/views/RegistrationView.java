@@ -183,7 +183,7 @@ public class RegistrationView extends JFrame{
 		// Agrega el scroll
 		JScrollPane scroll = new JScrollPane(containerPanel);
 		scroll.setBorder(null);
-		scroll.getVerticalScrollBar().setUnitIncrement(16);
+		scroll.getVerticalScrollBar().setUnitIncrement(16); // la velocidad adecuada del scroll
 		add(scroll, BorderLayout.CENTER);
 	}
 	

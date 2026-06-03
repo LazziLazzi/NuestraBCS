@@ -88,6 +88,7 @@ public class CategoryController {
                     new SpeciesDetailController(detailWindow.getDetailPanel(), detailWindow, currentWindow, nombreEspecie);
                     
                     detailWindow.setVisible(true);
+                    currentWindow.setVisible(false);
                     
                 } else {
                     JOptionPane.showMessageDialog(null, "No se encontraron datos.");

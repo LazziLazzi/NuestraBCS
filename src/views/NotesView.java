@@ -31,7 +31,8 @@ public class NotesView extends JPanel {
         titleLabel.setOpaque(true);
         titleLabel.setBackground(Colors.green);
         titleLabel.setForeground(Color.WHITE);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
+        titleLabel.setToolTipText(speciesName);
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
         titleLabel.setMaximumSize(new Dimension(550, 60));
         add(titleLabel);
@@ -39,7 +40,6 @@ public class NotesView extends JPanel {
         add(Box.createRigidArea(new Dimension(0, 15)));
 
         // Area del texto
-        // mientras tiene User123 pero aqui se tiene que trarer de la base de datos
         textArea = new JTextArea(); 
         textArea.setFont(new Font("Arial", Font.PLAIN, 16));
         textArea.setForeground(Colors.darkGreen);

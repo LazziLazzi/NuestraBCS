@@ -87,26 +87,28 @@ public class SpeciesDetailView extends JPanel {
         add(imagePlaceholder);
 
         add(Box.createRigidArea(new Dimension(0, 15)));
-
-        // Titulo y el botón para las notas
-        JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
+        
+        //Panel para el titulo y el boton de nota
+        JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setBackground(Colors.yellow); 
+        titlePanel.setMaximumSize(new Dimension(550, 40)); 
         titlePanel.setAlignmentX(CENTER_ALIGNMENT);
 
         JLabel titleLabel = new JLabel(name);
         titleLabel.setForeground(Colors.green);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 27));
+        titleLabel.setToolTipText(name);
+        titleLabel.setHorizontalAlignment(SwingConstants.LEFT); 
 
         noteBtn = new JButton("Nota");
         noteBtn.setBackground(Colors.green);
         noteBtn.setForeground(Color.WHITE);
         noteBtn.setFont(new Font("Arial", Font.BOLD, 16));
         noteBtn.setFocusPainted(false);
+        noteBtn.setPreferredSize(new Dimension(90, 35));
 
-        titlePanel.add(titleLabel);
-        titlePanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        titlePanel.add(noteBtn);
+        titlePanel.add(titleLabel, BorderLayout.CENTER);
+        titlePanel.add(noteBtn, BorderLayout.EAST);
 
         add(titlePanel);
 

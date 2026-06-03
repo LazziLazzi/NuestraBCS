@@ -1,12 +1,13 @@
 package windows;
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import views.SpeciesDetailView;
 
 public class SpeciesDetailWindow extends JFrame {
 
     private SpeciesDetailView detailPanel;
-    private windows.NotesWindow windowNotesOpen = null;
 
     public SpeciesDetailWindow(String name, String scientificName, String kingdom, 
             String phylum, String speciesClass, String family, 
@@ -16,22 +17,33 @@ public class SpeciesDetailWindow extends JFrame {
 		setSize(600, 650);
 		setResizable(false);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
-        // Guardamos el panel en la variable global
+        try {
+            Image icon = new ImageIcon(getClass().getResource("/images/BCS.png")).getImage();
+            setIconImage(icon);
+        } catch (Exception ex) {
+            System.out.println("No se pudo cargar el icono");
+        }
+        
         this.detailPanel = new SpeciesDetailView(
             name, scientificName, kingdom, phylum, speciesClass, family, genus, description, bannerPath
         );
-
-        // Guardamos el panel instanciado en nuestra variable global
-        this.detailPanel = new SpeciesDetailView(
-            name, scientificName, kingdom, phylum, speciesClass, family, genus, description, bannerPath
-        );
-        
         add(this.detailPanel);
+        
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                int option = javax.swing.JOptionPane.showConfirmDialog(null, 
+                    "¿Desea salir de NuestraBCS?", "Salir", 
+                    javax.swing.JOptionPane.YES_NO_OPTION);
+                if (option == javax.swing.JOptionPane.YES_OPTION) {
+                    System.exit(0); // para cerrar toda la aplicación por completo
+                }
+            }
+        });        
     }
 
-    // Método para exponer la vista al controlador
     public SpeciesDetailView getDetailPanel() {
         return detailPanel;
     }

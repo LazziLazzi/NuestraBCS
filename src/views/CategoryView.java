@@ -88,14 +88,23 @@ public class CategoryView extends JPanel {
         add(gridPanel, BorderLayout.CENTER);
     }
 
-    // Método para construir cada panel individual
+    // Los botones de las imagenes con el nombre
     private JPanel createItemCard(String name) {
-    	 	 JPanel card = new JPanel(new BorderLayout());
-         card.setOpaque(false);
+        JPanel wrapper = new JPanel(new BorderLayout());
+        wrapper.setOpaque(false);
 
+        JButton cardButton = new JButton();
+        cardButton.setLayout(new BorderLayout());
+        cardButton.setFocusPainted(false);
+        cardButton.setBorder(BorderFactory.createLineBorder(Colors.green, 2));
+        cardButton.setBackground(Colors.yellow);
+        cardButton.setOpaque(true);
+        cardButton.setActionCommand(name); 
+        cardButton.setToolTipText(name);
+
+        // el JLabel para la imagen
         JLabel imagePlaceholder = new JLabel("", SwingConstants.CENTER);
         imagePlaceholder.setOpaque(false);
-        imagePlaceholder.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
         
         imagePlaceholder.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
@@ -113,27 +122,43 @@ public class CategoryView extends JPanel {
                         }
                     }
                 } catch (Exception ex) {
-                	
+                    System.out.println("Error al cargar la imagen");
                 }
             }
         });
         
         imageLabels.put(name, imagePlaceholder);
+        
+        // el JLabel del nombre de la especie dentro de la tarjeta
+        JLabel nameLabel = new JLabel(name, SwingConstants.CENTER);
+        nameLabel.setOpaque(true);
+        nameLabel.setBackground(Colors.green); 
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
-        JButton nameButton = new JButton(name);
-        nameButton.setBackground(Color.WHITE);
-        nameButton.setForeground(Colors.darkGreen);
-        nameButton.setFont(new Font("Arial", Font.BOLD, 16));
-        nameButton.setFocusPainted(false);
-        nameButton.setBorderPainted(false);
-        nameButton.setOpaque(true);
-        
-        card.add(imagePlaceholder, BorderLayout.CENTER);
-        card.add(nameButton, BorderLayout.SOUTH);
-        
-        buttonSpecies.add(nameButton);
-        
-        return card;
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
+
+        cardButton.add(imagePlaceholder, BorderLayout.CENTER);
+        cardButton.add(nameLabel, BorderLayout.SOUTH);
+
+        cardButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                nameLabel.setBackground(Colors.lemonGreen);
+                nameLabel.setForeground(Colors.green);
+                cardButton.setBorder(BorderFactory.createLineBorder(Colors.lemonGreen, 2));
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                nameLabel.setBackground(Colors.green);
+                nameLabel.setForeground(Color.WHITE);
+                cardButton.setBorder(BorderFactory.createLineBorder(Colors.green, 2));
+            }
+        });
+
+        buttonSpecies.add(cardButton);
+        wrapper.add(cardButton, BorderLayout.CENTER);
+        return wrapper;
     }
     
     //Le da la imagen ala portada
