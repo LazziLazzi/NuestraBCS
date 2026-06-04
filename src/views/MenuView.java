@@ -16,6 +16,9 @@ import javax.swing.SwingConstants;
 import utils.Colors;
 import utils.AppFont;
 
+//Pantalla donde el usuario selecciona que categoria de especies quiere explorar
+//o si desea cerrar su sesión.
+
 public class MenuView extends JPanel {
     
     private JButton animales, plantas, insectos, aracnidos,cerrarSesion;
@@ -23,11 +26,13 @@ public class MenuView extends JPanel {
     private Font buttonFont = new Font("Arial", Font.PLAIN, 18);
     private Image stretchedBackground;
 
+    // Constructor que carga la imagen y dibuja los botones
     public MenuView() {
         uploadBCSImage(); 
         initPanel();
     }
-
+    
+    //Configura la interfaz, el titulo y acomoda los botones en forma vertical
     private void initPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Colors.yellow);
@@ -71,6 +76,7 @@ public class MenuView extends JPanel {
         add(Box.createVerticalGlue()); 
     }
 
+    //Busca y carga en memoria la imagen
 	private void uploadBCSImage() {
 		try {
 			Image bcsImage = ImageIO.read(getClass().getResource("../images/BCS.png")); 
@@ -83,6 +89,7 @@ public class MenuView extends JPanel {
 		}
 	}
 
+	// Sobreescribe cómo dibuja Java para poder poner la imagen como fondo
 	@Override
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
@@ -97,7 +104,8 @@ public class MenuView extends JPanel {
 	        
 	    }
 	}
-
+	
+	// Construye y le da estilo especifico al boton de cerrar sesion
     private JButton createCloseBtn(String text) {
         JButton button = new JButton(text);
         button.setBackground(Colors.opaqueGreen);
@@ -151,6 +159,6 @@ public class MenuView extends JPanel {
     public void addPlantasListener(java.awt.event.ActionListener listener) { plantas.addActionListener(listener); }
     public void addInsectosListener(java.awt.event.ActionListener listener) { insectos.addActionListener(listener); }
     public void addAracnidosListener(java.awt.event.ActionListener listener) { aracnidos.addActionListener(listener); }
-    public void addCerrarSesionListener(java.awt.event.ActionListener listener) { cerrarSesion.addActionListener(listener); }
+    public void addCloseSesionListener(java.awt.event.ActionListener listener) { cerrarSesion.addActionListener(listener); }
 }
 

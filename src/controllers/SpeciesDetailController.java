@@ -11,12 +11,15 @@ import views.SpeciesDetailView;
 import windows.NotesWindow;
 import windows.SpeciesDetailWindow;
 
+//Se encarga de manejar la tarjeta informativa de un animal/planta especifico,
+//permitiendo abrir la ventana de notas o regresar a la categoria anterior.
+
 public class SpeciesDetailController {
     private SpeciesDetailView view;
     private String speciesName;
     private SpeciesDetailWindow currentWindow;
     private JFrame previousWindow;
-    private NotesWindow ventanaNotasAbierta = null;
+    private NotesWindow windowNotesOpen = null;
 
     public SpeciesDetailController(SpeciesDetailView view, SpeciesDetailWindow currentWindow, javax.swing.JFrame previousWindow, String speciesName) {
         this.view = view;
@@ -40,20 +43,22 @@ public class SpeciesDetailController {
         });
     }
     
+    //Para destruir la ventana de notas si es que el usuario la dejo abierta
     private void closeNotes() {
-        if (ventanaNotasAbierta != null) {
-            ventanaNotasAbierta.dispose();
+        if (windowNotesOpen != null) {
+            windowNotesOpen.dispose();
         }
     }
-
+    
+    // Clase que se ejecuta al darle clic al boton de Nota
     private class OpenNotesAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (ventanaNotasAbierta == null || !ventanaNotasAbierta.isVisible()) {
-                ventanaNotasAbierta = new NotesWindow(speciesName);
-                ventanaNotasAbierta.setVisible(true);
+            if (windowNotesOpen == null || !windowNotesOpen.isVisible()) {
+                windowNotesOpen = new NotesWindow(speciesName);
+                windowNotesOpen.setVisible(true);
             } else {
-                ventanaNotasAbierta.toFront(); 
+                windowNotesOpen.toFront(); 
             }
         }
     }

@@ -13,6 +13,11 @@ import utils.Session;
 import views.NotesView;
 import windows.NotesWindow;
 
+
+//Controlador de Notas.
+// Se encarga de conectar la ventana de notas con la base de datos para 
+//buscar, cargar, guardar y actualizar las notas de una especie en específico.
+
 public class NotesController {
     private NotesView view;
     private NotesWindow window;
@@ -34,13 +39,12 @@ public class NotesController {
         this.window.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                confirmarSalida();
+                confirmClose();
             }
         });
     }
 
-    // Método auxiliar para centralizar la advertencia de salida
-    private void confirmarSalida() {
+    private void confirmClose() {
         int option = JOptionPane.showConfirmDialog(window, 
             "Se borrará lo que no hayas guardado, ¿estás seguro que deseas salir?", 
             "Confirmar salida", 
@@ -94,7 +98,7 @@ public class NotesController {
     private class CancelAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            confirmarSalida();
+            confirmClose();
         }
     }
 

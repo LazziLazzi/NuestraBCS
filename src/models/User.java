@@ -1,5 +1,7 @@
 package models;
 
+//Clase modelo que representa a un Usuario en el sistema 
+//Contiene todos sus datos personales y métodos para acceder a ellos.
 public class User {
 	private int id;
 	private String name;
@@ -16,12 +18,14 @@ public class User {
     	
     }
     
+    // Constructor reducido, ideal para comprobar el login
     public User(int id, String email, String password) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 	}
     
+    // Constructor con ID pero sin contraseña ni imagen
     public User(int id, String name, String lastNameP, String lastNameM, String username, String birthDate, String email,String gender) {
     	this.id = id;
     	this.name = name;
@@ -42,6 +46,7 @@ public class User {
 		this.id = id;
 	}
     
+	// Constructor completo SIN ID 
     public User(String name, String lastNameP, String lastNameM, String username, String birthDate, String email, String password,String gender,String imagePath) {
         this.name = name;
         this.lastNameP = lastNameP;

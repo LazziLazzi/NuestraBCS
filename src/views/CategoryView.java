@@ -19,6 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import utils.Colors;
 
+//Es la pantalla que muestra la cuadricula con todas las tarjetas (foto y nombre) 
+//de las especies que pertenecen a una categoría especifica
+
+
 public class CategoryView extends JPanel {
 	
 	private JButton btnBack;
@@ -32,6 +36,7 @@ public class CategoryView extends JPanel {
         initPanel(categoryTitle, itemNames);
     }
 
+    //Configura el diseño principal de la ventana
     private void initPanel(String categoryTitle, String[] itemNames) {
         setLayout(new BorderLayout(20, 20));
         setBackground(Colors.yellow); 
@@ -88,7 +93,7 @@ public class CategoryView extends JPanel {
         add(gridPanel, BorderLayout.CENTER);
     }
 
-    // Los botones de las imagenes con el nombre
+    //Crea el botón en forma de tarjeta con la foto y el nombre de la especie
     private JPanel createItemCard(String name) {
         JPanel wrapper = new JPanel(new BorderLayout());
         wrapper.setOpaque(false);
@@ -162,7 +167,7 @@ public class CategoryView extends JPanel {
     }
     
     //Le da la imagen ala portada
-    public void setPortada(String name, String imagePath) {
+    public void setFront(String name, String imagePath) {
         JLabel label = imageLabels.get(name);
         if (label != null && imagePath != null && !imagePath.isEmpty()) {
             try {
@@ -185,5 +190,5 @@ public class CategoryView extends JPanel {
         }
     }
     
-    public void addRegresarListener(java.awt.event.ActionListener listener) { btnBack.addActionListener(listener); }
+    public void addComeListener(java.awt.event.ActionListener listener) { btnBack.addActionListener(listener); }
 }

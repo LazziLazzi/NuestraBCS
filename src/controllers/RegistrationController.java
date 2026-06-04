@@ -16,6 +16,12 @@ import views.HomeView;
 import models.User;
 import repository.UserRepository;
 
+
+// Controlador de Registro.
+// Vigila el formulario en tiempo real, validando que los datos escritos sean correctos
+// y los guarda en la base de datos para crear un nuevo usuario.
+
+
 public class RegistrationController {
 	private RegistrationView view;
 
@@ -37,22 +43,22 @@ public class RegistrationController {
         });
 
         // Validaciones
-        this.view.addNameValidator(this::validateNombre);
-        this.view.addLastNamePValidator(this::validateApellidoP);
-        this.view.addLastNameMValidator(this::validateApellidoM);
-        this.view.addNameUserValidator(this::validateNombreUsuario);
-        this.view.addDateValidator(this::validateFechaNacimiento);
-        this.view.addEmailValidator(this::validateCorreo);
-        this.view.addPasswordValidator(this::validateContrasenia);
-        this.view.addConfirmPasswordValidator(this::validateConfirmarContrasenia);
+        this.view.addNameValidator(this::validateName);
+        this.view.addLastNamePValidator(this::validateLastNameP);
+        this.view.addLastNameMValidator(this::validateLastNameM);
+        this.view.addNameUserValidator(this::validateUserName);
+        this.view.addDateValidator(this::validateDateBorn);
+        this.view.addEmailValidator(this::validateEmail);
+        this.view.addPasswordValidator(this::validatePassword);
+        this.view.addConfirmPasswordValidator(this::validateConfirmPassword);
     }
 
     private class ConfirmAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-        	if (validateNombre() && validateApellidoP() && validateApellidoM() && 
-                    validateNombreUsuario() && validateFechaNacimiento() && 
-                    validateCorreo() && validateContrasenia() && validateConfirmarContrasenia()) { 
+        	if (validateName() && validateLastNameP() && validateLastNameM() && 
+                    validateUserName() && validateDateBorn() && 
+                    validateEmail() && validatePassword() && validateConfirmPassword()) { 
                     
                 //Extrae los datos 
                 String name = view.getNameText(); 
@@ -101,19 +107,19 @@ public class RegistrationController {
     }
 
     private boolean validateAll() {
-        boolean v1 = validateNombre();
-        boolean v2 = validateApellidoP();
-        boolean v3 = validateApellidoM(); 
-        boolean v4 = validateNombreUsuario(); 
-        boolean v5 = validateFechaNacimiento(); 
-        boolean v6 = validateCorreo();
-        boolean v7 = validateContrasenia();
-        boolean v8 = validateConfirmarContrasenia();
+        boolean v1 = validateName();
+        boolean v2 = validateLastNameP();
+        boolean v3 = validateLastNameM(); 
+        boolean v4 = validateUserName(); 
+        boolean v5 = validateDateBorn(); 
+        boolean v6 = validateEmail();
+        boolean v7 = validatePassword();
+        boolean v8 = validateConfirmPassword();
                 
         return v1 && v2 && v3 && v4 && v5 && v6 && v7 && v8;
     }
 
-    private boolean validateNombre() {
+    private boolean validateName() {
         if (view.getNameText().trim().isEmpty()) { 
             view.showNameError("El nombre es obligatorio"); 
             return false; 
@@ -122,7 +128,7 @@ public class RegistrationController {
         return true;
     }
 
-    private boolean validateApellidoP() {
+    private boolean validateLastNameP() {
         if (view.getLastNamePText().trim().isEmpty()) { 
             view.showLastNamePError("El apellido paterno es obligatorio"); 
             return false; 
@@ -131,7 +137,7 @@ public class RegistrationController {
         return true;
     }
     
-    private boolean validateApellidoM() {
+    private boolean validateLastNameM() {
         if (view.getLastNameMText().trim().isEmpty()) { 
             view.showLastNameMError("El apellido materno es obligatorio"); 
             return false; 
@@ -140,7 +146,7 @@ public class RegistrationController {
         return true;
     }
 
-    private boolean validateNombreUsuario() {
+    private boolean validateUserName() {
         String user = view.getNameUserText().trim();
         if (user.isEmpty()) {
             view.showNameUserError("El usuario es obligatorio"); 
@@ -165,23 +171,31 @@ public class RegistrationController {
         return true;
     }
 
-    private boolean validateFechaNacimiento() {
-    		String fecha = view.getDateText(); 
+    private boolean validateDateBorn() {
+    		String date = view.getDateText(); 
         
-        if (fecha.contains("_")) { 
+        if (date.contains("_")) { 
             view.showDateError("Complete la fecha (DD/MM/AAAA)"); 
             return false; 
         } 
         
         try {
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate fechaNac = LocalDate.parse(fecha, fmt);
-            LocalDate hoy = LocalDate.now();
+            LocalDate dateBorn = LocalDate.parse(date, fmt);
+            LocalDate today = LocalDate.now();
+            
+            LocalDate minimumDate= LocalDate.of(1930, 1, 1);
  
-            if (!fechaNac.isBefore(hoy)) {
+            if (!dateBorn.isBefore(today)) {
                 view.showDateError("La fecha debe ser anterior a hoy");
                 return false;
             }
+            
+            if (dateBorn.isBefore(minimumDate)) {
+            	view.showDateError("La fecha de nacimiento es demasiado antigua (año mínimo: 1930).");
+            return false;
+            }
+            
         } catch (DateTimeParseException ex) {
             view.showDateError("Fecha inválida (DD/MM/AAAA)");
             return false;
@@ -191,7 +205,7 @@ public class RegistrationController {
         return true;
     }
 
-    private boolean validateCorreo() {
+    private boolean validateEmail() {
     		String email = view.getEmailText().trim();
     	 
         if (email.isEmpty()) {
@@ -199,6 +213,7 @@ public class RegistrationController {
             return false;
         }
  
+        //Validacion en formato Regex 
         if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]{2,}$")) {
             view.showEmailError("Ingrese un correo válido (ej: nombre@dominio.com)");
             return false;
@@ -214,17 +229,17 @@ public class RegistrationController {
         return true;
     }
 
-    private boolean validateContrasenia() {
+    private boolean validatePassword() {
         if (view.getPasswordText().length() < 8) { 
             view.showPasswordError("Mínimo 8 caracteres"); 
             return false; 
         }
         view.showPasswordError(" ");
-        validateConfirmarContrasenia(); // Valida que sean iguales
+        validateConfirmPassword(); // Valida que sean iguales
         return true;
     }
 
-    private boolean validateConfirmarContrasenia() {
+    private boolean validateConfirmPassword() {
         String pass1 = view.getPasswordText();
         String pass2 = view.getConfirmPasswordText();
         

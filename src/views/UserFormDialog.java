@@ -6,6 +6,10 @@ import java.awt.*;
 import models.User;
 import utils.Colors;
 
+//Es el recuadro que se abre cuando el Administrador quiere "Agregar" un usuario nuevo 
+//o editar uno existente. Recolecta los datos y valida que no estén vacíos.
+
+
 public class UserFormDialog extends JDialog {
     private JTextField txtName, txtLastNameP, txtLastNameM, txtUsername, txtEmail, txtDate;
     private JPasswordField txtPassword;
@@ -84,6 +88,7 @@ public class UserFormDialog extends JDialog {
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     
+    // Crea la seccion central donde van todas las cajitas de texto alineadas hacia abajo
     private JScrollPane createFormPanel() {
     	JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -95,6 +100,8 @@ public class UserFormDialog extends JDialog {
         scroll.getViewport().setBackground(Colors.lightGreen);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
+        
         txtName = createStyledField();
         txtLastNameP = createStyledField();
         txtLastNameM = createStyledField();
@@ -119,30 +126,7 @@ public class UserFormDialog extends JDialog {
         panel.add(createField("Email:", txtEmail));
         panel.add(createField("Fecha de Nacimiento:", txtDate));
         panel.add(createField("Contraseña:", txtPassword));
-        
-        btnSelectImage = new JButton("Seleccionar Foto de Perfil");
-        styleButton(btnSelectImage, Colors.lemonGreen, Colors.darkGreen);
-        
-        lblImagePreview = new JLabel("Sin imagen");
-        lblImagePreview.setFont(new Font("Segoe UI", Font.ITALIC, 11));
-        lblImagePreview.setForeground(Color.GRAY);
-        
-        btnSelectImage.addActionListener(e -> {
-            JFileChooser chooser = new JFileChooser();
-            int res = chooser.showOpenDialog(this);
-            if(res == JFileChooser.APPROVE_OPTION){
-                selectedImagePath = chooser.getSelectedFile().getAbsolutePath();
-                lblImagePreview.setText("✓ Imagen seleccionada");
-                lblImagePreview.setForeground(Colors.darkGreen);
-            }
-        });
-
-        JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        imagePanel.setBackground(Colors.lightGreen);
-        imagePanel.add(btnSelectImage);
-        imagePanel.add(lblImagePreview);
-        panel.add(imagePanel);
-        
+                
         return scroll;
     }
     
@@ -182,11 +166,6 @@ public class UserFormDialog extends JDialog {
             txtDate.setText(user.getBirthDate());
             txtPassword.setText(user.getPassword());
             
-            if(user.getImagePath() != null && !user.getImagePath().isEmpty()) {
-                selectedImagePath = user.getImagePath();
-                lblImagePreview.setText("Imagen cargada");
-                lblImagePreview.setForeground(Colors.darkGreen);
-            }
     		}
     }
     
@@ -208,22 +187,13 @@ public class UserFormDialog extends JDialog {
             return; // Detiene el método, no guarda nada y mantiene la ventana abierta
         }
 
-        
-        if (email.isEmpty() || !email.contains("@") || !email.contains(".")) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa un correo electrónico válido.",
-            		"Correo inválido", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-       
         if (password.isEmpty() || password.length() < 8) {
             JOptionPane.showMessageDialog(this, "La contraseña debe tener al menos 8 caracteres.",
             		"Contraseña débil", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        
-        user = new User(name, lastNameP, lastNameG, userName, date, email, password, gender, selectedImagePath);
+        user = new User(name, lastNameP, lastNameG, userName, date, email, password, gender, "");user = new User(name, lastNameP, lastNameG, userName, date, email, password, gender, selectedImagePath);
         
         
         

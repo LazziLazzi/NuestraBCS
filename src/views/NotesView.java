@@ -18,8 +18,8 @@ import utils.Colors;
 public class NotesView extends JPanel {
 
     private JTextArea textArea;
-    private JButton btnCancelar;
-    private JButton btnGuardar;
+    private JButton btnCancel;
+    private JButton btnSave;
 
     public NotesView(String speciesName) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -59,12 +59,12 @@ public class NotesView extends JPanel {
         btnPanel.setOpaque(false);
         btnPanel.setAlignmentX(CENTER_ALIGNMENT);
 
-        btnCancelar = createButton("Cancelar");
-        btnGuardar = createButton("Guardar Cambios");
+        btnCancel = createButton("Cancelar");
+        btnSave = createButton("Guardar Cambios");
 
-        btnPanel.add(btnCancelar);
+        btnPanel.add(btnCancel);
         btnPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        btnPanel.add(btnGuardar);
+        btnPanel.add(btnSave);
 
         add(btnPanel);
     }
@@ -84,6 +84,6 @@ public class NotesView extends JPanel {
 
     // Métodos para el controlador
     public String getNotesContent() { return textArea.getText(); }
-    public void addCancelListener(ActionListener listener) { btnCancelar.addActionListener(listener); }
-    public void addSaveListener(ActionListener listener) { btnGuardar.addActionListener(listener); }
+    public void addCancelListener(ActionListener listener) { btnCancel.addActionListener(listener); }
+    public void addSaveListener(ActionListener listener) { btnSave.addActionListener(listener); }
 }

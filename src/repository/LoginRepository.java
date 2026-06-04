@@ -9,7 +9,8 @@ import java.sql.Statement;
 import config.DatabaseConnection;
 import models.User;
 
-//Clase que funciona como intermediario directo entre tu aplicacion y la base de datos para la autentificacion del login
+//Clase que funciona como intermediario directo entre la aplicacion y la base de datos para la 
+//autentificacion del login
 public class LoginRepository {
 
 	public User login(String email, String password) {

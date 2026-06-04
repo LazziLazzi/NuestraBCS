@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import models.UserTableModel;
 
+//Es la ventana que muestra la tabla con la información de todos los usuarios.
+
 public class HomeView extends JFrame {
     private JTable tableUsers;
     private JButton btnLoad;

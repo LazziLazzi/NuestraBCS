@@ -3,6 +3,9 @@ package models;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
+//Sirve como un adaptador o molde que le enseña a la tabla visual
+//como leer la lista de objetos User y cómo acomodar sus datos en filas y columnas.
+
 public class UserTableModel extends AbstractTableModel{
 	
 	//Los nombres de las columnas de la tabla 

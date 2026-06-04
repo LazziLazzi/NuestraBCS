@@ -46,6 +46,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+//Pantalla completa donde un nuevo usuario se registra.
+//Crea los campos de texto, evalua inputs y contiene la estructura del formulario.
 
 public class RegistrationView extends JFrame{
 	
@@ -79,10 +81,10 @@ public class RegistrationView extends JFrame{
 	private JButton confirmButton;
 	private JButton backButton;
 	
-	private JRadioButton rbMasculino;
-	private JRadioButton rbFemenino;
-	private JRadioButton rbOtro;
-	private ButtonGroup grupoGenero;
+	private JRadioButton rbMale;
+	private JRadioButton rbFemale;
+	private JRadioButton rbOther;
+	private ButtonGroup groupGender;
 	
 	Color defaultButtonColor;
 	
@@ -110,11 +112,11 @@ public class RegistrationView extends JFrame{
 	public String getConfirmPasswordText() { return new String(fieldConfirmPassword.getPassword()); }
 	
 	public String getGenderSelected() {
-		if (rbMasculino.isSelected()) {
+		if (rbMale.isSelected()) {
 			return "Masculino";
-		} else if (rbFemenino.isSelected()) {
+		} else if (rbFemale.isSelected()) {
 		    return "Femenino";
-		} else if (rbOtro.isSelected()) {
+		} else if (rbOther.isSelected()) {
 		    return "Otro";
 		}
 		    return "No especificado";
@@ -234,18 +236,18 @@ public class RegistrationView extends JFrame{
 		errorConfirmPassword = new JLabel(" ");
 
 		// Metodo para llenar los campos
-		construirCampo("Nombre:", fieldName, errorName);
-		construirCampo("Apellido Paterno:", fieldLastNameP, errorLastnNameP);
-		construirCampo("Apellido Materno:", fieldLastNameM, errorLastNameM);
-		construirCampo("Nombre de Usuario:", fieldNameUser, errorNameUser);
-		construirCampo("Fecha de nacimiento:", fieldDate, errorFieldDate);
-		construirCampo("Correo electrónico:", fieldEmail, errorEmail);
-		construirCampo("Contraseña:", fieldPassword, errorPassword);
-		construirCampo("Confirmar contraseña:", fieldConfirmPassword, errorConfirmPassword);
+		buildCamp("Nombre:", fieldName, errorName);
+		buildCamp("Apellido Paterno:", fieldLastNameP, errorLastnNameP);
+		buildCamp("Apellido Materno:", fieldLastNameM, errorLastNameM);
+		buildCamp("Nombre de Usuario:", fieldNameUser, errorNameUser);
+		buildCamp("Fecha de nacimiento:", fieldDate, errorFieldDate);
+		buildCamp("Correo electrónico:", fieldEmail, errorEmail);
+		buildCamp("Contraseña:", fieldPassword, errorPassword);
+		buildCamp("Confirmar contraseña:", fieldConfirmPassword, errorConfirmPassword);
 	}
 
 	// Método auxiliar para construir etiquetas, campos y errores dinámicamente
-	private void construirCampo(String texto, JTextField campo, JLabel error) {
+	private void buildCamp(String texto, JTextField campo, JLabel error) {
 		JLabel label = new JLabel(texto);
 		label.setAlignmentX(LEFT_ALIGNMENT);
 		label.setFont(labelFont);
@@ -275,26 +277,26 @@ public class RegistrationView extends JFrame{
 	    containerPanel.add(genderLabel);
 	    
 	    // Usar las variables de clase en lugar de crear nuevas
-	    rbMasculino = new JRadioButton("Masculino", true);
-	    rbMasculino.setOpaque(false);
-	    rbMasculino.setForeground(Colors.darkGreen);
+	    rbMale = new JRadioButton("Masculino", true);
+	    rbMale.setOpaque(false);
+	    rbMale.setForeground(Colors.darkGreen);
 
-	    rbFemenino = new JRadioButton("Femenino", false);
-	    rbFemenino.setOpaque(false);
-	    rbFemenino.setForeground(Colors.darkGreen);
+	    rbFemale = new JRadioButton("Femenino", false);
+	    rbFemale.setOpaque(false);
+	    rbFemale.setForeground(Colors.darkGreen);
 	    
-	    rbOtro = new JRadioButton("Otro", false);
-	    rbOtro.setOpaque(false);
-	    rbOtro.setForeground(Colors.darkGreen);
+	    rbOther = new JRadioButton("Otro", false);
+	    rbOther.setOpaque(false);
+	    rbOther.setForeground(Colors.darkGreen);
 	    
-	    grupoGenero = new ButtonGroup();
-	    grupoGenero.add(rbMasculino);
-	    grupoGenero.add(rbFemenino);
-	    grupoGenero.add(rbOtro);
+	    groupGender = new ButtonGroup();
+	    groupGender.add(rbMale);
+	    groupGender.add(rbFemale);
+	    groupGender.add(rbOther);
 	    
-	    containerPanel.add(rbMasculino);
-	    containerPanel.add(rbFemenino);
-	    containerPanel.add(rbOtro);
+	    containerPanel.add(rbMale);
+	    containerPanel.add(rbFemale);
+	    containerPanel.add(rbOther);
 	    //containerPanel.add(errorGenero); 
 	    containerPanel.add(Box.createVerticalStrut(15));
 	}

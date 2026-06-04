@@ -23,10 +23,10 @@ public class MenuController {
         this.view.addPlantasListener(new OpenCategoryAction("Plantas", plantasBCS));
         this.view.addInsectosListener(new OpenCategoryAction("Insectos", insectosBCS));
         this.view.addAracnidosListener(new OpenCategoryAction("Arácnidos", aracnidosBCS));
-        this.view.addCerrarSesionListener(null );
+        this.view.addCloseSesionListener(null );
         
         // Conecta para que cierre sesion
-        this.view.addCerrarSesionListener(new closeSesion());
+        this.view.addCloseSesionListener(new closeSesion());
     }
 
     //Hace el cambio de ventanas entre el menu y la ventana de categoria
@@ -54,11 +54,11 @@ public class MenuController {
     private class closeSesion implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int opcion = javax.swing.JOptionPane.showConfirmDialog(view, 
+            int option = javax.swing.JOptionPane.showConfirmDialog(view, 
                 "¿Está seguro que desea cerrar sesión?", "Cerrar Sesión", 
                 javax.swing.JOptionPane.YES_NO_OPTION);
                 
-            if (opcion == javax.swing.JOptionPane.YES_OPTION) {
+            if (option == javax.swing.JOptionPane.YES_OPTION) {
                 javax.swing.SwingUtilities.getWindowAncestor(view).dispose(); 
                 
                 javax.swing.JFrame loginFrame = new javax.swing.JFrame("Iniciar Sesión");

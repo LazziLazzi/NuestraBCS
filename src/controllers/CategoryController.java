@@ -14,6 +14,8 @@ import views.CategoryView;
 import windows.CategoryWindow;
 import windows.SpeciesDetailWindow;
 
+
+//Controller de la seccion menu dependiendo de que categoria elegiste
 public class CategoryController {
     private CategoryView view;
     private CategoryWindow currentWindow;
@@ -27,7 +29,7 @@ public class CategoryController {
         this.view.addSpeciesListener(new SpeciesAction());
         
         // Lógica del botón de regresar
-        this.view.addRegresarListener(e -> {
+        this.view.addComeListener(e -> {
             previousWindow.setVisible(true); // se nuestra el menú de nuevo
             currentWindow.dispose();
         });
@@ -45,19 +47,20 @@ public class CategoryController {
              ResultSet rs = stmt.executeQuery()) {
             
             while (rs.next()) {
-            		view.setPortada(rs.getString("nombre_especie"), rs.getString("portada"));
+            		view.setFront(rs.getString("nombre_especie"), rs.getString("portada"));
             }
         } catch (Exception ex) {
             System.out.println("Error al cargar portadas: " + ex.getMessage());
         }
     }
-
+    
+    // Clase que actua cuando se le da clic a una de las tarjetas de especie 
     private class SpeciesAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-        	String nombreEspecie = e.getActionCommand();
+        	String nameSpecies = e.getActionCommand();
             
-            // Consulta que trae ambas imagenes
+        		// Consulta que trae toda la información técnica, descripción y el banner
             String sql = "SELECT e.descripcion, c.nombre_cientifico, c.reino, c.filo, c.clase, c.familia, c.genero, i.banner " +
                          "FROM Especies e " +
                          "LEFT JOIN Caracteristicas c ON e.id_especie = c.id_especie " +
@@ -67,7 +70,7 @@ public class CategoryController {
             try (Connection conn = DatabaseConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement(sql)) {
                 
-                stmt.setString(1, nombreEspecie);
+                stmt.setString(1, nameSpecies);
                 ResultSet rs = stmt.executeQuery();
                 
                 if (rs.next()) {
@@ -81,11 +84,13 @@ public class CategoryController {
                     String gen = rs.getString("genero");
                     String rutaBanner = rs.getString("banner"); 
                     
+                    // Crea la nueva ventana de detalles pasándole toda la información
                     SpeciesDetailWindow detailWindow = new SpeciesDetailWindow(
-                        nombreEspecie, sci, rei, fil, cla, fam, gen, desc, rutaBanner
+                        nameSpecies, sci, rei, fil, cla, fam, gen, desc, rutaBanner
                     );
-                        
-                    new SpeciesDetailController(detailWindow.getDetailPanel(), detailWindow, currentWindow, nombreEspecie);
+                    
+                    // Arranca el controlador de esa nueva ventana
+                    new SpeciesDetailController(detailWindow.getDetailPanel(), detailWindow, currentWindow, nameSpecies);
                     
                     detailWindow.setVisible(true);
                     currentWindow.setVisible(false);
