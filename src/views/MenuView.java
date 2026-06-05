@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -116,12 +119,12 @@ public class MenuView extends JPanel {
         button.setFocusPainted(false);
         button.setToolTipText("De click para cerrar su sesión");
         
-        button.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
                 button.setBackground(Colors.lemonGreen);
                 button.setForeground(Colors.green);
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 button.setBackground(Colors.opaqueGreen);
                 button.setForeground(Color.WHITE);
             }
@@ -140,12 +143,12 @@ public class MenuView extends JPanel {
         button.setFocusPainted(false);
         button.setToolTipText("Abrir la categoría " + text);
         
-        button.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
                 button.setBackground(Colors.lemonGreen);
                 button.setForeground(Colors.green);
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 button.setBackground(Colors.green);
                 button.setForeground(Color.WHITE);
             }
@@ -155,10 +158,10 @@ public class MenuView extends JPanel {
     }
     
  // Métodos para que el controlador pueda agregarles acciones a los botones
-    public void addAnimalesListener(java.awt.event.ActionListener listener) { animales.addActionListener(listener); }
-    public void addPlantasListener(java.awt.event.ActionListener listener) { plantas.addActionListener(listener); }
-    public void addInsectosListener(java.awt.event.ActionListener listener) { insectos.addActionListener(listener); }
-    public void addAracnidosListener(java.awt.event.ActionListener listener) { aracnidos.addActionListener(listener); }
-    public void addCloseSesionListener(java.awt.event.ActionListener listener) { cerrarSesion.addActionListener(listener); }
+    public void addAnimalesListener(ActionListener listener) { animales.addActionListener(listener); }
+    public void addPlantasListener(ActionListener listener) { plantas.addActionListener(listener); }
+    public void addInsectosListener(ActionListener listener) { insectos.addActionListener(listener); }
+    public void addAracnidosListener(ActionListener listener) { aracnidos.addActionListener(listener); }
+    public void addCloseSesionListener(ActionListener listener) { cerrarSesion.addActionListener(listener); }
 }
 

@@ -2,16 +2,24 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -44,7 +52,7 @@ public class CategoryView extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JPanel northPanel = new JPanel();
-        northPanel.setLayout(new javax.swing.BoxLayout(northPanel, javax.swing.BoxLayout.Y_AXIS));
+        northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.Y_AXIS));
         northPanel.setOpaque(false);
         
         // boton para volver
@@ -52,17 +60,17 @@ public class CategoryView extends JPanel {
         btnBack.setBackground(Colors.opaqueGreen);
         btnBack.setForeground(Color.WHITE);
         btnBack.setFont(new Font("Arial", Font.PLAIN, 14));
-        btnBack.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        btnBack.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnBack.setMaximumSize(new Dimension(300, 30));
         btnBack.setToolTipText("De click para volver a la ventana anterior");
         btnBack.setFocusPainted(false);
         
-        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+        btnBack.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
                 btnBack.setBackground(Colors.lemonGreen);
                 btnBack.setForeground(Colors.green);
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 btnBack.setBackground(Colors.opaqueGreen);
                 btnBack.setForeground(Color.WHITE);
             }
@@ -74,10 +82,10 @@ public class CategoryView extends JPanel {
         header.setForeground(Color.WHITE);
         header.setFont(new Font("Arial", Font.BOLD, 24));
         header.setMaximumSize(new Dimension(550, 60));
-        header.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        header.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         northPanel.add(btnBack);
-        northPanel.add(javax.swing.Box.createRigidArea(new Dimension(0, 10)));
+        northPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         northPanel.add(header);
 
         add(northPanel, BorderLayout.NORTH);
@@ -111,9 +119,9 @@ public class CategoryView extends JPanel {
         JLabel imagePlaceholder = new JLabel("", SwingConstants.CENTER);
         imagePlaceholder.setOpaque(false);
         
-        imagePlaceholder.addComponentListener(new java.awt.event.ComponentAdapter() {
+        imagePlaceholder.addComponentListener(new ComponentAdapter() {
             @Override
-            public void componentResized(java.awt.event.ComponentEvent e) {
+            public void componentResized(ComponentEvent e) {
                 String path = (String) imagePlaceholder.getClientProperty("imagePath");
                 if (path == null) return;
                 try {
@@ -146,15 +154,15 @@ public class CategoryView extends JPanel {
         cardButton.add(imagePlaceholder, BorderLayout.CENTER);
         cardButton.add(nameLabel, BorderLayout.SOUTH);
 
-        cardButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        cardButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+            public void mouseEntered(MouseEvent evt) {
                 nameLabel.setBackground(Colors.lemonGreen);
                 nameLabel.setForeground(Colors.green);
                 cardButton.setBorder(BorderFactory.createLineBorder(Colors.lemonGreen, 2));
             }
             @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 nameLabel.setBackground(Colors.green);
                 nameLabel.setForeground(Color.WHITE);
                 cardButton.setBorder(BorderFactory.createLineBorder(Colors.green, 2));
@@ -184,11 +192,11 @@ public class CategoryView extends JPanel {
         }
     }
     
-    public void addSpeciesListener(java.awt.event.ActionListener listener) {
+    public void addSpeciesListener(ActionListener listener) {
         for (JButton btn : buttonSpecies) {
             btn.addActionListener(listener);
         }
     }
     
-    public void addComeListener(java.awt.event.ActionListener listener) { btnBack.addActionListener(listener); }
+    public void addComeListener(ActionListener listener) { btnBack.addActionListener(listener); }
 }

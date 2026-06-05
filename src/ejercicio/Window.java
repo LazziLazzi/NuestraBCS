@@ -3,7 +3,6 @@ package ejercicio;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
-
 import controllers.LoginController;
 import views.RegistrationView;
 import views.LoginView;

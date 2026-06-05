@@ -5,10 +5,8 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 import config.DatabaseConnection; 
 import views.CategoryView;
 import windows.CategoryWindow;
@@ -21,7 +19,7 @@ public class CategoryController {
     private CategoryWindow currentWindow;
     private JFrame previousWindow;
 
-    public CategoryController(CategoryView view, CategoryWindow currentWindow, javax.swing.JFrame previousWindow) {
+    public CategoryController(CategoryView view, CategoryWindow currentWindow, JFrame previousWindow) {
         this.view = view;
         this.currentWindow = currentWindow;
         this.previousWindow = previousWindow;

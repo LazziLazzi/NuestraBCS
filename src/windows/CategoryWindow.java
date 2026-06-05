@@ -1,8 +1,11 @@
 package windows;
 
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import controllers.CategoryController;
 import views.CategoryView;
 
@@ -26,13 +29,13 @@ public class CategoryWindow extends JFrame {
         CategoryController controller = new CategoryController(categoryPanel, this, previousWindow);
         add(categoryPanel);
 
-        addWindowListener(new java.awt.event.WindowAdapter() {
+        addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                int option = javax.swing.JOptionPane.showConfirmDialog(null, 
+            public void windowClosing(WindowEvent e) {
+                int option = JOptionPane.showConfirmDialog(null, 
                     "¿Desea salir de NuestraBCS?", "Salir", 
-                    javax.swing.JOptionPane.YES_NO_OPTION);
-                if (option == javax.swing.JOptionPane.YES_OPTION) {
+                    JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
                     System.exit(0); // para cerrar toda la aplicación por completo
                 }
             }

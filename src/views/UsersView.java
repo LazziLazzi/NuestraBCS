@@ -6,7 +6,6 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.io.File;
-
 import models.UserTableModel;
 import utils.Colors;
 import utils.AppFont;
@@ -74,7 +73,7 @@ public class UsersView extends JPanel {
     
     //MEtodo que abre la ventana para guardar el archvo
     public File selectPdfFile() {
-    		String lastPath = config.Config.get("users.export.pdf", System.getProperty("user.home") + "/Desktop");
+    		String lastPath = Config.get("users.export.pdf", System.getProperty("user.home") + "/Desktop");
         JFileChooser chooser = new JFileChooser(lastPath);
         
         chooser.setSelectedFile(new File("Reporte_Usuarios.pdf"));

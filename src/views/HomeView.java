@@ -2,6 +2,7 @@ package views;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import models.UserTableModel;
 
 //Es la ventana que muestra la tabla con la información de todos los usuarios.
@@ -41,7 +42,7 @@ public class HomeView extends JFrame {
         tableUsers.setModel(model);
     }
 
-    public void addReloadListener(java.awt.event.ActionListener l) {
+    public void addReloadListener(ActionListener l) {
         btnLoad.addActionListener(l);
     }
 }

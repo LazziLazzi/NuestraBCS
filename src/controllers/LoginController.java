@@ -2,14 +2,14 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
-
+import javax.swing.SwingUtilities;
 import exceptions.CredencialErrorException;
 import exceptions.EmailErroreException;
 import exceptions.PasswordErrorException;
 import models.User;
 import repository.LoginRepository;
+import utils.Session;
 import views.LoginView;
 import views.RegistrationView;
 import windows.MainWindow;
@@ -45,8 +45,8 @@ public class LoginController {
                 validateCredencial(emailText, passText);
                 
                 // Si todo sale bien, cierra la ventana de Login
-                if (javax.swing.SwingUtilities.getWindowAncestor(view) != null) {
-                    javax.swing.SwingUtilities.getWindowAncestor(view).dispose();
+                if (SwingUtilities.getWindowAncestor(view) != null) {
+                    SwingUtilities.getWindowAncestor(view).dispose();
                 }
                 
             } catch (Exception ex) {
@@ -64,8 +64,8 @@ public class LoginController {
         		
             RegistrationController registerController = new RegistrationController(registerView);
             // Cierra la ventana actual de Login
-            if (javax.swing.SwingUtilities.getWindowAncestor(view) != null) {
-                javax.swing.SwingUtilities.getWindowAncestor(view).dispose();
+            if (SwingUtilities.getWindowAncestor(view) != null) {
+                SwingUtilities.getWindowAncestor(view).dispose();
             }
         }
     }
@@ -96,7 +96,7 @@ public class LoginController {
         // Checa si hay usuario
         if(user != null) {
         		//Guarda que usuario ingreso en la memoria
-        		utils.Session.setUserLogged(user);
+        		Session.setUserLogged(user);
         	
             if(user.getEmail().equals("admin@gmail.com")) {
                 System.out.println("Administrador inicio sesión");

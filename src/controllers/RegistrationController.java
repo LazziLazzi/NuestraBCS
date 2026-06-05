@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
+import javax.swing.JOptionPane;
 import views.RegistrationView;
 import windows.LoginWindow;
 import windows.MainWindow;
@@ -17,10 +17,9 @@ import models.User;
 import repository.UserRepository;
 
 
-// Controlador de Registro.
+// Controlador de registro
 // Vigila el formulario en tiempo real, validando que los datos escritos sean correctos
 // y los guarda en la base de datos para crear un nuevo usuario.
-
 
 public class RegistrationController {
 	private RegistrationView view;
@@ -36,7 +35,7 @@ public class RegistrationController {
         this.view.setWindowClosingListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (view.showCloseConfirmation() == javax.swing.JOptionPane.YES_OPTION) {
+                if (view.showCloseConfirmation() == JOptionPane.YES_OPTION) {
                     System.exit(0);
                 }
             }
@@ -77,7 +76,7 @@ public class RegistrationController {
                 UserRepository repository = new UserRepository();
                 try {
                     repository.save(newUser);
-                    javax.swing.JOptionPane.showMessageDialog(null, "Usuario registrado");
+                    JOptionPane.showMessageDialog(null, "Usuario registrado");
                     
                     // Abre la ventana de Login nuevamente
                     LoginWindow loginWindow = new LoginWindow();
@@ -89,7 +88,7 @@ public class RegistrationController {
                     view.dispose();
 
                 } catch (Exception ex) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
                 }
             }
         }
@@ -98,7 +97,7 @@ public class RegistrationController {
     private class BackAction implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (view.showBackConfirmation() == javax.swing.JOptionPane.YES_OPTION) {
+            if (view.showBackConfirmation() == JOptionPane.YES_OPTION) {
                 LoginWindow login = new LoginWindow();
                 login.setVisible(true); 
                 view.dispose();

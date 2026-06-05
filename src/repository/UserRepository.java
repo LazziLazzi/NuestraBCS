@@ -16,11 +16,9 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import models.User;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
 import config.DatabaseConnection;
 
 //Se encarga de las cosas d crear,leer,actualizar y borrar de la tabla de usuarios en la base de datos

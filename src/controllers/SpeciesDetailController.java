@@ -4,15 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.JFrame;
-
 import views.SpeciesDetailView;
 import windows.NotesWindow;
 import windows.SpeciesDetailWindow;
 
 //Se encarga de manejar la tarjeta informativa de un animal/planta especifico,
-//permitiendo abrir la ventana de notas o regresar a la categoria anterior.
+//permitiendo abrir la ventana de notas o regresar a la categoria anterior
 
 public class SpeciesDetailController {
     private SpeciesDetailView view;

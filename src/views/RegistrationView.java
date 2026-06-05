@@ -15,7 +15,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import javax.swing.JFormattedTextField; 
 import javax.swing.text.MaskFormatter;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -36,15 +35,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 import utils.Colors;
-
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.text.ParseException;
 
 //Pantalla completa donde un nuevo usuario se registra.
 //Crea los campos de texto, evalua inputs y contiene la estructura del formulario.
@@ -221,7 +219,7 @@ public class RegistrationView extends JFrame{
 		    dateMask.setPlaceholderCharacter('_'); 
 		    fieldDate = new JFormattedTextField(dateMask);
 		    fieldDate.setColumns(20);
-		} catch (java.text.ParseException e) {
+		} catch (ParseException e) {
 		    fieldDate = new JFormattedTextField(); 
 		}
 		errorFieldDate = new JLabel(" ");

@@ -9,7 +9,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.awt.event.ActionListener;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -44,12 +45,12 @@ public class SpeciesDetailView extends JPanel {
         btnBack.setMaximumSize(new Dimension(300, 30));
         btnBack.setToolTipText("De click para volver a la ventana anterior");
         btnBack.setFocusPainted(false);
-        btnBack.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+        btnBack.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
                 btnBack.setBackground(Colors.lemonGreen);
                 btnBack.setForeground(Colors.green);
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 btnBack.setBackground(Colors.opaqueGreen);
                 btnBack.setForeground(Color.WHITE);
             }
