@@ -16,7 +16,7 @@ import windows.MainWindow;
 import windows.MenuWindow;
 
 //Se encarga de validar las credenciales ingresadas, comunicarse con la base de datos 
-//para autenticar al usuario y decidir a que pantalla enviarlo (Administrador o Usuario normal).
+//para autenticar al usuario y decidir a que pantalla enviarlo
 
 public class LoginController {
 	private LoginView view;
